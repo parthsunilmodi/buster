@@ -1,0 +1,85 @@
+@import 'src/styles/variables';
+
+.form-input {
+  position: relative;
+}
+.form-input label {
+  display: flex;
+  gap: 2px;
+  color: $black;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 190%;
+  margin-bottom: 4px;
+}
+.simple-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 56px;
+  width: 100%;
+  border-radius: 10px;
+  background: $flash-white;
+  color: $grey-1;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 15px 20px;
+
+  &:focus-visible {
+    outline: none;
+  }
+  &::placeholder {
+    color: $black;
+  }
+}
+.disabled-input {
+  color: $grey-3;
+  background: $grey-border;
+}
+.simple-input-wrapper > input {
+  width: 100%;
+  border: 0;
+
+  &:disabled {
+    color: grey;
+    background: darkgray;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &::placeholder {
+    color: $black;
+  }
+}
+.form-input textarea.main-textarea {
+  width: 100%;
+  height: 140px;
+  resize: none;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-size: 14px;
+
+  &::placeholder {
+    font-size: 16px;
+    color: $black;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+}
+.error-wrapper {
+  margin-bottom: 0;
+  display: flex;
+  color: $danger;
+  font-size: 14px;
+}
+.error-input {
+  border-color: $danger!important;
+}
+.required::after {
+  content: "*";
+  color: $danger;
+  font-size: 14px;
+}
