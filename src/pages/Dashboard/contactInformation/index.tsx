@@ -2,8 +2,9 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import './contactInformation.scss';
+import Button from 'react-bootstrap/Button';
 import InputField from '../../../components/Input/Input';
+import './contactInformation.scss';
 
 const ContactInformation = () => {
 
@@ -65,6 +66,28 @@ const ContactInformation = () => {
               </Form.Group>
             </Col>
           </Row>
+        </div>
+      </div>
+      <div className="bottom-section-main">
+        <div className="check-box">
+          <div className="checkbox-icon">
+
+          </div>
+          <div className="checkbox-text">
+            <p>
+              [Optional] I agree to receive SMS notifications from Busbank, a Global Charter Services Company, regarding trip details, followups and any clarification need for my itinerary.
+            </p>
+            <p>
+              You will receive up to 2 follow up messages within 7 business days after submitting this form. Reply STOP to unsubscribe at any time.
+              Please refer to our Privacy Policy to know about how this information will be used.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <Button variant="primary" size="lg">
+            Review and Submit
+          </Button>
         </div>
       </div>
     </>
