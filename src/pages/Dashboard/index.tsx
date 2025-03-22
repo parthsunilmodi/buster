@@ -1,5 +1,4 @@
-import CustomDropdown from '../../components/CustomDropdown';
-import FileSelector from '../../components/FileSelector';
+import TripInformation from '../TripInformation';
 import './Dashboard.scss';
 
 const Dashboard = () => {
@@ -9,11 +8,9 @@ const Dashboard = () => {
     console.log("Selected Bus Type:", selectedValue);
   };
   return (
-    <>
-    <div className="main-dashboard-container">Dashboard</div>
-    <FileSelector/>
-    <CustomDropdown label="Preferred bus type:" options={busTypes} onSelect={handleSelection} />
-    </>
+    <div className="main-dashboard-container">
+      <TripInformation />
+    </div>
   )
 }
 
