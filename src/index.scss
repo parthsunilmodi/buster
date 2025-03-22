@@ -1,0 +1,28 @@
+@use 'bootstrap/scss/bootstrap';
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 100%;
+  margin: 0;
+  background-color: white;
+}
+
+.full-height {
+  height: calc(100vh - 100px);
+  overflow: auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.layout-sub-container {
+  width: 100%;
+  background: beige;
+  backdrop-filter: blur(100px);
+}
