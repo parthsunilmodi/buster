@@ -1,4 +1,4 @@
-import logo from '../../assets/busbank-logo.webp';
+import logo from '../../assets/images/busbank-logo.webp';
 import './Navbar.scss';
 
 const Navbar = () => {

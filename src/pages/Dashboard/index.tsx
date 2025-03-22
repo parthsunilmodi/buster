@@ -1,8 +1,11 @@
+import TripInformation from '../TripInformation';
 import './Dashboard.scss';
 
 const Dashboard = () => {
   return (
-    <div className="main-dashboard-container">Dashboard</div>
+    <div className="main-dashboard-container">
+      <TripInformation />
+    </div>
   )
 }
 
