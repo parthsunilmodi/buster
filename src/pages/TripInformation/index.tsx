@@ -4,6 +4,7 @@ import CustomDropdown from '../../components/CustomDropdown';
 import FileSelector from '../../components/FileSelector';
 import TripCards from './TripCards';
 import './TripInformation.scss';
+import InputField from '../../components/Input/Input';
 
 const TripInformation = () => {
 
@@ -26,6 +27,7 @@ const TripInformation = () => {
         {/* Textarea for transportation needs */}
         <div className="col-md-6">
           <label className="form-label">Tell us about your transportation needs:</label>
+          <InputField placeholder="The more details , the better. We'll take it from there." type='textarea'/>
         </div>
 
         {/* File upload section */}
@@ -34,9 +36,8 @@ const TripInformation = () => {
         </div>
 
         {/* Estimated passengers */}
-        <div className="col-md-4">
-          <label className="form-label">Est. number of passengers:</label>
-          <input type="number" className="form-control" placeholder="Enter number" />
+        <div className="col-md-4 ">
+          <InputField placeholder="Enter number" label="Est. number of passengers:"/>
         </div>
 
         {/* Group type dropdown */}
