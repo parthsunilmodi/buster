@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import DatePicker, { CalendarContainer } from 'react-datepicker';
-import Button from '../Button';
+import calendarIcon from '../../assets/images/calendar-icon.png';
 import './DateRangePicker.scss';
 
 type IInput = {
@@ -18,20 +18,6 @@ const CustomDateRange = (props:IInput) => {
   const { handleChange, placeholder, handleChangeRaw, startDate, endDate, dateFormat, setEndDate, setStartDate } = props;
   const datePickerRef = useRef<any>(null);
 
-  const handleCancel = () => {
-    setStartDate('')
-    setEndDate('')
-    handleChange(['', ''])
-    datePickerRef?.current?.setOpen(false);
-  };
-
-  const handleDone = () => {
-    if (startDate && endDate) {
-      handleChange([startDate, endDate]);
-    }
-    datePickerRef?.current?.setOpen(false);
-  };
-
   const updateDate = (date:any) => {
     setStartDate(date[0])
     setEndDate(date[1])
@@ -44,19 +30,6 @@ const CustomDateRange = (props:IInput) => {
           {children}
         </CalendarContainer>
         <hr className="m-0 hr-wrapper"/>
-        <div className="d-flex align-items-end w-75 justify-content-end gap-3 pe-3">
-          <Button
-            title="Cancel"
-            className="cancel-btn-wrapper"
-            onClick={handleCancel}
-          />
-          <Button
-            title="Done"
-            className="apply-btn-wrapper"
-            onClick={handleDone}
-            disabled={!(startDate || endDate)}
-          />
-        </div>
       </div>
     );
   };
@@ -67,11 +40,8 @@ const CustomDateRange = (props:IInput) => {
         <DatePicker
           ref={datePickerRef}
           maxDate={new Date()}
-          showIcon
           selectsRange
-          // @ts-ignore
           startDate={startDate}
-          // @ts-ignore
           endDate={endDate}
           dayClassName={(date) => date ? 'day-text-wrapper' : ''}
           toggleCalendarOnIconClick
@@ -83,6 +53,10 @@ const CustomDateRange = (props:IInput) => {
           onChangeRaw={handleChangeRaw}
           shouldCloseOnSelect={false}
           calendarContainer={CalenderContainerWrapper}
+          showIcon
+          icon={
+            <img src={calendarIcon} alt="calendarIcon" />
+          }
 
         />
       </div>

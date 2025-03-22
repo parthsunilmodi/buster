@@ -1,8 +1,10 @@
 import * as React from 'react';
 import PricingIcon from '../../assets/images/visualelectric.png';
 import ContactInformation from './contactInformation/index';
-import TripInformation from '../TripInformation';
 import './Dashboard.scss';
+import TripPlanner from '../../components/TripPlanner/index';
+import TripInformation from '../TripInformation';
+
 
 const Dashboard = () => {
 
@@ -20,6 +22,7 @@ const Dashboard = () => {
         </div>
         <TripInformation />
         <ContactInformation />
+        <TripPlanner />
       </div>
   )
 }
