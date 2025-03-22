@@ -1,8 +1,60 @@
+@import '../../styles/variables';
+
 .main-dashboard-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+
+  .clear-pricing {
+    background: #1D457E;
+    color: $white;
+    width: 100%;
+    display: flex;
+
+    .details-wrapper {
+      padding: 45px 0 24px 55px;
+      height: 164px;
+      width: 590px;
+    }
+
+    .pricing-img-wrapper {
+      display: flex;
+      position: relative;
+      width: 400px;
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 40px;
+      line-height: 108%;
+      letter-spacing: -1.1%;
+    }
+
+    .sub-heading {
+      font-family: 'Avenir Next';
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: -1.1%;
+
+      span {
+        color: #e8ad55;
+      }
+    }
+
+    .header-card {
+      background: $black-1;
+      font-family: 'Avenir Next';
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: -1.1%;
+      padding: 10px 15px;
+      margin-bottom: 0;
+      border-radius: 5px;
+      position: absolute;
+      left: 192px;
+      bottom: 16px;
+    }
+  }
 }
