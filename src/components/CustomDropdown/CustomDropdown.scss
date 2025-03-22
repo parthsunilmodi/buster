@@ -1,0 +1,29 @@
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 450px;
+  width: 100%;
+
+  .label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .dropdownToggle {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: #faf7f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &::after {
+      display: none; // Hide default Bootstrap arrow
+    }
+  }
+
+}

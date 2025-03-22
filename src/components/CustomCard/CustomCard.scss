@@ -1,0 +1,56 @@
+@import '../../styles/variables';
+
+.custom-card {
+  width: 100%;
+  min-width: 219px;
+  height: 196px;
+  gap: 12px;
+  border-radius: 5px;
+  padding: 18px;
+  background: $card-bg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: start;
+  cursor: pointer;
+
+  &.selected {
+    border: 5px solid $border;
+  }
+
+  .card-icon {
+    width: 100%;
+  }
+
+  .card-content {
+    margin-top: 30px;
+  }
+
+  .card-titile {
+    font-family: "Avenir Next";
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: -1.1%;
+    color: $black;
+  }
+
+  .selected-title {
+    font-family: "Avenir Next";
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: -1.1%;
+    color: $border;
+  }
+
+  .card-description {
+    font-family: "Avenir Next";
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: -1.1%;
+    color: $card-text;
+    margin-top: 10px;
+  }
+}
