@@ -6,8 +6,8 @@ import './CustomModal.scss';
 interface ICustomModal {
   show: boolean;
   onHide?: () => void;
-  title?: string | JSX.Element;
-  children: JSX.Element;
+  title?: string | any;
+  children: any;
   close?: boolean;
   className?: string;
   size?: 'sm' | 'lg' | 'xl';
