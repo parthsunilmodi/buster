@@ -1,0 +1,87 @@
+.file-selector-container {
+  font-family: Arial, sans-serif;
+  max-width: 500px;
+  margin: 20px auto;
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #000000; // Darker text color for readability
+  }
+
+  .file-drop-zone {
+    background: #f9f3f2; // Light pinkish background
+    border-radius: 12px; // Softer rounded edges
+    padding: 24px;
+    text-align: center;
+    border: 2px dashed #d6cfcf; // Light grey border
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    position: relative;
+
+    &:hover {
+      border-color: #008489; // Darker teal on hover
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      span{
+        font-size: 16px;
+        color: #00798a; // Teal color for file link
+        font-weight: normal;
+        cursor: pointer;
+        text-decoration: none;
+        text-decoration: underline;
+        
+      }
+    }
+
+    p {
+      font-size: 12px;
+      color: #666; // Muted gray
+      margin-top: 6px;
+    }
+  }
+
+  .error-message {
+    color: #d9534f; // Bootstrap danger red
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .selected-file {
+    font-size: 14px;
+    color: #333;
+    margin-top: 12px;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    background: #00798a; // Teal color matching the text
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #005f6b; // Darker teal for hover
+    }
+  }
+}
