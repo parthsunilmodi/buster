@@ -1,4 +1,5 @@
 
+import React from 'react';
 import CustomDropdown from '../../components/CustomDropdown';
 import FileSelector from '../../components/FileSelector';
 import TripCards from './TripCards';
