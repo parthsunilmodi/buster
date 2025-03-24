@@ -99,7 +99,7 @@ const ContactInformationForm = () => {
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row>
             <Col md={4} className="mt-3">
               <InputField
                 label="E-mail address"
