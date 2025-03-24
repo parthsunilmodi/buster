@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import CustomCard from '../../components/CustomCard';
 import { data } from '../../constants';
 import './TripInformationForm.scss';

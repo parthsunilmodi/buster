@@ -14,9 +14,29 @@
   border-bottom: 1px solid $grey-2;
 }
 
-.description-wrapper {
+.main-wrapper {
 
+  .draggable-icon {
+    left: -30px;
+    top: 40px;
+    cursor: grab;
+  }
+  &:hover {
+    .draggable-icon {
+      display: block;
+      &:hover {
+        display: block;
+      }
+    }
+  }
 }
+
+.delete-icon {
+  position: absolute;
+  top:40px;
+  right: -40px
+}
+
 
 .common-btn {
   height: 33px;
