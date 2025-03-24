@@ -1,8 +1,9 @@
 import { useDrag, useDrop } from 'react-dnd';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import LocationIcon from '../../assets/images/location.png';
 import DestinationIcon from '../../assets/images/destination.png';
 import InputField from '../Input/Input';
+import CustomDateRange from '../DateRangePicker/index';
 
 const ItemType = "DRAGGABLE_ITEM";
 
@@ -11,9 +12,6 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
     type: ItemType,
     item: { index },
   });
-
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [startTime, setStartTime] = useState<Date | null>(null);
 
   const [, drop] = useDrop({
     accept: ItemType,
@@ -56,31 +54,62 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
     setItems(updatedItems);
   };
 
+  const handleChange = (keyName, value) => {
+    const updatedItems = [...items];
+    updatedItems[index] = {
+      ...updatedItems[index], [keyName]: value
+    }
+    setItems(updatedItems);
+  }
+
+
   return (
-    <div className="d-flex flex-row items-center gap-4" ref={(node) => ref(drop(node))}>
+    <div className="d-flex flex-row items-center gap-4 w-100" ref={(node) => ref(drop(node))}>
       {/* Starting From Input */}
-      <div className="d-flex stepper-main justify-content-center align-items-center flex-column">
-        <img src={renderIcon} alt="location" width={30} />
-        <hr className="hr-wrapper"/>
-      </div>
-      <div className="d-flex flex-column gap-3">
+      {/*<div className="d-flex stepper-main justify-content-center align-items-center flex-column">*/}
+      {/*  <img src={renderIcon} alt="location" width={30} />*/}
+      {/*  <hr className="hr-wrapper"/>*/}
+      {/*</div>*/}
+      <div className="d-flex flex-column gap-3 w-100">
         <div className="d-flex flex-row items-center gap-4">
-          <div className="w-50">
-            <InputField value={item.text} label={renderLabel} />
+          <div className="d-flex gap-4 align-items-lg-start w-75">
+            <div className="d-flex position-relative stepper-main mt-5 justify-content-center align-items-center flex-column">
+              <img src={renderIcon} alt="location" width={30} />
+              {
+                items.length - 1 !== index && (
+                  <hr className="hr-wrapper position-absolute"/>
+                )
+              }
+            </div>
+            <div className="d-flex flex-column w-100">
+              <InputField
+                name="location"
+                value={item.location}
+                label={renderLabel}
+                onChange={(e)=> handleChange("location", e.target.value)}
+              />
+              {index !== items.length - 1 && (
+                <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
+                  + Add Scope
+                </button>
+              )}
+            </div>
+
           </div>
           <div className="w-25">
-            <InputField value={"disldj"} label="Starting From*" />
+            <div className="label">On *</div>
+            <CustomDateRange
+              startDate={item.date}
+              handleChange={(date)=> handleChange("date", date)}
+            />
           </div>
 
           <div className="w-25">
-            <InputField value="hduksh" label="Starting From*" />
+            <div className="label">At</div>
+            <input type="time" />
           </div>
         </div>
-        {index !== items.length - 1 && (
-          <button className="common-btn mb-3" onClick={() => handleAddItem(index)}>
-            + Add Scope
-          </button>
-        )}
+
       </div>
 
     </div>

@@ -1,61 +1,9 @@
 import { useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import CustomDateRange from '../DateRangePicker/index';
-import InputField from '../Input/Input';
-const ItemType = "DRAGGABLE_ITEM";
+import DraggableItem from './DragableItem';
 import './TripPlanner.scss'
 
-const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
-  const [, ref] = useDrag({
-    type: ItemType,
-    item: { index },
-  });
-
-  const [, drop] = useDrop({
-    accept: ItemType,
-    hover: (draggedItem) => {
-      if (draggedItem.index !== index) {
-        moveItem(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    },
-  });
-
-  const renderLabel = () => {
-    if(index === items.length - 1) {
-      return 'Ending at'
-    } else if(index === 0) {
-      return 'Starting from'
-    } else {
-      return 'Destination'
-    }
-  };
-
-  const handleChange = (keyName, value) => {
-    const updatedItems = [...items];
-    updatedItems[index] = {
-      ...updatedItems[index], [keyName]: value
-    }
-    setItems(updatedItems);
-  }
-
-  return (
-    <div className="d-flex flex-row items-center gap-4 p-4" ref={(node) => ref(drop(node))}>
-      <div className="w-50">
-        <InputField name="location" value={item.location} label={renderLabel()} onChange={(e)=>handleChange("location", e.target.value)} />
-      </div>
-      <div>
-        <div className="label">On *</div>
-        <CustomDateRange startDate={item.date} handleChange={(date)=>handleChange("date", date)}   />
-      </div>
-      <div>
-        <div className="label">At</div>
-        <input type="time" />
-      </div>
-    </div>
-  );
-};
 
 const DraggableList = () => {
   const [items, setItems] = useState([
@@ -87,7 +35,6 @@ const DraggableList = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="w-100 border p-4">
         {items.map((item, index) => (
-          <div>
           <DraggableItem
             key={item.id}
             item={item}
@@ -96,12 +43,6 @@ const DraggableList = () => {
             moveItem={moveItem}
             setItems={setItems}
           />
-            {
-              items.length - 1 !== index && (
-                <button className="common-btn" onClick={() => handleAddItem(index)}>Add Scope</button>
-              )
-            }
-          </div>
         ))}
       </div>
     </DndProvider>

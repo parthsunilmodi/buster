@@ -5,7 +5,7 @@ import './DateRangePicker.scss';
 
 type IInput = {
   startDate: string;
-  endDate: string;
+  endDate?: string;
   handleChange?: (el: any) => void;
   placeholder?: string;
   dateFormat?: string;
