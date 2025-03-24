@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CustomCard from '../../components/CustomCard';
 import { data } from '../../constants';
 import './TripInformationForm.scss';
 
 interface ITripCard {
-  selectedCard: string | null;
+  selectedCard: any;
   setSelectedCard: (value: string) => void
 }
 
-const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard}) => {
+const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard }) => {
   const { TRIP_CARD_DATA } = data;
 
   return (
