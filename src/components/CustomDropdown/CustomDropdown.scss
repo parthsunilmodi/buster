@@ -1,4 +1,4 @@
-.dropdownContainer {
+.dropdown-container {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -6,11 +6,13 @@
   width: 100%;
 
   .label {
-    font-weight: bold;
-    font-size: 14px;
+    font-family: "Avenir Next";
+    font-weight: 600;
+    font-size: 18px;
+    color: #000000;
   }
 
-  .dropdownToggle {
+  .dropdown-toggle {
     width: 100%;
     height: 48px;
     text-align: left;
@@ -47,5 +49,15 @@
   // Add hover effect
   .dropdown-item:hover {
     background-color: #f0f0f0;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+  .dropdown-container {
+    max-width: 100%;
+
+    .label {
+      font-size: 14px;
+    }
   }
 }

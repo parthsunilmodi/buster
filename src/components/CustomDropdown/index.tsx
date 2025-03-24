@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import DownArrow from '../../assets/downArrow.png'
-import "./CustomDropdown.scss";
+import './CustomDropdown.scss';
 
 interface DropdownProps {
   label: string;
@@ -21,10 +21,10 @@ const CustomDropdown: React.FC<DropdownProps> = ({ label, options, placeholder =
   };
 
   return (
-    <div className="dropdownContainer">
-      <label>{label}</label>
+    <div className="dropdown-container">
+      <label className="label">{label}</label>
       <Dropdown onSelect={handleSelect}>
-        <Dropdown.Toggle variant="light" className="dropdownToggle">
+        <Dropdown.Toggle variant="light" className="dropdown-toggle">
           {selected}
           <img src={DownArrow} alt="Dropdown Arrow" className="customArrow" />
         </Dropdown.Toggle>
