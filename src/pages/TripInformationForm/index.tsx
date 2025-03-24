@@ -2,7 +2,7 @@
 import React from 'react';
 import CustomDropdown from '../../components/CustomDropdown';
 import FileSelector from '../../components/FileSelector';
-import InputField from '../../components/Input/Input';
+import InputField from '../../components/Input';
 import TripCards from './TripCards';
 import './TripInformationForm.scss';
 
@@ -45,7 +45,6 @@ const TripInformationForm = () => {
           <div className="trip-form-sub-container">
             <InputField
               inputStyle="number-input"
-              placeholder="Enter number"
               label="Est. number of passengers:"
             />
           </div>

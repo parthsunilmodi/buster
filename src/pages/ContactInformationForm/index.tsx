@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Row, Col } from 'react-bootstrap';
-import InputField from '../../components/Input/Input';
-import './ContactInformationForm.scss';
+import { Row, Col } from 'react-bootstrap';
+import InputField from '../../components/Input';
+import CustomDropdown from '../../components/CustomDropdown';
 import Button from 'react-bootstrap/Button';
-import CustomDropdown from '../../components/CustomDropdown/index';
 import reviewers from '../../assets/images/reviewers.png';
+import './ContactInformationForm.scss';
 
 const ContactInformationForm = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -32,30 +32,34 @@ const ContactInformationForm = () => {
               <InputField
                 label="First Name"
                 type="text"
+                isRequired={true}
               />
             </Col>
             <Col md={6} sm={6} xs={6}>
               <InputField
                 label="Last Name"
                 type="text"
+                isRequired={true}
               />
             </Col>
           </Row>
 
           <Row className="mt-3">
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="E-mail address"
                 type="text"
+                isRequired={true}
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="Phone number"
                 type="text"
+                isRequired={true}
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="Company"
                 type="text"
@@ -101,7 +105,7 @@ const ContactInformationForm = () => {
       </div>
 
       <div className="reviewers">
-        <img src={reviewers} className="reviewers-img" alt="reviewers"/>
+        <img src={reviewers} className="reviewers-img" alt="reviewers" />
       </div>
     </>
   )
