@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomCard from '../../components/CustomCard';
 import { data } from '../../constants';
-import './TripInformation.scss';
+import './TripInformationForm.scss';
 
 const TripCards: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
