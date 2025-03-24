@@ -80,9 +80,9 @@ const DraggableItem = ({ item, index, moveItem }) => {
 
 const DraggableList = () => {
   const [items, setItems] = useState([
-    { id: 1, text: "Harsh Common Service Center, Shop No-" },
-    { id: 2, text: "xzCs" },
-    { id: 3, text: "Another Item" },
+    { id: 322, text: "Harsh Common Service Center, Shop No-" },
+    { id: 34, text: "xzCs" },
+    { id: 423, text: "Another Item" },
   ]);
 
   const moveItem = (fromIndex, toIndex) => {
@@ -92,16 +92,36 @@ const DraggableList = () => {
     setItems(updatedItems);
   };
 
+  const handleAddItem = (index: string|number) => {
+    const newItem = {
+      id: Date.now(), // Unique ID based on current timestamp
+      text: `New Item ${Date.now()}`, // Default text for the new item
+    };
+
+    const updatedItems = [...items];
+    updatedItems.splice(index + 1, 0, newItem); // Insert after the clicked item
+    setItems(updatedItems);
+  }
+
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="w-100 border p-4">
         {items.map((item, index) => (
+          <div>
+            {/*<button>Add</button>*/}
           <DraggableItem
             key={item.id}
             item={item}
             index={index}
             moveItem={moveItem}
           />
+            {
+              items.length - 1 !== index && (
+                <button className="" onClick={() => handleAddItem(index)}>Add Scope</button>
+              )
+            }
+          </div>
         ))}
       </div>
     </DndProvider>
