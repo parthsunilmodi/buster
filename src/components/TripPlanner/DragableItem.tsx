@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import plusIcon from '../../assets/images/plusIcon.png';
+import CustomTimePicker from '../CustomTimePicker/index';
 import InputField from '../Input';
 import CustomDateRange from '../DateRangePicker';
 import { Location, DestinationSVG } from '../../assets/svg';
@@ -90,7 +92,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
               />
               {index !== items.length - 1 && (
                 <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
-                  + Add Scope
+                  <img src={plusIcon} alt="PlusIcon" /> Add a Stop
                 </button>
               )}
             </div>
@@ -105,8 +107,8 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
           </div>
 
           <div className="w-25">
-            <div className="label">At</div>
-            <input type="time" />
+            <div className="label">At *</div>
+            <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
           </div>
         </div>
 

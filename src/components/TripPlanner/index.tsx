@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import plusIcon from '../../assets/images/plusIcon.png';
 import DraggableItem from './DragableItem';
 import './TripPlanner.scss'
 
@@ -19,10 +20,23 @@ const TripPlanner = () => {
     setItems(updatedItems);
   };
 
+  const handleAddItem = (index: string|number) => {
+    const newItem = {
+      id: Date.now(), // Unique ID based on current timestamp
+      text: `New Item ${Date.now()}`, // Default text for the new item
+    };
+
+    const updatedItems = [...items];
+    updatedItems.splice(index + 1, 0, newItem); // Insert after the clicked item
+    setItems(updatedItems);
+  }
+
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="w-100 py-5 trip-planner-main">
         {items.map((item, index) => (
+          <div>
           <DraggableItem
             key={item.id}
             item={item}
@@ -31,6 +45,7 @@ const TripPlanner = () => {
             moveItem={moveItem}
             setItems={setItems}
           />
+          </div>
         ))}
       </div>
     </DndProvider>
