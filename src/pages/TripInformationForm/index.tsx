@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import CustomDropdown from '../../components/CustomDropdown';
 import FileSelector from '../../components/FileSelector';
 import InputField from '../../components/Input';
@@ -10,6 +10,7 @@ import './TripInformationForm.scss';
 const TripInformationForm = () => {
 
   const busTypes = ["Standard", "Luxury", "Mini", "Double Decker"];
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   const handleSelection = (selectedValue: string) => {
     console.log("Selected Bus Type:", selectedValue);
@@ -22,8 +23,8 @@ const TripInformationForm = () => {
         <div className="step-text">Step 1 of 2</div>
       </div>
       <div className="trip-sub-titile mt-4 w-100">First, select trip type</div>
-      <TripCards />
-      <TripPlanner />
+      <TripCards setSelectedCard={setSelectedCard} selectedCard={selectedCard} />
+      <TripPlanner selectedCard={selectedCard} />
       <div className="main-form-container">
         <div className="trip-form-container flex-column flex-lg-row">
           <div className="trip-form-sub-container">

@@ -5,8 +5,11 @@ import plusIcon from '../../assets/images/plusIcon.png';
 import DraggableItem from './DragableItem';
 import './TripPlanner.scss'
 
+interface ITripPlanner {
+  selectedCard: string | null
+}
 
-const TripPlanner = () => {
+const TripPlanner = ({ selectedCard } :ITripPlanner) => {
   const [items, setItems] = useState([
     { id: 322, text: "Harsh Common Service Center, Shop No-", location: "", date: new Date(), at:"" },
     { id: 34, text: "xzCs", location: "", date: new Date(), at:"" },
@@ -44,6 +47,7 @@ const TripPlanner = () => {
             items={items}
             moveItem={moveItem}
             setItems={setItems}
+            selectedCard={selectedCard}
           />
           </div>
         ))}

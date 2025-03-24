@@ -5,10 +5,12 @@ import CustomTimePicker from '../CustomTimePicker/index';
 import InputField from '../Input';
 import CustomDateRange from '../DateRangePicker';
 import { Location, DestinationSVG } from '../../assets/svg';
+import { data } from '../../constants'
 
 const ItemType = "DRAGGABLE_ITEM";
 
-const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
+const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard }) => {
+  const { tripType } = data;
   const [, ref] = useDrag({
     type: ItemType,
     item: { index },
@@ -28,16 +30,14 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
     if (index === 0) {
       return 'Starting From';
     } else if (index === items.length - 1) {
-      return 'End Destination';
+      return 'Ending At';
     } else {
       return 'Destination';
     }
   }, [index, items.length]);
 
   const renderIcon = useMemo(() => {
-    if (index === 0) {
-      return <Location />;
-    } else if (index === items.length - 1) {
+    if (index === 0 || index === items.length - 1) {
       return <Location />;
     } else {
       return <DestinationSVG />;
@@ -46,8 +46,8 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
 
   const handleAddItem = (index) => {
     const newItem = {
-      id: Date.now(), // Unique ID based on current timestamp
-      text: `New Item ${Date.now()}`, // Default text for the new item
+      id: Date.now(),
+      text: `New Item ${Date.now()}`,
     };
 
     const updatedItems = [...items];
@@ -65,39 +65,41 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
 
 
   return (
-    <div className="d-flex flex-row items-center gap-4 w-100" ref={(node) => ref(drop(node))}>
-      {/* Starting From Input */}
-      {/*<div className="d-flex stepper-main justify-content-center align-items-center flex-column">*/}
-      {/*  <img src={renderIcon} alt="location" width={30} />*/}
-      {/*  <hr className="hr-wrapper"/>*/}
-      {/*</div>*/}
-      <div className="d-flex flex-column gap-3 w-100">
-        <div className="d-flex flex-row items-center gap-4">
-          <div className="d-flex gap-4 align-items-lg-start w-75">
-            <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
-              {/*<img src={renderIcon} alt="location" width={30} />*/}
-              {renderIcon}
-              {
-                items.length - 1 !== index && (
-                  <hr className="hr-wrapper position-absolute"/>
-                )
-              }
-            </div>
-            <div className="d-flex flex-column w-100">
+    <div className="d-flex flex-row items-center gap-4 w-100"  ref={(node) => ref(drop(node))}>
+      <div className="d-flex gap-4 align-items-lg-start w-50">
+        <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
+          {renderIcon}
+          {
+            items.length - 1 !== index && (
+              <hr className="hr-wrapper position-absolute"/>
+            )
+          }
+        </div>
+        <div className="d-flex flex-column justify-content-end w-100">
+          {
+            selectedCard === tripType.roundTrip && index === items.length - 1 ?
+              <div className="d-flex flex-column gap-2">
+                <span className="label">Ending At</span>
+                <span className="description-wrapper">Round trip: end point will be the same as the start point</span>
+              </div>
+              :
               <InputField
                 name="location"
                 value={item.location}
                 label={renderLabel}
                 onChange={(e)=> handleChange("location", e.target.value)}
               />
-              {index !== items.length - 1 && (
-                <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
-                  <img src={plusIcon} alt="PlusIcon" /> Add a Stop
-                </button>
-              )}
-            </div>
-
-          </div>
+          }
+          {index !== items.length - 1 && (
+            <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
+              <img src={plusIcon} alt="PlusIcon" /> Add a Stop
+            </button>
+          )}
+        </div>
+      </div>
+      {
+        items.length - 1 !== index && (
+          <>
           <div className="w-25">
             <div className="label">On *</div>
             <CustomDateRange
@@ -108,12 +110,12 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
 
           <div className="w-25">
             <div className="label">At *</div>
-            <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
-          </div>
-        </div>
+              <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
 
-      </div>
-
+            </div>
+          </>
+        )
+      }
     </div>
   );
 };

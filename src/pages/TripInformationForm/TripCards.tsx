@@ -3,8 +3,12 @@ import CustomCard from '../../components/CustomCard';
 import { data } from '../../constants';
 import './TripInformationForm.scss';
 
-const TripCards: React.FC = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+interface ITripCard {
+  selectedCard: string | null;
+  setSelectedCard: (value: string) => void
+}
+
+const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard}) => {
   const { TRIP_CARD_DATA } = data;
 
   return (
@@ -15,8 +19,8 @@ const TripCards: React.FC = () => {
           title={trip.title}
           description={trip.description}
           icon={trip.icon}
-          selected={selectedIndex === index}
-          onClick={() => setSelectedIndex(index)}
+          selected={trip.key === selectedCard}
+          onClick={() => setSelectedCard(trip.key)}
         />
       ))}
     </div>
