@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 const Layout = () => {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className={`full-height container layout-sub-container`}>
         <Outlet />
       </div>
