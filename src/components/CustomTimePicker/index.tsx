@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import clockIcon from '../../assets/images/clock-icon.png';
-import downArrow from '../../assets/downArrow.png';
+import downArrow from '../../assets/images/downArrow.png';
 import './CustomTimePicker.scss';
 
 const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, "0"));

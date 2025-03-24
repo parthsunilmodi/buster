@@ -1,6 +1,6 @@
 import { useRef, forwardRef } from 'react';
 import DatePicker, { CalendarContainer } from 'react-datepicker';
-import downArrow from '../../assets/downArrow.png';
+import downArrow from '../../assets/images/downArrow.png';
 import calendarIcon from '../../assets/images/calendar-icon.png';
 import './DateRangePicker.scss';
 
