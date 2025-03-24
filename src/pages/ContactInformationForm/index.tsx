@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import InputField from '../../components/Input';
 import CustomDropdown from '../../components/CustomDropdown';
-import ReviewAndSubmit from '../ReviewAndSubmit';
 import reviewers from '../../assets/images/reviewers.png';
+import InputField from '../../components/Input';
+import ReviewAndSubmit from '../ReviewAndSubmit';
 import './ContactInformationForm.scss';
 
 const ContactInformationForm = () => {
@@ -32,7 +32,7 @@ const ContactInformationForm = () => {
 
 
   const handleSelection = (selectedValue: string) => {
-    console.log("Selected Preference Type:", selectedValue);
+    console.log('Selected Preference Type:', selectedValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,10 +159,12 @@ const ContactInformationForm = () => {
           </div>
           <div className="checkbox-text">
             <p>
-              [Optional] I agree to receive SMS notifications from Busbank, a Global Charter Services Company, regarding trip details, followups and any clarification need for my itinerary.
+              [Optional] I agree to receive SMS notifications from Busbank, a Global Charter Services Company, regarding
+              trip details, followups and any clarification need for my itinerary.
             </p>
             <p>
-              You will receive up to 2 follow up messages within 7 business days after submitting this form. Reply STOP to unsubscribe at any time.
+              You will receive up to 2 follow up messages within 7 business days after submitting this form. Reply STOP
+              to unsubscribe at any time.
               Please refer to our Privacy Policy to know about how this information will be used.
             </p>
           </div>
