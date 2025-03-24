@@ -20,12 +20,6 @@
     }
   }
 
-  .modal-title {
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: #000;
-  }
-
   .modal-body {
     color: #000;
     line-height: 1.6;
@@ -54,7 +48,7 @@
   .btn-link-wrapper {
     background: none;
     font-family: 'Avenir Next';
-    color:  $border;
+    color: $border;
     border: none;
     font-weight: 600;
     text-decoration: underline;
@@ -129,7 +123,7 @@
 
   .timeline-icon {
     width: 42px;
-    height: 22px;
+    height: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -137,8 +131,7 @@
     z-index: 2;
     left: -11px;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 16%;
 
     img {
       width: 24px;
@@ -170,6 +163,50 @@
 
       .date-range {
         font-weight: 600;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .review-modal-container {
+    .modal-dialog-centered {
+      .modal-content {
+        .modal-header {
+          padding: 13px 0;
+
+          .modal-title {
+            font-size: 24px;
+          }
+        }
+
+        .review-modal-body {
+          padding: 15px 0;
+
+          .review-modal-content {
+            .heading {
+              font-size: 20px;
+            }
+
+            .timeline {
+              padding: 6px 0;
+
+              .timeline-item {
+                .timeline-content {
+                  h5 {
+                    font-size: 16px;
+                  }
+
+                  p {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 16px;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
