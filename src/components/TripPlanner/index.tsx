@@ -19,18 +19,6 @@ const DraggableList = () => {
     setItems(updatedItems);
   };
 
-  const handleAddItem = (index: string|number) => {
-    const newItem = {
-      id: Date.now(), // Unique ID based on current timestamp
-      text: `New Item ${Date.now()}`, // Default text for the new item
-    };
-
-    const updatedItems = [...items];
-    updatedItems.splice(index + 1, 0, newItem); // Insert after the clicked item
-    setItems(updatedItems);
-  }
-
-
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="w-100 border p-4">
