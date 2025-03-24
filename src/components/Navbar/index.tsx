@@ -1,3 +1,4 @@
+import React from 'react';
 import logo from '../../assets/images/busbank-logo.webp';
 import './Navbar.scss';
 
