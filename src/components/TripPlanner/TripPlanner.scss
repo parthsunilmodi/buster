@@ -9,6 +9,10 @@
   align-items: center;
   gap: 20px;
 }
+
+.trip-planner-main {
+  border-bottom: 1px solid $grey-2;
+}
 .common-btn {
   height: 33px;
   display: flex;
@@ -35,6 +39,7 @@
 
 .stepper-main {
   width: 32px;
+  margin-top: 2.5rem;
 }
 
 .label {

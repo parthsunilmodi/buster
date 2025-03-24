@@ -5,7 +5,7 @@ import DraggableItem from './DragableItem';
 import './TripPlanner.scss'
 
 
-const DraggableList = () => {
+const TripPlanner = () => {
   const [items, setItems] = useState([
     { id: 322, text: "Harsh Common Service Center, Shop No-", location: "", date: new Date(), at:"" },
     { id: 34, text: "xzCs", location: "", date: new Date(), at:"" },
@@ -21,7 +21,7 @@ const DraggableList = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="w-100 border p-4">
+      <div className="w-100 py-5 trip-planner-main">
         {items.map((item, index) => (
           <DraggableItem
             key={item.id}
@@ -37,4 +37,4 @@ const DraggableList = () => {
   );
 };
 
-export default DraggableList;
+export default TripPlanner;

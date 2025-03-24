@@ -4,6 +4,7 @@ import CustomDropdown from '../../components/CustomDropdown';
 import FileSelector from '../../components/FileSelector';
 import InputField from '../../components/Input';
 import TripCards from './TripCards';
+import TripPlanner from '../../components/TripPlanner/index';
 import './TripInformationForm.scss';
 
 const TripInformationForm = () => {
@@ -22,6 +23,7 @@ const TripInformationForm = () => {
       </div>
       <div className="trip-sub-titile mt-4 w-100">First, select trip type</div>
       <TripCards />
+      <TripPlanner />
       <div className="main-form-container">
         <div className="trip-form-container flex-column flex-lg-row">
           <div className="trip-form-sub-container">

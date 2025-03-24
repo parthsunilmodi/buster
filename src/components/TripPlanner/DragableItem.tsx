@@ -1,9 +1,8 @@
+import { useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import React, { useMemo } from 'react';
-import LocationIcon from '../../assets/images/location.png';
-import DestinationIcon from '../../assets/images/destination.png';
-import InputField from '../Input/Input';
-import CustomDateRange from '../DateRangePicker/index';
+import InputField from '../Input';
+import CustomDateRange from '../DateRangePicker';
+import { Location, DestinationSVG } from '../../assets/svg';
 
 const ItemType = "DRAGGABLE_ITEM";
 
@@ -35,11 +34,11 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
 
   const renderIcon = useMemo(() => {
     if (index === 0) {
-      return LocationIcon;
+      return <Location />;
     } else if (index === items.length - 1) {
-      return LocationIcon;
+      return <Location />;
     } else {
-      return DestinationIcon;
+      return <DestinationSVG />;
     }
   }, [index, items.length]);
 
@@ -73,8 +72,9 @@ const DraggableItem = ({ item, index, moveItem, items, setItems }) => {
       <div className="d-flex flex-column gap-3 w-100">
         <div className="d-flex flex-row items-center gap-4">
           <div className="d-flex gap-4 align-items-lg-start w-75">
-            <div className="d-flex position-relative stepper-main mt-5 justify-content-center align-items-center flex-column">
-              <img src={renderIcon} alt="location" width={30} />
+            <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
+              {/*<img src={renderIcon} alt="location" width={30} />*/}
+              {renderIcon}
               {
                 items.length - 1 !== index && (
                   <hr className="hr-wrapper position-absolute"/>
