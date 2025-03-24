@@ -7,7 +7,7 @@ interface IInputProps  {
   inputStyle?: string;
   htmlFor?: string;
   suffix?: React.ReactNode | React.ReactElement;
-  type?: 'text' | 'textarea' | 'email';
+  type?: 'text' | 'textarea' | 'email' | 'number';
   error?: string;
   isRequired?: boolean;
   value?: string;

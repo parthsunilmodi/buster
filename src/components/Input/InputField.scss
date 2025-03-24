@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import '../../../src/styles/variables';
 
 .form-input {
   position: relative;
@@ -6,19 +6,15 @@
 .form-input label {
   display: flex;
   gap: 2px;
-  color: $black;
-  font-size: 16px;
-  font-style: normal;
+  font-size: 18px;
   font-weight: 600;
-  line-height: 190%;
   margin-bottom: 4px;
 }
 .simple-input-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 3px;
-  height: 56px;
+  height: 48px;
   width: 100%;
   border-radius: 10px;
   background: $flash-white;
@@ -39,7 +35,10 @@
   background: $grey-border;
 }
 .simple-input-wrapper > input {
-  width: 100%;
+  width: 449.5px;
+  height: 48px;
+  border-radius: 4px;
+  background: #F6F1F1;
   border: 0;
 
   &:disabled {
@@ -60,6 +59,8 @@
   border-radius: 10px;
   padding: 13px 20px;
   font-size: 14px;
+  background:#F6F1F1;
+  border: none;
 
   &::placeholder {
     font-size: 16px;
