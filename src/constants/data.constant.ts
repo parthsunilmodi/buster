@@ -1,7 +1,7 @@
-import cardImg1 from '../assets/images/trip-icon1.png';
-import cardImg2 from '../assets/images/trip-icon2.png';
-import cardImg3 from '../assets/images/trip-icon3.png';
-import cardImg4 from '../assets/images/trip-icon4.png';
+import cardImg1 from '../assets/images/trip-icon1.svg';
+import cardImg2 from '../assets/images/trip-icon2.svg';
+import cardImg3 from '../assets/images/trip-icon3.svg';
+import cardImg4 from '../assets/images/trip-icon4.svg';
 
 const TRIP_CARD_DATA = [
   {

@@ -14,12 +14,12 @@
   text-align: start;
   cursor: pointer;
 
-  &.selected {
-    border: 5px solid $border;
-  }
-
   .card-icon {
     width: 100%;
+  }
+
+  &.selected {
+    border: 5px solid $border;
   }
 
   .card-content {
