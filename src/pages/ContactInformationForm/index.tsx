@@ -32,30 +32,34 @@ const ContactInformationForm = () => {
               <InputField
                 label="First Name"
                 type="text"
+                isRequired={true}
               />
             </Col>
             <Col md={6} sm={6} xs={6}>
               <InputField
                 label="Last Name"
                 type="text"
+                isRequired={true}
               />
             </Col>
           </Row>
 
           <Row className="mt-3">
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="E-mail address"
                 type="text"
+                isRequired={true}
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="Phone number"
                 type="text"
+                isRequired={true}
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <InputField
                 label="Company"
                 type="text"
