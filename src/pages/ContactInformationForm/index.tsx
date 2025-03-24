@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import InputField from '../../components/Input';
 import CustomDropdown from '../../components/CustomDropdown';
-import Button from 'react-bootstrap/Button';
+import ReviewAndSubmit from '../ReviewAndSubmit';
 import reviewers from '../../assets/images/reviewers.png';
 import './ContactInformationForm.scss';
-import ReviewAndSubmit from '../ReviewAndSubmit/index';
 
 const ContactInformationForm = () => {
   const preferenceTypes = ["E-mail"];
@@ -43,7 +42,6 @@ const ContactInformationForm = () => {
       [name]: value,
     }));
   };
-
 
   const handleSubmit = () => {
     const newErrors: any = {};
@@ -89,7 +87,7 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.firstName}
                 value={formData.firstName}
-                onChange={handleInputChange}
+                onChange={(e: any) => handleInputChange(e)}
                 name="firstName"
               />
             </Col>
@@ -100,47 +98,47 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.lastName}
                 value={formData.lastName}
-                onChange={handleInputChange}
+                onChange={(e: any) => handleInputChange(e)}
                 name="lastName"
               />
             </Col>
           </Row>
 
           <Row>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-4">
               <InputField
                 label="E-mail address"
                 type="text"
                 isRequired={true}
                 error={errors.email}
                 value={formData.email}
-                onChange={handleInputChange}
+                onChange={(e: any) => handleInputChange(e)}
                 name="email"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-4">
               <InputField
                 label="Phone number"
                 type="text"
                 isRequired={true}
                 error={errors.phoneNumber}
                 value={formData.phoneNumber}
-                onChange={handleInputChange}
+                onChange={(e: any) => handleInputChange(e)}
                 name="phoneNumber"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-4">
               <InputField
                 label="Company"
                 type="text"
                 value={formData.company}
-                onChange={handleInputChange}
+                onChange={(e: any) => handleInputChange(e)}
                 name="company"
               />
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row className="mt-4">
             <Col md={4}>
               <CustomDropdown
                 label="Contact Preference"
