@@ -3,9 +3,12 @@
 .contact-information-main {
   display: flex;
   flex-direction: column;
+  align-items: center;
   background: $white;
   padding: 50px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: auto;
   margin: 30px 0;
 
   .contact-header-wrapper {
@@ -31,25 +34,31 @@
     }
   }
 
-
-  .form-title {
+  .main-form-container {
     display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-  }
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
 
-  .form-title label {
-    display: flex;
-    font-style: normal;
-    font-weight: 600;
-    margin-bottom: 5px;
-    font-size: 24px;
-  }
+    .form-title {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
 
-  .form-title p {
-    font-size: 16px;
-    font-style: normal;
-    color: $grey-1;
+    .form-title label {
+      display: flex;
+      font-style: normal;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 24px;
+    }
+
+    .form-title p {
+      font-size: 16px;
+      font-style: normal;
+      color: $grey-1;
+    }
   }
 }
 
@@ -101,6 +110,7 @@
     border-radius: 4px;
     padding: 10px;
     width: 100%;
+    border: none;
   }
 
   .review-submit-button:active {
@@ -126,5 +136,22 @@
       width: 100%;
       padding: 12px;
     }
+  }
+}
+
+.reviewers {
+  margin: 30px 0;
+
+  .reviewers-img {
+    width: 140px;
+    height: 56px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+  .contact-information-main {
+    padding: 20px;
+    background: unset;
+    box-shadow: unset;
   }
 }

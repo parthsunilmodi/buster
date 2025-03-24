@@ -1,3 +1,5 @@
+@import '../../../src/styles/variables';
+
 .dropdown-container {
   display: flex;
   flex-direction: column;
@@ -19,7 +21,7 @@
     padding: 10px;
     font-size: 14px;
     border-radius: 6px;
-    background: #faf7f7;
+    background: $flash-white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,16 +39,14 @@
     overflow: hidden;
   }
 
-  // Style individual dropdown items
   .dropdown-item {
-    height: 48px; // Set dropdown item height
+    height: 48px;
     display: flex;
     align-items: center;
     font-size: 14px;
     padding: 10px;
   }
 
-  // Add hover effect
   .dropdown-item:hover {
     background-color: #f0f0f0;
   }
