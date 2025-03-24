@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
-import DownArrow from '../../assets/downArrow.png'
+import DownArrow from '../../assets/images/downArrow.png'
 import './CustomDropdown.scss';
 
 interface DropdownProps {
