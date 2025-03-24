@@ -29,10 +29,12 @@
 }
 
 .date-range-main {
+  width: 100%;
   display: flex;
   gap: 14px;
 
   .date-range-contain {
+    width: 100%;
     display: flex;
     align-items: center;
     opacity: 1;
@@ -41,6 +43,7 @@
     height: 48px;
 
     .react-datepicker-wrapper {
+      width: 100%;
       display: flex;
       align-items: center;
       height: 48px;
@@ -49,20 +52,23 @@
 
       .react-datepicker__input-container {
         display: flex;
-        justify-content: center;
         align-items: center;
 
         .react-datepicker__calendar-icon {
           position: absolute;
-          left: 0;
+          left: 10px;
         }
 
-        input {
-          padding: 6px 0;
+        .custom-date-input {
           border: none;
           font-size: 14px;
           font-family: "Clear Sans";
           background: unset;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding: 15px 20px;
           margin-left: 30px;
 
           &::placeholder {

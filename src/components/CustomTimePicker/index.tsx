@@ -44,7 +44,7 @@ const CustomTimePicker = ({ onChange }: { onChange: (time: string) => void }) =>
       <div className="time-input" onClick={() => setIsOpen(!isOpen)}>
         <img src={clockIcon} alt="calendarIcon" />
         {selectedHour} {selectedMinute} {selectedPeriod}
-        <img src={downArrow} alt="calendarIcon" />
+        <img src={downArrow} alt="dropdownIcon" />
       </div>
       {isOpen && (
         <div className="timepicker-dropdown-container" ref={dropdownRef}>

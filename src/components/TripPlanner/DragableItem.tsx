@@ -109,10 +109,10 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
           </div>
 
           <div className="w-25">
-            <div className="label">At *</div>
-              <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
+            <div className="label">At </div>
+            <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
+          </div>
 
-            </div>
           </>
         )
       }
