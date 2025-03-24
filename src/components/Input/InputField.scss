@@ -3,13 +3,17 @@
 .form-input {
   position: relative;
 }
+
 .form-input label {
   display: flex;
   gap: 2px;
   font-size: 18px;
   font-weight: 600;
+  font-family: "Avenir Next";
   margin-bottom: 4px;
+  white-space: nowrap;
 }
+
 .simple-input-wrapper {
   display: flex;
   align-items: center;
@@ -26,15 +30,18 @@
   &:focus-visible {
     outline: none;
   }
+
   &::placeholder {
     color: $black;
   }
 }
+
 .disabled-input {
   color: $grey-3;
   background: $grey-border;
 }
-.simple-input-wrapper > input {
+
+.simple-input-wrapper>input {
   width: 449.5px;
   height: 48px;
   border-radius: 4px;
@@ -45,13 +52,16 @@
     color: grey;
     background: darkgray;
   }
+
   &:focus-visible {
     outline: none;
   }
+
   &::placeholder {
     color: $black;
   }
 }
+
 .form-input textarea.main-textarea {
   width: 100%;
   height: 140px;
@@ -59,26 +69,48 @@
   border-radius: 10px;
   padding: 13px 20px;
   font-size: 14px;
+  background: #F6F1F1;
+  border: none;
 
   &::placeholder {
     font-size: 16px;
     color: $black;
   }
+
   &:focus-visible {
     outline: none;
   }
 }
+
 .error-wrapper {
   margin-bottom: 0;
   display: flex;
   color: $danger;
   font-size: 14px;
 }
+
 .error-input {
-  border-color: $danger!important;
+  border-color: $danger !important;
 }
+
 .required::after {
   content: "*";
   color: $danger;
   font-size: 14px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+  .form-input label {
+    font-size: 14px;
+  }
+
+  .simple-input-wrapper {
+    font-size: 14px;
+  }
+
+  .form-input textarea.main-textarea {
+    &::placeholder {
+      font-size: 14px;
+    }
+  }
 }
