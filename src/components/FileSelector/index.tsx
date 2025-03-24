@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import uploadIcon from '../../assets/uploadIcon.png';
+import uploadIcon from '../../assets/images/uploadIcon.png';
 import './FileSelector.scss';
 
 const FileSelector: React.FC = () => {

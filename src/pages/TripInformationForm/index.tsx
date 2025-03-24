@@ -5,10 +5,11 @@ import FileSelector from '../../components/FileSelector';
 import InputField from '../../components/Input';
 import TripCards from './TripCards';
 import TripPlanner from '../../components/TripPlanner/index';
+import { data } from '../../constants/index';
 import './TripInformationForm.scss';
 
 const TripInformationForm = () => {
-
+  const { tripType } = data
   const busTypes = ["Standard", "Luxury", "Mini", "Double Decker"];
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
@@ -24,7 +25,11 @@ const TripInformationForm = () => {
       </div>
       <div className="trip-sub-titile mt-4 w-100">First, select trip type</div>
       <TripCards setSelectedCard={setSelectedCard} selectedCard={selectedCard} />
-      <TripPlanner selectedCard={selectedCard} />
+      {
+        selectedCard !== tripType.other && selectedCard !== null && (
+          <TripPlanner selectedCard={selectedCard} />
+        )
+      }
       <div className="main-form-container">
         <div className="trip-form-container flex-column flex-lg-row">
           <div className="trip-form-sub-container">
