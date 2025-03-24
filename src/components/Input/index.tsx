@@ -81,6 +81,12 @@ const InputField = forwardRef(
             </div>
           )}
         </>
+        {
+          error &&
+          <p className="error-wrapper">
+            {error}
+          </p>
+        }
       </div>
     );
   }

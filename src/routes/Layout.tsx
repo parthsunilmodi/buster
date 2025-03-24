@@ -1,11 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import TopBanner from '../pages/TopBanner/index';
+import Navbar from '../components/Navbar';
 
 const Layout = () => {
   return (
     <>
-     <TopBanner />
+      <Navbar />
+      <TopBanner />
       <div className={`full-height container layout-sub-container`}>
         <Outlet />
       </div>

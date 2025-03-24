@@ -1,22 +1,74 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import InputField from '../../components/Input';
 import CustomDropdown from '../../components/CustomDropdown';
-import Button from 'react-bootstrap/Button';
+import ReviewAndSubmit from '../ReviewAndSubmit';
 import reviewers from '../../assets/images/reviewers.png';
 import './ContactInformationForm.scss';
 
 const ContactInformationForm = () => {
+  const preferenceTypes = ["E-mail"];
+
   const [isChecked, setIsChecked] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+  });
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    company: '',
+  });
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
-  const preferenceTypes = ["E-mail"];
 
   const handleSelection = (selectedValue: string) => {
     console.log("Selected Preference Type:", selectedValue);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    const newErrors: any = {};
+
+    if (!formData.firstName) {
+      newErrors.firstName = 'First name is required';
+    }
+    if (!formData.lastName) {
+      newErrors.lastName = 'Last name is required';
+    }
+    if (!formData.email) {
+      newErrors.email = 'E-mail address is required';
+    }
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = 'Phone number is required';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted successfully');
+      setShowReviewModal(true);
+    }
+  };
+
+  const handleModalClose = () => {
+    setShowReviewModal(false);
   };
 
   return (
@@ -33,6 +85,10 @@ const ContactInformationForm = () => {
                 label="First Name"
                 type="text"
                 isRequired={true}
+                error={errors.firstName}
+                value={formData.firstName}
+                onChange={(e: any) => handleInputChange(e)}
+                name="firstName"
               />
             </Col>
             <Col md={6} sm={6} xs={6}>
@@ -40,34 +96,49 @@ const ContactInformationForm = () => {
                 label="Last Name"
                 type="text"
                 isRequired={true}
+                error={errors.lastName}
+                value={formData.lastName}
+                onChange={(e: any) => handleInputChange(e)}
+                name="lastName"
               />
             </Col>
           </Row>
 
-          <Row className="mt-3">
-            <Col md={4} className="mt-3">
+          <Row>
+            <Col md={4} className="mt-4">
               <InputField
                 label="E-mail address"
                 type="text"
                 isRequired={true}
+                error={errors.email}
+                value={formData.email}
+                onChange={(e: any) => handleInputChange(e)}
+                name="email"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-4">
               <InputField
                 label="Phone number"
                 type="text"
                 isRequired={true}
+                error={errors.phoneNumber}
+                value={formData.phoneNumber}
+                onChange={(e: any) => handleInputChange(e)}
+                name="phoneNumber"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-4">
               <InputField
                 label="Company"
                 type="text"
+                value={formData.company}
+                onChange={(e: any) => handleInputChange(e)}
+                name="company"
               />
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row className="mt-4">
             <Col md={4}>
               <CustomDropdown
                 label="Contact Preference"
@@ -98,7 +169,7 @@ const ContactInformationForm = () => {
         </div>
 
         <div className="d-grid gap-2">
-          <Button variant="primary" size="lg" className="review-submit-button">
+          <Button variant="primary" size="lg" className="review-submit-button" onClick={handleSubmit}>
             Review and Submit
           </Button>
         </div>
@@ -107,6 +178,10 @@ const ContactInformationForm = () => {
       <div className="reviewers">
         <img src={reviewers} className="reviewers-img" alt="reviewers" />
       </div>
+
+      {showReviewModal && (
+        <ReviewAndSubmit showModal={showReviewModal} handleHide={handleModalClose} />
+      )}
     </>
   )
 }

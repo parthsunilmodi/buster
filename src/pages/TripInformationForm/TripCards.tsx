@@ -8,7 +8,7 @@ interface ITripCard {
   setSelectedCard: (value: string) => void
 }
 
-const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard}) => {
+const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard }) => {
   const { TRIP_CARD_DATA } = data;
 
   return (
