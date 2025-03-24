@@ -7,7 +7,7 @@ interface IInputProps  {
   inputStyle?: string;
   htmlFor?: string;
   suffix?: React.ReactNode | React.ReactElement;
-  type?: 'text' | 'textarea' | 'email';
+  type?: 'text' | 'textarea' | 'email' | 'number';
   error?: string;
   isRequired?: boolean;
   value?: string;
@@ -76,7 +76,6 @@ const InputField = forwardRef(
                 onChange={onChange}
                 disabled={disabled}
                 onBlur={onBlur}
-                className='input-fixes'
                 {...rest}
               />
             </div>
