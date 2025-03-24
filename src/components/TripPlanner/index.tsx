@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DatePicker from 'react-datepicker';
@@ -7,7 +7,7 @@ import CalenderIcon from '../../assets/images/clock-icon.png';
 import InputField from '../Input/Input';
 const ItemType = "DRAGGABLE_ITEM";
 
-const DraggableItem = ({ item, index, moveItem }) => {
+const DraggableItem = ({ item, index, moveItem, items }) => {
   const [, ref] = useDrag({
     type: ItemType,
     item: { index },
@@ -25,11 +25,22 @@ const DraggableItem = ({ item, index, moveItem }) => {
     },
   });
 
+  const renderLabel = useMemo(() => {
+    if(index === items.length - 1) {
+      return 'End Destination'
+    } else if(index === 0) {
+      return 'Starting From'
+    } else {
+      return 'Destination'
+    }
+
+  }, [])
+
   return (
     <div className="d-flex flex-row items-center gap-4 p-4" ref={(node) => ref(drop(node))}>
       {/* Starting From Input */}
       <div className="w-50">
-        <InputField value={item.text} label="Starting From*"  />
+        <InputField value={item.text} label={renderLabel}  />
       </div>
       <div className="w-25">
         <InputField value={"disldj"} label="Starting From*" />
@@ -114,6 +125,7 @@ const DraggableList = () => {
             key={item.id}
             item={item}
             index={index}
+            items={items}
             moveItem={moveItem}
           />
             {
