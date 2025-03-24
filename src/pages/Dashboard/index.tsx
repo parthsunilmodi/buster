@@ -10,7 +10,7 @@ const Dashboard = () => {
     <div className="main-dashboard-container">
       <TripInformationForm />
       <ContactInformationForm />
-      </div>
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@ import plusIcon from '../../assets/images/plusIcon.png';
 import CustomTimePicker from '../CustomTimePicker/index';
 import InputField from '../Input';
 import CustomDateRange from '../DateRangePicker';
-import { Location, DestinationSVG } from '../../assets/svg';
+import { Location, DestinationSVG, CloseDeleteIconSVG, DraggableIcon } from '../../assets/svg';
 import { data } from '../../constants'
 
 const ItemType = "DRAGGABLE_ITEM";
@@ -63,14 +63,21 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
     setItems(updatedItems);
   }
 
+  const handleRemoveItem = () => {
+    const updatedItems = items.filter((_, idx) => idx !== index);
+    setItems(updatedItems);
+  }
 
   return (
-    <div className="d-flex flex-row items-center gap-4 w-100"  ref={(node) => ref(drop(node))}>
+    <div className="d-flex position-relative main-wrapper flex-row items-center gap-4 w-100" >
+      <div className="position-absolute draggable-icon"  ref={(node) => ref(drop(node))}>
+        {index !== items.length - 1 &&  ( <DraggableIcon />)}
+      </div>
       <div className="d-flex gap-4 align-items-lg-start w-50">
         <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
           {renderIcon}
           {
-            items.length - 1 !== index && (
+            items.length - 1 !== index &&  (
               <hr className="hr-wrapper position-absolute"/>
             )
           }
@@ -99,7 +106,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
       </div>
       {
         items.length - 1 !== index && (
-          <>
+        <>
           <div className="w-25">
             <div className="label">On *</div>
             <CustomDateRange
@@ -109,10 +116,16 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
           </div>
           <div className="w-25">
             <div className="label">At </div>
-              <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
-            </div>
-          </>
+            <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
+          </div>
+        </>
         )
+      }
+      {
+        (index !== 0 && items.length - 1 !== index) &&
+        <div className="delete-icon" onClick={handleRemoveItem}>
+          <CloseDeleteIconSVG />
+        </div>
       }
     </div>
   );
