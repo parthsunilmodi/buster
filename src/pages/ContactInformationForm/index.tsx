@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Row, Col } from 'react-bootstrap';
-import InputField from '../../components/Input/Input';
-import './ContactInformationForm.scss';
+import { Row, Col } from 'react-bootstrap';
+import InputField from '../../components/Input';
+import CustomDropdown from '../../components/CustomDropdown';
 import Button from 'react-bootstrap/Button';
-import CustomDropdown from '../../components/CustomDropdown/index';
 import reviewers from '../../assets/images/reviewers.png';
+import './ContactInformationForm.scss';
 
 const ContactInformationForm = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -105,7 +105,7 @@ const ContactInformationForm = () => {
       </div>
 
       <div className="reviewers">
-        <img src={reviewers} className="reviewers-img" alt="reviewers"/>
+        <img src={reviewers} className="reviewers-img" alt="reviewers" />
       </div>
     </>
   )
