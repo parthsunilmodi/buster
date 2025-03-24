@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import uploadIcon from '../../assets/uploadIcon.png';
 import './FileSelector.scss';
-import uploadIcon from '../../assets/uploadIcon.png'
 
 const FileSelector: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -23,7 +23,6 @@ const FileSelector: React.FC = () => {
 
   return (
     <div className="file-selector-container">
-      <h2>If you have one, upload a trip file or itinerary:</h2>
       <div
         className="file-drop-zone"
         onDragOver={(e) => e.preventDefault()}

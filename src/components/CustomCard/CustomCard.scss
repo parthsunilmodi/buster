@@ -54,3 +54,22 @@
     margin-top: 10px;
   }
 }
+
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  .custom-card {
+    min-width: unset;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+  .custom-card {
+    min-width: unset;
+    height: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .card-titile {
+      font-size: 16px;
+    }
+  }
+}
