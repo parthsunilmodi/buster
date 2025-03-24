@@ -7,16 +7,63 @@ import reviewers from '../../assets/images/reviewers.png';
 import './ContactInformationForm.scss';
 
 const ContactInformationForm = () => {
+  const preferenceTypes = ["E-mail"];
+
   const [isChecked, setIsChecked] = useState(false);
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+  });
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    company: '',
+  });
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
-  const preferenceTypes = ["E-mail"];
 
   const handleSelection = (selectedValue: string) => {
     console.log("Selected Preference Type:", selectedValue);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+
+  const handleSubmit = () => {
+    const newErrors: any = {};
+
+    if (!formData.firstName) {
+      newErrors.firstName = 'First name is required';
+    }
+    if (!formData.lastName) {
+      newErrors.lastName = 'Last name is required';
+    }
+    if (!formData.email) {
+      newErrors.email = 'E-mail address is required';
+    }
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = 'Phone number is required';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted successfully');
+    }
   };
 
   return (
@@ -33,6 +80,10 @@ const ContactInformationForm = () => {
                 label="First Name"
                 type="text"
                 isRequired={true}
+                error={errors.firstName}
+                value={formData.firstName}
+                onChange={handleInputChange}
+                name="firstName"
               />
             </Col>
             <Col md={6} sm={6} xs={6}>
@@ -40,16 +91,24 @@ const ContactInformationForm = () => {
                 label="Last Name"
                 type="text"
                 isRequired={true}
+                error={errors.lastName}
+                value={formData.lastName}
+                onChange={handleInputChange}
+                name="lastName"
               />
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row>
             <Col md={4} className="mt-3">
               <InputField
                 label="E-mail address"
                 type="text"
                 isRequired={true}
+                error={errors.email}
+                value={formData.email}
+                onChange={handleInputChange}
+                name="email"
               />
             </Col>
             <Col md={4} className="mt-3">
@@ -57,12 +116,19 @@ const ContactInformationForm = () => {
                 label="Phone number"
                 type="text"
                 isRequired={true}
+                error={errors.phoneNumber}
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                name="phoneNumber"
               />
             </Col>
             <Col md={4} className="mt-3">
               <InputField
                 label="Company"
                 type="text"
+                value={formData.company}
+                onChange={handleInputChange}
+                name="company"
               />
             </Col>
           </Row>
@@ -98,7 +164,7 @@ const ContactInformationForm = () => {
         </div>
 
         <div className="d-grid gap-2">
-          <Button variant="primary" size="lg" className="review-submit-button">
+          <Button variant="primary" size="lg" className="review-submit-button" onClick={handleSubmit}>
             Review and Submit
           </Button>
         </div>
