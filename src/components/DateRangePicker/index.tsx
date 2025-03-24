@@ -6,23 +6,22 @@ import './DateRangePicker.scss';
 type IInput = {
   startDate: string;
   endDate: string;
-  handleChange: (el?: any) => void;
-  handleChangeRaw: (el?: any) => void;
-  placeholder: string;
-  dateFormat: string;
-  setStartDate: (value: any) => void
-  setEndDate: (value: any) => void
+  handleChange?: (el: any) => void;
+  placeholder?: string;
+  dateFormat?: string;
+  setStartDate?: (value: any) => void
+  setEndDate?: (value: any) => void
 };
 
 const CustomDateRange = (props:IInput) => {
-  const { handleChange, placeholder, handleChangeRaw, startDate, endDate, dateFormat, setEndDate, setStartDate } = props;
+  const { handleChange, placeholder, startDate, dateFormat} = props;
   const datePickerRef = useRef<any>(null);
 
-  const updateDate = (date:any) => {
-    setStartDate(date[0])
-    setEndDate(date[1])
-  }
-
+  const updateDate = (date: Date | null) => {
+    if (handleChange) {
+      handleChange(date);
+    }
+  };
   const CalenderContainerWrapper = ({ className, children }: {className: string; children: React.ReactNode | React.ReactNode[] | undefined;}) => {
     return (
       <div className="pb-3 calender-bottom-wrapper shadow rounded justify-content-end d-flex flex-column align-items-end">
@@ -38,26 +37,20 @@ const CustomDateRange = (props:IInput) => {
     <div className="date-range-main">
       <div className="date-range-contain">
         <DatePicker
+          showIcon
+          toggleCalendarOnIconClick
           ref={datePickerRef}
           maxDate={new Date()}
-          selectsRange
-          startDate={startDate}
-          endDate={endDate}
-          dayClassName={(date) => date ? 'day-text-wrapper' : ''}
-          toggleCalendarOnIconClick
-          onChange={(dates: any) => {
-            if (Array.isArray(dates)) updateDate(dates);
-          }}
+          selected={startDate}
+          onChange={updateDate}
           dateFormat={dateFormat}
-          placeholderText={placeholder}
-          onChangeRaw={handleChangeRaw}
-          shouldCloseOnSelect={false}
           calendarContainer={CalenderContainerWrapper}
-          showIcon
           icon={
             <img src={calendarIcon} alt="calendarIcon" />
           }
-
+          shouldCloseOnSelect={false}
+          placeholderText={placeholder}
+          dayClassName={(date) => date ? 'day-text-wrapper' : ''}
         />
       </div>
     </div>

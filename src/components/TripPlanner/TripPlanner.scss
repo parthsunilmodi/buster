@@ -35,3 +35,13 @@
 .stepper-main {
   width: 32px;
 }
+
+.label {
+  display: flex;
+  gap: 2px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Avenir Next";
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
