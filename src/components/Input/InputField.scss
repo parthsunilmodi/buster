@@ -3,7 +3,6 @@
 .form-input {
   position: relative;
 }
-
 .form-input label {
   display: flex;
   gap: 2px;
@@ -80,6 +79,10 @@
   &:focus-visible {
     outline: none;
   }
+}
+
+.form-input input {
+  font-family: "Avenir Next";
 }
 
 .error-wrapper {

@@ -76,7 +76,6 @@ const InputField = forwardRef(
                 onChange={onChange}
                 disabled={disabled}
                 onBlur={onBlur}
-                className='input-fixes'
                 {...rest}
               />
             </div>
