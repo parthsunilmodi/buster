@@ -2,7 +2,6 @@ import * as React from 'react';
 import PricingIcon from '../../assets/images/visualelectric.png';
 import TripInformationForm from '../TripInformationForm';
 import ContactInformationForm from '../ContactInformationForm';
-import ReviewAndSubmit from './reviewAndSubmit';
 import './Dashboard.scss';
 
 const Dashboard = () => {
@@ -19,7 +18,6 @@ const Dashboard = () => {
           <p className="header-card">Here every step to get you there comfortably & safely.</p>
         </div>
       </div>
-      <ReviewAndSubmit />
       <TripInformationForm />
       <ContactInformationForm />
     </div>
