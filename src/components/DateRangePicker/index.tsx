@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, forwardRef } from 'react';
 import DatePicker, { CalendarContainer } from 'react-datepicker';
+import downArrow from '../../assets/downArrow.png';
 import calendarIcon from '../../assets/images/calendar-icon.png';
 import './DateRangePicker.scss';
 
@@ -28,10 +29,15 @@ const CustomDateRange = (props:IInput) => {
         <CalendarContainer className={`${ className } border-0`}>
           {children}
         </CalendarContainer>
-        <hr className="m-0 hr-wrapper"/>
       </div>
     );
   };
+  const CustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
+    <div className="custom-date-input" onClick={onClick} ref={ref}>
+      {value || "Select Date"}
+      <img src={downArrow} alt="dropdownIcon" />
+    </div>
+  ));
 
   return (
     <div className="date-range-main">
@@ -51,6 +57,7 @@ const CustomDateRange = (props:IInput) => {
           shouldCloseOnSelect={false}
           placeholderText={placeholder}
           dayClassName={(date) => date ? 'day-text-wrapper' : ''}
+          customInput={<CustomInput />}
         />
       </div>
     </div>
