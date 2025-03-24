@@ -1,0 +1,156 @@
+.review-modal-container {
+  .modal-content {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    background-color: #e3f5f7; // Light blue background
+    padding: 15px;
+  }
+
+  .modal-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #000;
+  }
+
+  .modal-body {
+    background-color: #e3f5f7;
+    color: #000;
+    line-height: 1.6;
+  }
+
+  .modal-footer {
+    background-color: #e3f5f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 0;
+
+    .btn-primary {
+      width: 100%;
+    }
+  }
+
+  .btn-primary {
+    background-color: #008080;
+    border-radius: 5px;
+    border: none;
+    padding: 12px 20px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #006666;
+    }
+  }
+
+  .btn-secondary {
+    background: none;
+    color: #008080;
+    border: none;
+    font-weight: bold;
+    text-decoration: underline;
+
+    &:hover {
+      color: #006666;
+    }
+  }
+}
+
+// Section Styling
+.review-modal-content {
+  h6 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+
+  strong {
+    font-weight: bold;
+    color: #000;
+  }
+
+  hr {
+    margin: 20px 0;
+    border-color: #ccc;
+  }
+
+  .contact-info {
+    text-align: left;
+    margin-top: 15px;
+  }
+}
+
+// Timeline Container
+.timeline {
+  position: relative;
+  margin: 0 auto;
+  padding: 40px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #008080; // Teal color for the line
+    top: 0;
+    bottom: 0;
+    left: 20px;
+    z-index: 1;
+  }
+}
+
+// Timeline Item
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  position: relative;
+
+  // Timeline Icon
+  .timeline-icon {
+    width: 42px;
+    height: 22px;
+    background-color: #e3f5f7; // Light blue background
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // Timeline Content
+  .timeline-content {
+    flex: 1;
+    padding: 15px;
+    margin-left: 60px; // Adjusted for better spacing
+
+    h5 {
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: #000;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import PricingIcon from '../../assets/images/visualelectric.png';
 import ContactInformation from './contactInformation/index';
 import TripInformation from '../TripInformation';
 import './Dashboard.scss';
+import ReviewAndSubmit from './reviewAndSubmit';
 
 const Dashboard = () => {
 
@@ -18,6 +19,7 @@ const Dashboard = () => {
             <p className="header-card">Here every step to get you there comfortably & safely.</p>
           </div>
         </div>
+        <ReviewAndSubmit />
         <TripInformation />
         <ContactInformation />
       </div>
