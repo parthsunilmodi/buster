@@ -5,11 +5,13 @@ import CustomDropdown from '../../components/CustomDropdown';
 import Button from 'react-bootstrap/Button';
 import reviewers from '../../assets/images/reviewers.png';
 import './ContactInformationForm.scss';
+import ReviewAndSubmit from '../ReviewAndSubmit/index';
 
 const ContactInformationForm = () => {
   const preferenceTypes = ["E-mail"];
 
   const [isChecked, setIsChecked] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -63,7 +65,12 @@ const ContactInformationForm = () => {
 
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted successfully');
+      setShowReviewModal(true);
     }
+  };
+
+  const handleModalClose = () => {
+    setShowReviewModal(false);
   };
 
   return (
@@ -173,6 +180,10 @@ const ContactInformationForm = () => {
       <div className="reviewers">
         <img src={reviewers} className="reviewers-img" alt="reviewers" />
       </div>
+
+      {showReviewModal && (
+        <ReviewAndSubmit showModal={showReviewModal} handleHide={handleModalClose} />
+      )}
     </>
   )
 }
