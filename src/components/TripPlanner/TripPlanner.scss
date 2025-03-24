@@ -1,0 +1,58 @@
+@import "../../styles/variables";
+
+.trip-planner {
+  display: flex;
+  gap: 30px;
+}
+.single-location {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.trip-planner-main {
+  border-bottom: 1px solid $grey-2;
+}
+
+.description-wrapper {
+
+}
+
+.common-btn {
+  height: 33px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid $border;
+  padding: 7px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $border;
+  width: fit-content;
+  background-color: $white;
+}
+
+.hr-wrapper {
+  top: 30px;
+  border: none;
+  border-left: 2px solid $border;
+  height: 180px;
+  opacity: 1;
+  margin: 0;
+}
+
+.stepper-main {
+  width: 32px;
+  margin-top: 2.5rem;
+}
+
+.label {
+  display: flex;
+  gap: 2px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Avenir Next";
+  margin-bottom: 4px;
+  white-space: nowrap;
+}

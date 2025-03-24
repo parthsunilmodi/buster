@@ -1,4 +1,5 @@
 @import '../../styles/variables';
+@import "react-datepicker/dist/react-datepicker.css";
 
 .cancel-btn-wrapper {
   min-width: 50px;
@@ -10,12 +11,14 @@
 }
 
 .calender-bottom-wrapper {
-  background:  var(--card-bg-2);
+  background: $white;
   opacity: 1;
 }
+
 .day-text-wrapper {
   color: var(--table-text);
 }
+
 .apply-btn-wrapper {
   min-width: 50px;
   max-width: 50px;
@@ -24,47 +27,63 @@
   color: $white;
   font-family: "Clear Sans";
 }
+
 .date-range-main {
+  width: 100%;
   display: flex;
   gap: 14px;
 
   .date-range-contain {
+    width: 100%;
     display: flex;
     align-items: center;
     opacity: 1;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
+    height: 48px;
 
     .react-datepicker-wrapper {
+      width: 100%;
       display: flex;
       align-items: center;
-      height: 40px;
+      height: 48px;
+      border-radius: 10px;
+      background-color: $flash-white;
 
       .react-datepicker__input-container {
         display: flex;
-        justify-content: center;
         align-items: center;
 
-        input {
-          padding: 6px 0;
+        .react-datepicker__calendar-icon {
+          position: absolute;
+          left: 10px;
+        }
+
+        .custom-date-input {
           border: none;
           font-size: 14px;
           font-family: "Clear Sans";
           background: unset;
-          margin-left: 16px;
-          width: 240px;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding: 15px 20px;
+          margin-left: 30px;
 
           &::placeholder {
             font-size: 14px;
             font-family: "Clear Sans";
             color: var(--table-text);
           }
+
           &:focus-visible {
             outline: none;
           }
         }
       }
     }
+
     .react-datepicker__tab-loop {
       .react-datepicker-popper {
         position: absolute !important;
@@ -73,7 +92,7 @@
         will-change: unset;
 
         .react-datepicker {
-          border-color: $border-4;
+          border-color: $border;
           background: var(--card-bg-2);
           border-radius: 10px;
           padding: 20px;
@@ -82,6 +101,7 @@
           .react-datepicker__navigation {
             margin: 50px 10px;
           }
+
           .react-datepicker__month-container {
             .react-datepicker__header {
               background: unset;
@@ -95,6 +115,7 @@
                 color: var(--table-text);
                 content: "Select Start Date";
               }
+
               .react-datepicker__current-month {
                 color: var(--table-text);
               }
@@ -102,31 +123,35 @@
               .react-datepicker__header__dropdown {
                 display: none;
               }
-              
+
               .react-datepicker__day-names {
                 display: flex;
                 justify-content: space-between;
+
                 .react-datepicker__day-name {
                   color: var(--table-text);
                 }
               }
             }
+
             .react-datepicker__month {
               position: relative;
 
               .react-datepicker__week {
                 display: flex;
                 justify-content: space-between;
-                .react-datepicker__day--disabled{
+
+                .react-datepicker__day--disabled {
                   color: #ccc !important;
                   background: transparent !important;
-                  & :hover{
+
+                  & :hover {
                     background-color: transparent !important;
                   }
                 }
 
                 .react-datepicker__day--keyboard-selected {
-                  background-color: $primary;
+                  background-color: $border;
                   border-radius: 50%;
                   color: $white;
 
@@ -134,23 +159,27 @@
                     outline: none !important;
                   }
                 }
+
                 .react-datepicker__day--in-range {
-                  background-color: $primary;
+                  background-color: $border;
                   border-radius: 50%;
                   color: $white;
                 }
+
                 .react-datepicker__day:hover {
-                  background-color: $primary;
+                  background-color: $border;
                   border-radius: 50%;
                   color: $white;
                 }
+
                 .react-datepicker__day--in-selecting-range {
-                  background-color: $primary;
+                  background-color: $border;
                   border-radius: 50%;
                   color: $white;
                 }
+
                 .react-datepicker__day--selected {
-                  background-color: $primary;
+                  background-color: $border;
                   border-radius: 50%;
                   color: $white;
                 }
@@ -158,11 +187,13 @@
             }
           }
         }
+
         svg {
           display: none;
         }
       }
     }
+
     svg {
       right: 16px;
       fill: var(--table-text)
@@ -180,10 +211,11 @@
 
       .react-datepicker-wrapper {
         width: 100%;
-        
+
         .react-datepicker__input-container {
           .react-datepicker__calendar-icon {
-            padding: 1.5rem;
+            position: absolute;
+            left: 0;
           }
         }
       }
@@ -198,6 +230,7 @@
     .date-range-title {
       font-size: 12px;
     }
+
     .date-range-contain {
       justify-content: space-between;
 
@@ -213,16 +246,19 @@
             max-width: 150px;
             font-size: 12px;
           }
+
           .react-datepicker__calendar-icon {
-            padding: 0;
+            //padding: 0;
           }
         }
       }
+
       .react-datepicker__tab-loop {
         .react-datepicker {
           height: 300px;
         }
       }
+
       svg {
         width: 16px;
         height: 16px;
@@ -238,6 +274,7 @@
     .date-range-title {
       font-size: 12px;
     }
+
     .date-range-contain {
       justify-content: space-between;
 
@@ -250,7 +287,7 @@
           justify-content: space-between;
 
           .react-datepicker__calendar-icon {
-            padding: 0;
+            //padding: 0;
           }
 
           input {
@@ -263,6 +300,7 @@
           }
         }
       }
+
       .react-datepicker__tab-loop {
         .react-datepicker-popper {
           // min-width: 325px;
@@ -277,6 +315,7 @@
           }
         }
       }
+
       svg {
         margin: 0;
         width: 15px;
