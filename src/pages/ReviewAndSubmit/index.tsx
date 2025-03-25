@@ -32,11 +32,15 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                 </div>
                 <div className="timeline-content">
                   <h5>Starting from</h5>
-                  <p>
-                    522 McGilvra Blvd E., Seattle, WA 98112
-                    <span className="date-range">{' · Departing 10:00 AM'}</span>
-                    <span className="date-range">{' · January 28'}</span>
-                  </p>
+                  <div className="timeline-detail">
+                    <p>
+                      522 McGilvra Blvd E., Seattle, WA 98112
+                    </p>
+                    <p className="d-flex flex-row">
+                      <span className="date-range">{' · Departing 10:00 AM '}</span>
+                      <span className="date-range">{' · January 28'}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="timeline-item">
@@ -45,11 +49,15 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                 </div>
                 <div className="timeline-content">
                   <h5>Destination</h5>
-                  <p>
-                    1234 Street Name E., Seattle, WA 98112
-                    <strong>· Arriving 11:00 AM</strong>
-                    <strong>· January 28</strong>
-                  </p>
+                  <div className="timeline-detail">
+                    <p>
+                      522 McGilvra Blvd E., Seattle, WA 98112
+                    </p>
+                    <p className="d-flex flex-row">
+                      <span className="date-range">{' · Arriving 10:00 AM '}</span>
+                      <span className="date-range">{' · January 28'}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="timeline-item">
