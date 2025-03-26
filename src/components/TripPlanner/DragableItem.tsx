@@ -69,11 +69,12 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
   }
 
   return (
-    <div className="d-flex position-relative main-wrapper flex-row items-center gap-4 w-100" >
+    <>
+    <div className="item-container d-flex position-relative main-wrapper items-center gap-4 w-100" >
       <div className="position-absolute draggable-icon"  ref={(node) => ref(drop(node))}>
         {index !== items.length - 1 &&  ( <DraggableIcon />)}
       </div>
-      <div className="d-flex gap-4 align-items-lg-start w-50">
+      <div className="location d-flex gap-4 align-items-lg-start">
         <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
           {renderIcon}
           {
@@ -97,24 +98,19 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
                 onChange={(e)=> handleChange("location", e.target.value)}
               />
           }
-          {index !== items.length - 1 && (
-            <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
-              <img src={plusIcon} alt="PlusIcon" /> Add a Stop
-            </button>
-          )}
         </div>
       </div>
       {
         items.length - 1 !== index && (
-        <>
-          <div className="w-25">
+          <>
+          <div className="on-at">
             <div className="label">On *</div>
             <CustomDateRange
               startDate={item.date}
               handleChange={(date)=> handleChange("date", date)}
             />
           </div>
-          <div className="w-25">
+          <div className="on-at">
             <div className="label">At </div>
             <CustomTimePicker value={item.at} onChange={(time) => handleChange("at", time )}  />
           </div>
@@ -128,6 +124,12 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
         </div>
       }
     </div>
+  {index !== items.length - 1 && (
+    <button className="common-btn mb-5 mt-5" onClick={() => handleAddItem(index)}>
+      <img src={plusIcon} alt="PlusIcon" /> Add a Stop
+    </button>
+  )}
+  </>
   );
 };
 
