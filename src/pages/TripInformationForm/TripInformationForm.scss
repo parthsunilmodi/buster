@@ -20,14 +20,14 @@
     width: 100%;
 
     .trip-header {
-      font-family: "Avenir Next";
+      font-family: $avenir-next-font;
       font-weight: 600;
       font-size: 24px;
       color: $black;
     }
 
     .step-text {
-      font-family: "Avenir Next";
+      font-family: $avenir-next-font;
       font-weight: 600;
       font-size: 18px;
       color: $grey;
@@ -35,14 +35,14 @@
   }
 
   .trip-titile {
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     color: $black;
   }
 
   .trip-sub-titile {
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     color: $black;

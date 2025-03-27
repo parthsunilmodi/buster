@@ -3,7 +3,7 @@
 .custom-time-picker {
   position: relative;
   display: inline-block;
-  font-family: Arial, sans-serif;
+  font-family: $avenir-next-font;
   width: 100%;
 
   .time-input {
@@ -13,7 +13,7 @@
     gap: 3px;
     height: 48px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 4px;
     background: $flash-white;
     color: $grey-1;
     font-size: 16px;

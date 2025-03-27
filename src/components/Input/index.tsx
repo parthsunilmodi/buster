@@ -54,7 +54,7 @@ const InputField = forwardRef(
         <>
           {type === 'textarea' ? (
             <textarea
-              className={`main-textarea ${className} ${(error && touched) && 'error-input'}`}
+              className={`main-textarea ${className} ${(error) && 'error-input'}`}
               name={name}
               ref={ref}
               value={value}
@@ -65,7 +65,7 @@ const InputField = forwardRef(
               {...rest}
             />
           ) : (
-            <div className={`simple-input-wrapper ${disabled && "disabled-input"} ${inputStyle || ''} ${(error && touched) && 'error-input'}`}>
+            <div>
               <input
                 ref={ref}
                 type={type}
@@ -76,6 +76,7 @@ const InputField = forwardRef(
                 onChange={onChange}
                 disabled={disabled}
                 onBlur={onBlur}
+                className={`simple-input-wrapper ${disabled && "disabled-input"} ${inputStyle || ''} ${(error) && 'error-input'}`}
                 {...rest}
               />
             </div>

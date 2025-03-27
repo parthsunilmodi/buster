@@ -18,14 +18,14 @@
     width: 100%;
 
     .contact-header {
-      font-family: "Avenir Next";
+      font-family: $avenir-next-font;
       font-weight: 600;
       font-size: 24px;
       color: $black;
     }
 
     .step-text {
-      font-family: "Avenir Next";
+      font-family: $avenir-next-font;
       font-weight: 600;
       font-size: 18px;
       color: $grey;
@@ -86,7 +86,7 @@
     }
 
     .checkbox-text {
-      font-family: Avenir Next;
+      font-family: $avenir-next-font;
       font-weight: 400;
       font-size: 14px;
       line-height: 120%;
@@ -98,7 +98,7 @@
   .review-submit-button {
     background-color: #1E848D;
     color: - #FFFFFF;
-    font-family: Avenir Next;
+    font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     line-height: 120%;

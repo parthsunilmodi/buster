@@ -1,5 +1,7 @@
+@import "../../styles/variables";
+
 .file-selector-container {
-  font-family: Arial, sans-serif;
+  font-family: $avenir-next-font;
 
   h2 {
     font-size: 14px;
@@ -10,7 +12,7 @@
 
   .file-drop-zone {
     background: #F6F1F1; // Light pinkish background
-    border-radius: 5px; // Softer rounded edges
+    border-radius: 4px; // Softer rounded edges
     padding: 24px;
     height: 163px;
     text-align: center;

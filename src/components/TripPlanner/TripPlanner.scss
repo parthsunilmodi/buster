@@ -77,7 +77,7 @@
   gap: 2px;
   font-size: 18px;
   font-weight: 600;
-  font-family: "Avenir Next";
+  font-family: $avenir-next-font;
   margin-bottom: 4px;
   white-space: nowrap;
 }
@@ -97,7 +97,7 @@
     gap: 2px;
     font-size: 16px;
     font-weight: 600;
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     margin-bottom: 4px;
     white-space: nowrap;
   }

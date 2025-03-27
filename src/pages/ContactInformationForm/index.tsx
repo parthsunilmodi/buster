@@ -35,11 +35,41 @@ const ContactInformationForm = () => {
     console.log('Selected Preference Type:', selectedValue);
   };
 
+  const formatFieldName = (name: string) => {
+    if (name === "email") return "E-mail address";
+    const formattedName = name
+    .replace(/([A-Z])/g, ' $1')
+    .trim()
+    .toLowerCase();
+
+    return formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setErrors((prevErrors) => {
+      const newErrors = {
+        ...prevErrors,
+        [name]: value.trim() ? '' : `${formatFieldName(name)} is required`,
+      };
+      console.log("Updated Errors:", newErrors);
+      return newErrors;
+    });
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+
+    // Remove error only if the user starts typing
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: value.trim() ? '' : prevErrors[name],
     }));
   };
 
@@ -62,7 +92,6 @@ const ContactInformationForm = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted successfully');
       setShowReviewModal(true);
     }
   };
@@ -87,6 +116,7 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.firstName}
                 value={formData.firstName}
+                onBlur={handleBlur}
                 onChange={(e: any) => handleInputChange(e)}
                 name="firstName"
               />
@@ -98,6 +128,7 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.lastName}
                 value={formData.lastName}
+                onBlur={handleBlur}
                 onChange={(e: any) => handleInputChange(e)}
                 name="lastName"
               />
@@ -112,6 +143,7 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.email}
                 value={formData.email}
+                onBlur={handleBlur}
                 onChange={(e: any) => handleInputChange(e)}
                 name="email"
               />
@@ -123,6 +155,7 @@ const ContactInformationForm = () => {
                 isRequired={true}
                 error={errors.phoneNumber}
                 value={formData.phoneNumber}
+                onBlur={handleBlur}
                 onChange={(e: any) => handleInputChange(e)}
                 name="phoneNumber"
               />

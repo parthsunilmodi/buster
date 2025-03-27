@@ -12,7 +12,15 @@ body {
   min-width: 100%;
   margin: 0;
   background: $background;
+  font-family: "Avenir Next", sans-serif;
 }
+
+ @font-face {
+   font-family: "Avenir Next";
+   src: url("./styles/fonts/avenir-next/AvenirNextLTPro-Regular.otf")
+   format("opentype");
+   font-style: normal;
+ }
 
 .full-height {
   height: calc(100vh - 100px);

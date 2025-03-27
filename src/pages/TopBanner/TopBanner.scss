@@ -29,7 +29,7 @@
     }
 
     .sub-heading {
-      font-family: 'Avenir Next';
+      font-family: $avenir-next-font;
       font-weight: 500;
       font-size: 24px;
       letter-spacing: -1.1%;
@@ -41,7 +41,7 @@
 
     .header-card {
       background: $black-1;
-      font-family: 'Avenir Next';
+      font-family: $avenir-next-font;
       font-weight: 500;
       font-size: 14px;
       letter-spacing: -1.1%;

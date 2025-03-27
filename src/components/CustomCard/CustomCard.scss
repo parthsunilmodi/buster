@@ -28,7 +28,7 @@
   }
 
   .card-titile {
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     line-height: 120%;
@@ -37,7 +37,7 @@
   }
 
   .selected-title {
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     line-height: 120%;
@@ -46,7 +46,7 @@
   }
 
   .card-description {
-    font-family: "Avenir Next";
+    font-family: $avenir-next-font;
     font-weight: 400;
     font-size: 14px;
     line-height: 120%;
