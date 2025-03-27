@@ -1,94 +1,103 @@
+@import "../../styles/variables";
+
 .review-modal-container {
   .modal-content {
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    background-color: #e3f5f7; // Light blue background
+    background-color: $light-blue;
     padding: 15px;
-  }
 
-  .modal-title {
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: #000;
+    .modal-header {
+      border-bottom: 1px solid #BCBCBC;
+    }
+
+    .modal-title {
+      font-family: 'Avenir Next';
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 120%;
+      letter-spacing: -1.1%;
+    }
   }
 
   .modal-body {
-    background-color: #e3f5f7;
     color: #000;
     line-height: 1.6;
   }
 
   .modal-footer {
-    background-color: #e3f5f7;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding: 20px 0;
+    border-top: 0;
 
-    .btn-primary {
+    .btn-wrapper {
       width: 100%;
+      background-color: $border;
+      border-radius: 4px;
+      border: none;
+      font-family: 'Avenir Next';
+      font-weight: 600;
+      font-size: 18px;
+      padding: 10px;
     }
   }
 
-  .btn-primary {
-    background-color: #008080;
-    border-radius: 5px;
-    border: none;
-    padding: 12px 20px;
-    font-weight: bold;
-
-    &:hover {
-      background-color: #006666;
-    }
-  }
-
-  .btn-secondary {
+  .btn-link-wrapper {
     background: none;
-    color: #008080;
+    font-family: 'Avenir Next';
+    color: $border;
     border: none;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: underline;
-
-    &:hover {
-      color: #006666;
-    }
+    font-size: 18px;
+    text-decoration-style: solid;
   }
 }
 
-// Section Styling
 .review-modal-content {
-  h6 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-size: 1rem;
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-  }
-
-  strong {
-    font-weight: bold;
-    color: #000;
-  }
-
-  hr {
-    margin: 20px 0;
-    border-color: #ccc;
+  .heading {
+    font-family: 'Avenir Next';
+    font-weight: 600;
+    font-size: 24px;
   }
 
   .contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     text-align: left;
     margin-top: 15px;
+
+    .contact {
+      font-family: 'Avenir Next';
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 152%;
+      letter-spacing: -1.1%;
+    }
+  }
+
+  .horizontal {
+    border-top: 1px solid #BCBCBC;
+  }
+
+  .type-wrapper {
+    font-family: 'Avenir Next';
+    font-weight: 600;
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .description {
+    font-family: 'Avenir Next';
+    font-weight: 400;
+    font-size: 18px;
   }
 }
 
-// Timeline Container
 .timeline {
   position: relative;
   margin: 0 auto;
@@ -98,36 +107,31 @@
     content: '';
     position: absolute;
     width: 2px;
-    background-color: #008080; // Teal color for the line
+    background-color: $border;
     top: 0;
     bottom: 0;
-    left: 20px;
+    left: 9px;
     z-index: 1;
   }
 }
 
-// Timeline Item
 .timeline-item {
   display: flex;
   align-items: flex-start;
   margin-bottom: 20px;
   position: relative;
 
-  // Timeline Icon
   .timeline-icon {
     width: 42px;
-    height: 22px;
-    background-color: #e3f5f7; // Light blue background
+    height: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-
+    left: -11px;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
+    top: 16%;
 
     img {
       width: 24px;
@@ -135,22 +139,84 @@
     }
   }
 
-  // Timeline Content
   .timeline-content {
     flex: 1;
     padding: 15px;
-    margin-left: 60px; // Adjusted for better spacing
+    margin-left: 35px; // Adjusted for better spacing
+
+    .timeline-detail {
+      display: flex;
+    }
 
     h5 {
-      font-weight: bold;
-      color: #000;
-      margin-bottom: 10px;
+      font-family: 'Avenir Next';
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 120%;
+      letter-spacing: -1.1%;
+      margin-bottom: 8px;
     }
 
     p {
+      font-family: 'Avenir Next';
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 120%;
+      letter-spacing: -1.1%;
       margin: 0;
-      font-size: 1rem;
-      color: #000;
+
+      .date-range {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .review-modal-container {
+    .modal-dialog-centered {
+      .modal-content {
+        .modal-header {
+          padding: 13px 0;
+
+          .modal-title {
+            font-size: 24px;
+          }
+        }
+
+        .review-modal-body {
+          padding: 15px 0;
+
+          .review-modal-content {
+            .heading {
+              font-size: 20px;
+            }
+
+            .timeline {
+              padding: 6px 0;
+
+              .timeline-item {
+                .timeline-content {
+                  h5 {
+                    font-size: 16px;
+                  }
+                  .timeline-detail {
+                    flex-direction: column;
+                  }
+
+                  p {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 16px;
+                    gap: 5px;
+                    margin-top: 5px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

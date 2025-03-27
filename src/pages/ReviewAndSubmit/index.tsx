@@ -24,7 +24,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
         </Modal.Header>
         <Modal.Body className="review-modal-body">
           <div className="review-modal-content">
-            <h6>Roundtrip</h6>
+            <h6 className="heading">Roundtrip</h6>
             <div className="timeline">
               <div className="timeline-item">
                 <div className="timeline-icon">
@@ -32,11 +32,15 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                 </div>
                 <div className="timeline-content">
                   <h5>Starting from</h5>
-                  <p>
-                    522 McGilvra Blvd E., Seattle, WA 98112
-                    <strong>· Departing 10:00 AM</strong>
-                    <strong>· January 28</strong>
-                  </p>
+                  <div className="timeline-detail">
+                    <p>
+                      522 McGilvra Blvd E., Seattle, WA 98112
+                    </p>
+                    <p className="d-flex flex-row">
+                      <span className="date-range">{' · Departing 10:00 AM '}</span>
+                      <span className="date-range">{' · January 28'}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="timeline-item">
@@ -45,11 +49,15 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                 </div>
                 <div className="timeline-content">
                   <h5>Destination</h5>
-                  <p>
-                    1234 Street Name E., Seattle, WA 98112
-                    <strong>· Arriving 11:00 AM</strong>
-                    <strong>· January 28</strong>
-                  </p>
+                  <div className="timeline-detail">
+                    <p>
+                      522 McGilvra Blvd E., Seattle, WA 98112
+                    </p>
+                    <p className="d-flex flex-row">
+                      <span className="date-range">{' · Arriving 10:00 AM '}</span>
+                      <span className="date-range">{' · January 28'}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="timeline-item">
@@ -62,47 +70,46 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                 </div>
               </div>
             </div>
-            <hr />
+            <hr className="horizontal" />
             <div className="row text-md-start align-items-start">
               <div className="col-12 col-md-4 mb-2 mb-md-0">
-                <p className="fw-bold">Est. number of passengers:</p>
-                <p>75</p>
+                <p className="type-wrapper">Est. number of passengers:</p>
+                <span className="description">75</span>
               </div>
               <div className="col-12 col-md-4 mb-2 mb-md-0">
-                <p className="fw-bold">Group type:</p>
-                <p>Conference</p>
+                <p className="type-wrapper">Group type:</p>
+                <span className="description">Conference</span>
               </div>
               <div className="col-12 col-md-4">
-                <p className="fw-bold">Preferred bus type:</p>
-                <p>Coach bus</p>
+                <p className="type-wrapper">Preferred bus type:</p>
+                <span className="description">Coach bus</span>
               </div>
             </div>
-            <hr />
+            <hr className="horizontal" />
             <div className="row">
               <div className="col-md-6">
-                <p><strong>Comments</strong></p>
-                <p>
+                <p className="type-wrapper">Comments</p>
+                <span className="description">
                   Lorem ipsum dolor sit amet consectetur. Diam quis donec eget pellentesque tellus. Tempor eu augue
                   nullam pulvinar pharellus neque. Ut. Diam quis don.
-                </p>
+                </span>
               </div>
               <div className="col-md-6">
-                <p><strong>Files</strong></p>
-                <p>Trip_Itinerary.pdf</p>
+                <p className="type-wrapper">Files</p>
+                <span className="description">Trip_Itinerary.pdf</span>
               </div>
             </div>
-            <hr />
+            <hr className="horizontal" />
             <div className="contact-info">
-              <p>Anna Dawson, BusBank</p>
-              <p>dawsonag1@gmail.com</p>
-              <p>+1 (206) 963-4560</p>
+              <span className="contact">Anna Dawson, BusBank</span>
+              <span className="contact">dawsonag1@gmail.com</span>
+              <span className="contact">+1 (206) 963-4560</span>
             </div>
-
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary">Looks good! Submit my quote</Button>
-          <Button variant="secondary" onClick={handleHide}>
+          <Button className="btn-wrapper">Looks good! Submit my quote</Button>
+          <Button className="btn-link-wrapper" onClick={handleHide}>
             Make changes
           </Button>
         </Modal.Footer>
