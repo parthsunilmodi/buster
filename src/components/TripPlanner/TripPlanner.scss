@@ -4,6 +4,7 @@
   display: flex;
   gap: 30px;
 }
+
 .single-location {
   display: flex;
   align-items: center;
@@ -21,9 +22,11 @@
     top: 40px;
     cursor: grab;
   }
+
   &:hover {
     .draggable-icon {
       display: block;
+
       &:hover {
         display: block;
       }
@@ -33,10 +36,13 @@
 
 .delete-icon {
   position: absolute;
-  top:40px;
+  top: 40px;
   right: -40px
 }
 
+.remove-stop {
+  display: none;
+}
 
 .common-btn {
   height: 33px;
@@ -72,6 +78,10 @@
   flex-direction: row;
 }
 
+.label-style {
+  font-size: 18px !important;
+}
+
 .label {
   display: flex;
   gap: 2px;
@@ -81,9 +91,11 @@
   margin-bottom: 4px;
   white-space: nowrap;
 }
+
 .on-at {
   width: 25%;
 }
+
 .location {
   width: 50%;
 }
@@ -115,5 +127,27 @@
   }
   .location {
     width: 100%;
+  }
+  .delete-icon {
+    display: none;
+  }
+  .remove-stop {
+    display: flex;
+    height: 25px;
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+    pointer-events: auto;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .main-wrapper {
+    .draggable-icon {
+      display: none;
+    }
   }
 }

@@ -5,8 +5,6 @@ interface IInputProps  {
   label?: any;
   className?: string;
   inputStyle?: string;
-  htmlFor?: string;
-  suffix?: React.ReactNode | React.ReactElement;
   type?: 'text' | 'textarea' | 'email' | 'number';
   error?: string;
   isRequired?: boolean;
@@ -15,9 +13,9 @@ interface IInputProps  {
   maxLength?: number;
   onBlur?: any;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  touched?: boolean;
   placeholder?: string;
   disabled?: boolean;
+  labelStyle?: string;
 }
 
 const InputField = forwardRef(
@@ -26,17 +24,16 @@ const InputField = forwardRef(
       label,
       className = '',
       inputStyle = '',
-      htmlFor,
       type = 'text',
       error,
       value,
       name,
       maxLength,
-      touched,
       onBlur,
       placeholder,
       onChange,
       suffix,
+      labelStyle,
       isRequired = false,
       disabled = false,
       ...rest
@@ -47,9 +44,8 @@ const InputField = forwardRef(
 
     return (
       <div className={formGroupClass}>
-        <label className={`label  ${isRequired ? "required" : ""}`}>
+        <label className={`label  ${isRequired ? "required" : ""} ${labelStyle}`}>
           {label}
-          {suffix && <div>{suffix}</div>}
         </label>
         <>
           {type === 'textarea' ? (

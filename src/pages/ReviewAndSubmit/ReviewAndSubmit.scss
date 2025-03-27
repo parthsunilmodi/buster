@@ -96,22 +96,77 @@
     font-weight: 400;
     font-size: 18px;
   }
+
+  .file-wrapper {
+    padding-left: 60px;
+  }
+
+  .roundtrip-bottom-wrapper {
+    display: flex;
+
+    ._bottom {
+      width: 33.33%;
+    }
+  }
 }
 
 .timeline {
   position: relative;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 20px 0;
 
-  &::before {
-    content: '';
-    position: absolute;
-    width: 2px;
-    background-color: $border;
-    top: 0;
-    bottom: 0;
-    left: 9px;
-    z-index: 1;
+  .timeline-stepper-main {
+    svg {
+      margin-top: 15px;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .add-stop-icon {
+      left: -2px;
+    }
+
+    .timeline-content {
+      flex: 1;
+      padding: 20px 15px;
+      margin-left: 35px;
+
+      .timeline-detail {
+        display: flex;
+      }
+
+      h5 {
+        font-family: $avenir-next-font;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 120%;
+        letter-spacing: -1.1%;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-family: $avenir-next-font;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 120%;
+        letter-spacing: -1.1%;
+        margin: 0;
+      }
+
+      .date-range {
+        font-weight: 600;
+      }
+    }
+
+    .timeline-hr-wrapper {
+      top: 35px;
+      border: none;
+      border-left: 2px solid $border;
+      height: 105px;
+      opacity: 1;
+      left: 12px;
+      margin: 0;
+    }
   }
 }
 
@@ -138,35 +193,30 @@
       height: 24px;
     }
   }
+}
 
-  .timeline-content {
-    flex: 1;
-    padding: 15px;
-    margin-left: 35px; // Adjusted for better spacing
+@media screen and (max-width: 419px) {
+  .timeline {
+    .timeline-stepper-main {
+      .timeline-hr-wrapper {
+        height: 150px;
+      }
+    }
+  }
+}
 
-    .timeline-detail {
-      display: flex;
+@media screen and (max-width: 991px) {
+  .review-modal-content {
+    .type-wrapper {
+      font-size: 16px;
     }
 
-    h5 {
-      font-family: $avenir-next-font;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 120%;
-      letter-spacing: -1.1%;
-      margin-bottom: 8px;
-    }
+    .roundtrip-bottom-wrapper {
+      flex-direction: column;
+      gap: 15px;
 
-    p {
-      font-family: $avenir-next-font;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 120%;
-      letter-spacing: -1.1%;
-      margin: 0;
-
-      .date-range {
-        font-weight: 600;
+      ._bottom {
+        width: 100%;
       }
     }
   }
@@ -193,29 +243,59 @@
             }
 
             .timeline {
-              padding: 6px 0;
+              padding-bottom: 0;
+            }
 
-              .timeline-item {
-                .timeline-content {
-                  h5 {
-                    font-size: 16px;
-                  }
-                  .timeline-detail {
-                    flex-direction: column;
-                  }
+            .timeline-content {
+              h5 {
+                font-size: 16px;
+              }
 
-                  p {
-                    display: flex;
-                    flex-direction: column;
-                    font-size: 16px;
-                    gap: 5px;
-                    margin-top: 5px;
-                  }
-                }
+              .address-time-wrapper {
+                flex-direction: column;
+                align-items: start !important;
+              }
+
+              p {
+                display: flex;
+                flex-direction: column;
+                font-size: 16px;
+                gap: 5px;
+                margin-top: 5px;
               }
             }
           }
         }
+      }
+    }
+
+    .file-comments-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .file-wrapper {
+      padding-left: 12px;
+    }
+
+    .description {
+      font-size: 16px;
+    }
+
+    .contact-info {
+      .contact {
+        font-size: 16px;
+      }
+    }
+
+    .modal-footer {
+      .btn-wrapper {
+        font-size: 16px;
+      }
+
+      .btn-link-wrapper {
+        font-size: 16px;
       }
     }
   }

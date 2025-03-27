@@ -72,7 +72,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
     <>
     <div className="item-container d-flex position-relative main-wrapper items-center gap-4 w-100" >
       <div className="position-absolute draggable-icon"  ref={(node) => ref(drop(node))}>
-        {index !== items.length - 1 &&  ( <DraggableIcon />)}
+        {index !== 0 && index !== items.length - 1 &&  ( <DraggableIcon />)}
       </div>
       <div className="location d-flex gap-4 align-items-lg-start">
         <div className="d-flex position-relative stepper-main justify-content-center align-items-center flex-column">
@@ -95,6 +95,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
                 name="location"
                 value={item.location}
                 label={renderLabel}
+                labelStyle="label-style"
                 onChange={(e)=> handleChange("location", e.target.value)}
               />
           }
@@ -121,6 +122,12 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
         (index !== 0 && items.length - 1 !== index) &&
         <div className="delete-icon" onClick={handleRemoveItem}>
           <CloseDeleteIconSVG />
+        </div>
+      }
+      {
+        (index !== 0 && items.length - 1 !== index) &&
+        <div className="remove-stop" onClick={handleRemoveItem}>
+           Remove stop
         </div>
       }
     </div>
