@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import plusIcon from '../../assets/images/plusIcon.png';
 import CustomTimePicker from '../CustomTimePicker/index';
@@ -87,11 +87,12 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
           {
             selectedCard === tripType.roundTrip && index === items.length - 1 ?
               <div className="d-flex flex-column gap-2">
-                <span className="label">Ending At</span>
+                <span className="label required">Ending At</span>
                 <span className="description-wrapper">Round trip: end point will be the same as the start point</span>
               </div>
               :
               <InputField
+                isRequired={true}
                 name="location"
                 value={item.location}
                 label={renderLabel}
@@ -105,7 +106,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
         items.length - 1 !== index && (
           <>
           <div className="on-at">
-            <div className="label">On *</div>
+            <div className="label required">On</div>
             <CustomDateRange
               startDate={item.date}
               handleChange={(date)=> handleChange("date", date)}
