@@ -15,7 +15,7 @@ type IInput = {
 };
 
 const CustomDateRange = (props:IInput) => {
-  const { handleChange, placeholder, startDate, dateFormat} = props;
+  const { handleChange, placeholder, startDate, dateFormat = "d/M/yyyy"} = props;
   const datePickerRef = useRef<any>(null);
 
   const updateDate = (date: Date | null) => {
@@ -54,7 +54,6 @@ const CustomDateRange = (props:IInput) => {
           icon={
             <img src={calendarIcon} alt="calendarIcon" />
           }
-          shouldCloseOnSelect={false}
           placeholderText={placeholder}
           dayClassName={(date) => date ? 'day-text-wrapper' : ''}
           customInput={<CustomInput />}

@@ -103,7 +103,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
         </div>
       </div>
       {
-        items.length - 1 !== index && (
+        (items.length - 1 !== index || selectedCard === tripType.localShuttle)  && (
           <>
           <div className="on-at">
             <div className="label required">On</div>
