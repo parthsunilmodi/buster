@@ -18,7 +18,7 @@ const TripCards: React.FC<ITripCard> = ({ selectedCard, setSelectedCard }) => {
           key={index}
           title={trip.title}
           description={trip.description}
-          icon={selectedCard === index ? trip.selectedIcon : trip.icon}
+          icon={trip.key === selectedCard ? trip.selectedIcon : trip.icon}
           selected={trip.key === selectedCard}
           onClick={() => setSelectedCard(trip.key)}
         />
