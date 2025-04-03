@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = "YOUR_API_KEY";
+const apiKey = "AIzaSyBB3KnFMbhL2KOMGMHk41cUtvs_9E5FPro";
 const waypoints = ["Vadodara", "Mumbai"]; // Add more stops if needed
 const origin = "Surat";
 const destination = "Matheran";
@@ -14,6 +14,16 @@ async function getBusRoute(from: string, to: string, stops: string[]) {
     console.log(`Route from ${from} to ${to} via ${stops.join(", ")}:`, response.data.routes);
   } catch (error) {
     console.error("Error fetching route:", error);
+  }
+}
+
+export async function getBusRoutOption(value: string) {
+  const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${value}&key=${apiKey}`
+  try {
+    const response = await axios.get(url);
+    return response
+  } catch (e) {
+    console.error("Error fetching route:", e);
   }
 }
 

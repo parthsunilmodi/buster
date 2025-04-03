@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { getBusRoutOption } from '../../api/index';
 import plusIcon from '../../assets/images/plusIcon.png';
 import CustomTimePicker from '../CustomTimePicker/index';
-import InputField from '../Input';
+// import InputField from '../Input';
 import CustomDateRange from '../DateRangePicker';
 import { Location, DestinationSVG, CloseDeleteIconSVG, DraggableIcon } from '../../assets/svg';
-import { data } from '../../constants';
+import { data } from '../../constants'
+import SearchableSelect from '../SearchableSelect/index';
 
 const ItemType = 'DRAGGABLE_ITEM';
 
@@ -31,6 +33,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
       isDraggingIcon: !!monitor.isDragging(),
     }),
   });
+  const [option, setOption] = useState<{label: string, value: string}[]>([]);
 
   const [, drop] = useDrop({
     accept: ItemType,
@@ -70,8 +73,31 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
     updatedItems.splice(index + 1, 0, newItem); // Insert after the clicked item
     setItems(updatedItems);
   };
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
 
-  const handleChange = (keyName, value) => {
+  const fetchBusRouteData = debounce(async (query, setFilteredOptions) => {
+    if (!query) return;
+    try {
+      const response = await getBusRoutOption(query);
+      console.log(response.data.predictions)
+    } catch (error) {
+      console.error('Error fetching bus route data:', error);
+      setFilteredOptions([]);
+    }
+  }, 300);
+
+  const handleChange = async (keyName, value) => {
+    if(keyName === 'location') {
+       await fetchBusRouteData(value)
+    }
     const updatedItems = [...items];
     updatedItems[index] = {
       ...updatedItems[index], [keyName]: value
@@ -121,14 +147,22 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
                 </span>
               </div>
             ) : (
-              <InputField
+              <SearchableSelect
+                options={option}
                 isRequired
-                name="location"
-                value={item.location}
                 label={renderLabel}
                 labelStyle="label-style"
-                onChange={(e) => handleChange('location', e.target.value)}
+                name="location"
+                onChange={(value)=> handleChange("location", value)}
               />
+              // <InputField
+              //   isRequired={true}
+              //   name="location"
+              //   value={item.location}
+              //   label={renderLabel}
+              //   labelStyle="label-style"
+              //   onChange={(e)=> handleChange("location", e.target.value)}
+              // />
             )}
           </div>
         </div>
