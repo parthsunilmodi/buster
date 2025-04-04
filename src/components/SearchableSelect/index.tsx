@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './SearchableSelect.scss';
@@ -37,12 +37,16 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  useEffect(() => {
+    setFilteredOptions(options)
+  }, [options])
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchValue(query);
-    setFilteredOptions(
-      options.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
-    );
+    // setFilteredOptions(
+    //   options.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
+    // );
     setShowDropdown(true);
     onChange(query);
 
@@ -73,9 +77,9 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         </Dropdown.Toggle>
         <Dropdown.Menu className="dropdown-menu">
           {filteredOptions.length > 0 ? (
-            filteredOptions.map((option) => (
-              <Dropdown.Item key={option.value} onClick={() => handleSelect(option)}>
-                {option.label}
+            filteredOptions.map((options) => (
+              <Dropdown.Item key={options.value} onClick={() => handleSelect(options)}>
+                {options.label}
               </Dropdown.Item>
             ))
           ) : (
