@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import uploadIcon from '../../assets/images/uploadIcon.png';
 import './FileSelector.scss';
 
-const FileSelector: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [error, setError] = useState<string>('');
+interface IFileProps {
+  setSelectedFile: any;
+  setFileError: any
+}
 
+const FileSelector: React.FC<IFileProps> = (props) => {
+  const { setSelectedFile, setFileError} = props;
   const supportedFileTypes = ['application/pdf', 'image/jpeg', 'text/csv'];
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];
     if (file) {
       if (!supportedFileTypes.includes(file.type)) {
-        setError('Unsupported file type. Please upload a PDF, JPG, or CSV file.');
+        setFileError('Unsupported file type. Please upload a PDF, JPG, or CSV file.');
         setSelectedFile(null);
       } else {
-        setError('');
+        setFileError('');
         setSelectedFile(file);
       }
     }
@@ -41,8 +44,6 @@ const FileSelector: React.FC = () => {
         <label htmlFor="file-upload"><span>Attach a file or</span> drag one here.</label>
         <p>Supported types: PDF, JPG, CSV</p>
       </div>
-      {error && <p className="error-message">{error}</p>}
-      {selectedFile && <p className="selected-file">File selected: {selectedFile.name}</p>}
     </div>
   );
 };

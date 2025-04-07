@@ -90,6 +90,22 @@
         }
       }
     }
+
+    .error-message {
+      color: #d9534f; // Bootstrap danger red
+      font-size: 12px;
+      width: 50%;
+    }
+
+    .selected-file {
+      font-size: 14px;
+      color: #333;
+      width: 50%;
+    }
+
+    .dynamic-wrap {
+      width: 50%;
+    }
   }
 }
 
@@ -123,6 +139,18 @@
   .main-trip-information {
     .trip-cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dynamic-wrap {
+      display: none;
+    }
+
+    .error-message {
+      width: 100% !important;
+    }
+
+    .selected-file {
+      width: 100% !important;
     }
   }
 }

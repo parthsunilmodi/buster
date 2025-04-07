@@ -7,13 +7,38 @@ import TripPlanner from '../../components/TripPlanner/index';
 import { data } from '../../constants/index';
 import './TripInformationForm.scss';
 
-const TripInformationForm = () => {
-  const { tripType } = data
-  const busTypes = ["Standard", "Luxury", "Mini", "Double Decker"];
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
-  const handleSelection = (selectedValue: string) => {
-    // console.log("Selected Bus Type:", selectedValue);
+const TripInformationForm = () => {
+  const { tripType, groupType, busTypes } = data
+
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string>('');
+  const [comments, setComments] = useState<string>('');
+  const [passengers, setPassengers] = useState<number | "">("");
+  const [segment, setSegment] = useState<string>("");
+  const [busType, setBusType] = useState<string>("Deluxe Motorcoach: up to 56 passengers");
+
+  const handleSegmentSelection = (selectedValue: string) => {
+    setSegment(selectedValue);
+  };
+
+  const handleBusSelection = (selectedValue: string) => {
+    setBusType(selectedValue);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setComments(newValue);
+  };
+
+  const handlePassengerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const parsedValue = value === "" ? "" : Number(value);
+
+    if (parsedValue === "" || (parsedValue > 0 && Number.isInteger(parsedValue))) {
+      setPassengers(parsedValue);
+    }
   };
 
   return (
@@ -39,34 +64,48 @@ const TripInformationForm = () => {
               className="tell-us-textarea"
               placeholder="The more details , the better. We'll take it from there."
               type='textarea'
+              value={comments}
+              onChange={handleInputChange}
             />
           </div>
           <div className="w-100">
             <div className="trip-titile mb-2">
               If you have one, upload a trip file or itinerary:
             </div>
-            <FileSelector />
+            <FileSelector
+              setSelectedFile={setSelectedFile}
+              setFileError={setFileError}
+            />
           </div>
+        </div>
+        <div className="d-flex gap-3">
+          {fileError &&<><p className="dynamic-wrap"></p> <p className="error-message">{fileError}</p></>}
+          {selectedFile &&<><p className="dynamic-wrap"></p> <p className="selected-file">File selected: {selectedFile.name}</p></>}
         </div>
         <div className="trip-form-container flex-column flex-md-row mt-3">
           <div className="trip-form-sub-container">
             <InputField
               inputStyle="number-input"
               label="Est. number of passengers:"
+              type="number"
+              value={passengers}
+              onChange={handlePassengerChange}
             />
           </div>
           <div className="trip-form-sub-container">
             <CustomDropdown
               label="Group type:"
-              options={busTypes}
-              onSelect={handleSelection}
+              options={groupType}
+              defaultOption="Please choose your group type."
+              onSelect={handleSegmentSelection}
             />
           </div>
           <div className="trip-form-sub-container">
             <CustomDropdown
-              label="Preferred bus type:"
+              label="Preferred Bus Type:"
               options={busTypes}
-              onSelect={handleSelection}
+              onSelect={handleBusSelection}
+              placeholder="Deluxe Motorcoach: up to 56 passengers"
             />
           </div>
         </div>
