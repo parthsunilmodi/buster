@@ -1,13 +1,18 @@
-import { useState, useRef, useEffect } from 'react';
-import clockIcon from '../../assets/images/clock-icon.png';
-import downArrow from '../../assets/images/downArrow.png';
-import './CustomTimePicker.scss';
+import { useState, useRef, useEffect } from "react";
+import clockIcon from "../../assets/images/clock-icon.png";
+import downArrow from "../../assets/images/downArrow.png";
+import "./CustomTimePicker.scss";
 
 const hours = Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, "0"));
 const minutes = ["00", "15", "30", "45"];
 const periods = ["AM", "PM"];
 
-const CustomTimePicker = ({ onChange }: { onChange: (time: string) => void }) => {
+type TimePickerProps = {
+  value?: string; // Accepts a pre-set time
+  onChange: (time: string) => void;
+};
+
+const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("");
@@ -15,12 +20,17 @@ const CustomTimePicker = ({ onChange }: { onChange: (time: string) => void }) =>
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // ✅ Ensure the time is updated only when all values are set
+  useEffect(() => {
+    if (selectedHour && selectedMinute && selectedPeriod) {
+      onChange(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
+    }
+  }, [selectedHour, selectedMinute, selectedPeriod]);
+
   const handleSelect = (type: string, value: string) => {
     if (type === "hour") setSelectedHour(value);
     if (type === "minute") setSelectedMinute(value);
     if (type === "period") setSelectedPeriod(value);
-
-    onChange(`${selectedHour}:${selectedMinute} ${selectedPeriod}`);
   };
 
   useEffect(() => {
@@ -30,20 +40,17 @@ const CustomTimePicker = ({ onChange }: { onChange: (time: string) => void }) =>
       }
     };
 
-    // Attach the event listener
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, []);
 
   return (
     <div className="custom-time-picker">
       <div className="time-input" onClick={() => setIsOpen(!isOpen)}>
-        <img src={clockIcon} alt="calendarIcon" />
-        {selectedHour} {selectedMinute} {selectedPeriod}
+        <img src={clockIcon} alt="clockIcon" />
+        {selectedHour} {selectedHour? ':' : ''}{selectedMinute}{selectedPeriod}
         <img src={downArrow} alt="dropdownIcon" />
       </div>
       {isOpen && (

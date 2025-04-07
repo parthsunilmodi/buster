@@ -13,7 +13,7 @@ const TripInformationForm = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   const handleSelection = (selectedValue: string) => {
-    console.log("Selected Bus Type:", selectedValue);
+    // console.log("Selected Bus Type:", selectedValue);
   };
 
   return (

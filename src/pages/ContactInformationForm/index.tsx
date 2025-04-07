@@ -32,7 +32,7 @@ const ContactInformationForm = () => {
 
 
   const handleSelection = (selectedValue: string) => {
-    console.log('Selected Preference Type:', selectedValue);
+    // console.log('Selected Preference Type:', selectedValue);
   };
 
   const formatFieldName = (name: string) => {
@@ -53,7 +53,6 @@ const ContactInformationForm = () => {
         ...prevErrors,
         [name]: value.trim() ? '' : `${formatFieldName(name)} is required`,
       };
-      console.log("Updated Errors:", newErrors);
       return newErrors;
     });
   };

@@ -16,9 +16,9 @@ interface SearchableSelectProps {
   disabled?: boolean;
   label: string;
   labelStyle?: string;
-  name:string;
+  name: string;
   isRequired?: boolean;
-  onSelect?: (value: string) => void
+  onSelect?: (value: string) => void;
 }
 
 const SearchableSelect: React.FC<SearchableSelectProps> = ({
@@ -34,36 +34,27 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
    isRequired = false
   }) => {
   const [searchValue, setSearchValue] = useState(value);
-  const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
   const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    setFilteredOptions(options)
-  }, [options])
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchValue(query);
-    // setFilteredOptions(
-    //   options.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()))
-    // );
-    setShowDropdown(true);
     onChange(query);
-
+    setShowDropdown(query.length > 0 && options.length > 0); // Only show dropdown if there are options
   };
 
   const handleSelect = (option: Option) => {
     setSearchValue(option.label);
     setShowDropdown(false);
-    onSelect(option.value);
+    onSelect?.(option.value); // Ensure selected value updates parent state
   };
 
   return (
     <div className="searchable-select-container">
-      <Form.Label className={`label ${isRequired ? "required" : ""} ${labelStyle || ''}`}>
+      <Form.Label className={`label ${isRequired ? 'required' : ''} ${labelStyle || ''}`}>
         {label}
       </Form.Label>
-      <Dropdown show={showDropdown} onToggle={(isOpen) => setShowDropdown(isOpen)}>
+      <Dropdown show={showDropdown} onToggle={(isOpen) => setShowDropdown(isOpen && options.length > 0)}>
         <Dropdown.Toggle className="search-input" disabled={disabled}>
           <Form.Control
             type="text"
@@ -71,21 +62,19 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             value={searchValue}
             placeholder={placeholder}
             onChange={handleSearchChange}
-            onFocus={() => setShowDropdown(true)}
+            onFocus={() => setShowDropdown(options.length > 0)}
             disabled={disabled}
           />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="dropdown-menu">
-          {filteredOptions.length > 0 ? (
-            filteredOptions.map((options) => (
-              <Dropdown.Item key={options.value} onClick={() => handleSelect(options)}>
-                {options.label}
+        {options.length > 0 && (
+          <Dropdown.Menu className="dropdown-menu">
+            {options.map((option) => (
+              <Dropdown.Item key={option.value} onClick={() => handleSelect(option)}>
+                {option.label}
               </Dropdown.Item>
-            ))
-          ) : (
-             <Dropdown.Item disabled>Not Found</Dropdown.Item>
-           )}
-        </Dropdown.Menu>
+            ))}
+          </Dropdown.Menu>
+        )}
       </Dropdown>
     </div>
   );
