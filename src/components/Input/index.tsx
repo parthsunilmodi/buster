@@ -40,10 +40,9 @@ const InputField = forwardRef(
     }: IInputProps,
     ref: ForwardedRef<null>
   ) => {
-    const formGroupClass = `form-input ${className} ${(error && value) && 'error-input'}`;
 
     return (
-      <div className={formGroupClass}>
+      <div className="form-input">
         <label className={`label  ${isRequired ? "required" : ""} ${labelStyle}`}>
           {label}
         </label>

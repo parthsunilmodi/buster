@@ -7,8 +7,12 @@ import TripPlanner from '../../components/TripPlanner/index';
 import { data } from '../../constants/index';
 import './TripInformationForm.scss';
 
+interface ITripInformation {
+  setSubmitData?: any;
+}
 
-const TripInformationForm = () => {
+const TripInformationForm: React.FC<ITripInformation> = (props) => {
+  const { setSubmitData } = props;
   const { tripType, groupType, busTypes } = data
 
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
@@ -16,28 +20,20 @@ const TripInformationForm = () => {
   const [fileError, setFileError] = useState<string>('');
   const [comments, setComments] = useState<string>('');
   const [passengers, setPassengers] = useState<number | "">("");
-  const [segment, setSegment] = useState<string>("");
-  const [busType, setBusType] = useState<string>("Deluxe Motorcoach: up to 56 passengers");
 
-  const handleSegmentSelection = (selectedValue: string) => {
-    setSegment(selectedValue);
-  };
-
-  const handleBusSelection = (selectedValue: string) => {
-    setBusType(selectedValue);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    setComments(newValue);
+  const updateSubmitData = (key: string, value: any) => {
+    setSubmitData((prev: any) =>
+      prev.map((trip: any) => ({ ...trip, [key]: value }))
+    );
   };
 
   const handlePassengerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const parsedValue = value === "" ? "" : Number(value);
+    const parsedValue = value === '' ? '' : Number(value);
 
-    if (parsedValue === "" || (parsedValue > 0 && Number.isInteger(parsedValue))) {
+    if (parsedValue === '' || (parsedValue > 0 && Number.isInteger(parsedValue))) {
       setPassengers(parsedValue);
+      updateSubmitData('passengers', parsedValue);
     }
   };
 
@@ -51,7 +47,7 @@ const TripInformationForm = () => {
       <TripCards setSelectedCard={setSelectedCard} selectedCard={selectedCard} />
       {
         selectedCard !== tripType.other && selectedCard !== null && (
-          <TripPlanner selectedCard={selectedCard} />
+          <TripPlanner selectedCard={selectedCard} setSubmitData={setSubmitData} />
         )
       }
       <div className="main-form-container">
@@ -65,7 +61,10 @@ const TripInformationForm = () => {
               placeholder="The more details , the better. We'll take it from there."
               type='textarea'
               value={comments}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                setComments(e.target.value);
+                updateSubmitData('description', e.target.value)
+              }}
             />
           </div>
           <div className="w-100">
@@ -97,14 +96,18 @@ const TripInformationForm = () => {
               label="Group type:"
               options={groupType}
               defaultOption="Please choose your group type."
-              onSelect={handleSegmentSelection}
+              onSelect={(value) => {
+                updateSubmitData('segment_c', value);
+              }}
             />
           </div>
           <div className="trip-form-sub-container">
             <CustomDropdown
               label="Preferred Bus Type:"
               options={busTypes}
-              onSelect={handleBusSelection}
+              onSelect={(value) => {
+                updateSubmitData('preferred_coach_type_c', value);
+              }}
               placeholder="Deluxe Motorcoach: up to 56 passengers"
             />
           </div>

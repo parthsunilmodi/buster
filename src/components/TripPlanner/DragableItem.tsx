@@ -1,7 +1,9 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import plusIcon from '../../assets/images/plusIcon.png';
 import CustomTimePicker from '../CustomTimePicker/index';
+import SearchableSelect from '../SearchableSelect/index';
+import { getPlaceDetails } from '../../api/index';
 import CustomDateRange from '../DateRangePicker';
 import {
   Location,
@@ -10,15 +12,16 @@ import {
   DraggableIcon,
 } from '../../assets/svg';
 import { data } from '../../constants';
-import SearchableSelect from '../SearchableSelect/index';
-import { getPlaceDetails } from './api';
 
 const ItemType = 'DRAGGABLE_ITEM';
 
-const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard }) => {
+const DraggableItem = ({ index, moveItem, items, setItems, selectedCard, setLocationData, setSubmitData }) => {
   const { tripType } = data;
+
+  const [places, setPlaces] = useState('');
   const [isDrag, setIsDrag] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [predictions, setPredictions] = useState([]);
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemType,
@@ -68,15 +71,48 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
 
   const handleChange = (date: Date | null) => {
     setSelectedDate(date);
+
+    if (date) {
+      setSubmitData((prev: any) =>
+        prev.map((trip: any) => {
+          let updatedStops = [...trip.stops];
+
+          if (updatedStops.length > 0) {
+            updatedStops[updatedStops.length - 1] = {
+              ...updatedStops[updatedStops.length - 1],
+              arrive_date: date,
+              depart_date: date,
+            };
+          } else {
+            updatedStops.push({
+              location: {},
+              arrive_date: date,
+              depart_date: date,
+              arrive_time: "",
+              depart_time: "",
+            });
+          }
+
+          return {
+            ...trip,
+            travelstartdate_c: date,
+            stops: updatedStops,
+          };
+        })
+      );
+    }
   };
 
-  const handleRemoveItem = () => {
-    const updatedItems = items.filter((_, idx) => idx !== index);
-    setItems(updatedItems);
-  };
+  const handleRemoveItem = (index: number) => {
+    setItems((prevItems) => prevItems.filter((_, idx) => idx !== index));
 
-  const [places, setPlaces] = useState('');
-  const [predictions, setPredictions] = useState([]);
+    setSubmitData((prev: any) => {
+      return prev.map((trip: any) => ({
+        ...trip,
+        stops: trip.stops.filter((_, stopIdx) => stopIdx !== index),
+      }));
+    });
+  };
 
   useEffect(() => {
     if (!window.google || !window.google.maps) return;
@@ -102,14 +138,42 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
     setPlaces(selectedPlaceId);
 
     getPlaceDetails(selectedPlaceId, (locationData) => {
-      // console.log("Final Location Data:", locationData);
+      setLocationData(locationData)
     });
   };
 
-  const [selectedTime, setSelectedTime] = useState("02:00AM");
+  const [selectedTime, setSelectedTime] = useState("");
 
   const handleTimeChange = (time: string) => {
     setSelectedTime(time);
+    if (time) {
+      setSubmitData((prev: any) =>
+        prev.map((trip: any) => {
+          let updatedStops = [...trip.stops];
+
+          if (updatedStops.length > 0) {
+            updatedStops[updatedStops.length - 1] = {
+              ...updatedStops[updatedStops.length - 1],
+              arrive_time: time,
+              depart_time: time,
+            };
+          } else {
+            updatedStops.push({
+              location: {},
+              arrive_date: "",
+              depart_date: "",
+              arrive_time: time,
+              depart_time: time,
+            });
+          }
+
+          return {
+            ...trip,
+            stops: updatedStops,
+          };
+        })
+      );
+    }
   };
 
   return (
@@ -154,7 +218,7 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
                 onChange={setPlaces}
                 onSelect={handleSelect}
                 placeholder="Search location"
-                label="Location"
+                label={renderLabel}
                 name="location"
                 isRequired
               />
@@ -183,10 +247,10 @@ const DraggableItem = ({ item, index, moveItem, items, setItems, selectedCard })
 
         {index !== 0 && items.length - 1 !== index && (
           <>
-            <div className="delete-icon" onClick={handleRemoveItem}>
+            <div className="delete-icon" onClick={() => handleRemoveItem(index)}>
               {isDrag && <CloseDeleteIconSVG/>}
             </div>
-            <div className="remove-stop" onClick={handleRemoveItem}>
+            <div className="remove-stop" onClick={() => handleRemoveItem(index)}>
               Remove stop
             </div>
           </>

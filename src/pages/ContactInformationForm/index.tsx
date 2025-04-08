@@ -6,10 +6,13 @@ import InputField from '../../components/Input';
 import ReviewAndSubmit from '../ReviewAndSubmit';
 import './ContactInformationForm.scss';
 
-const ContactInformationForm = () => {
-  const preferenceTypes = ["E-mail"];
+interface IContactInformationType {
+  setSubmitData?: any;
+}
 
-  const [isChecked, setIsChecked] = useState(false);
+const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitData }) => {
+  const preferenceTypes = [{ label: "E-mail", value: "E-mail" }];
+
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [errors, setErrors] = useState({
     firstName: '',
@@ -24,15 +27,17 @@ const ContactInformationForm = () => {
     email: '',
     phoneNumber: '',
     company: '',
+    sms_opt_in: false,
   });
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    const newValue = !formData.sms_opt_in;
+    setFormData((prev) => ({ ...prev, sms_opt_in: newValue }));
+    updateSubmitData("sms_opt_in", newValue);
   };
 
-
   const handleSelection = (selectedValue: string) => {
-    // console.log('Selected Preference Type:', selectedValue);
+    console.log('Selected Preference Type:', selectedValue);
   };
 
   const formatFieldName = (name: string) => {
@@ -51,19 +56,42 @@ const ContactInformationForm = () => {
     setErrors((prevErrors) => {
       const newErrors = {
         ...prevErrors,
-        [name]: value.trim() ? '' : `${formatFieldName(name)} is required`,
+        [name]: value.trim()
+          ? name === "phoneNumber"
+            ? !/^\d+$/.test(value)
+              ? "The phone field may only contain numeric characters."
+              : value.length < 10
+                ? "The phone field must be at least 10 characters."
+                : ""
+            : name === "email"
+              ? !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+                ? "The email field must be a valid email."
+                : ""
+              : ""
+          : `${formatFieldName(name)} is required`,
       };
+
       return newErrors;
     });
+  };
+
+  const updateSubmitData = (key: string, value: any) => {
+    setSubmitData((prev: any) =>
+      prev.map((trip: any) => ({ ...trip, [key]: value }))
+    );
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    updateSubmitData(
+      name === "firstName" ? "first_name" :
+        name === "lastName" ? "last_name" :
+          name === "phoneNumber" ? "phone" :
+            name,
+      value
+    );
 
     // Remove error only if the user starts typing
     setErrors((prevErrors) => ({
@@ -174,6 +202,7 @@ const ContactInformationForm = () => {
             <Col md={4}>
               <CustomDropdown
                 label="Contact Preference"
+                defaultOption="E-mail"
                 options={preferenceTypes}
                 onSelect={handleSelection}
               />
@@ -184,10 +213,10 @@ const ContactInformationForm = () => {
       <div className="bottom-section-main">
         <div className="check-box">
           <div
-            className={`checkbox-icon ${isChecked ? 'checked' : ''}`}
+            className={`checkbox-icon ${formData.sms_opt_in ? 'checked' : ''}`}
             onClick={handleCheckboxChange}
           >
-            {isChecked && <i className="bi bi-check-lg"></i>}
+            {formData.sms_opt_in && <i className="bi bi-check-lg"></i>}
           </div>
           <div className="checkbox-text">
             <p>

@@ -50,6 +50,10 @@ export const getPlaceDetails = (selectedPlaceId, callback) => {
           if (component.types.includes("administrative_area_level_1")) {
             locationData.state = component.short_name;
           }
+          if (component.types.includes("country")) {
+            if (!locationData.city) locationData.city = component.long_name; // If no city, use country
+            if (!locationData.state) locationData.state = component.short_name; // If no state, use country code
+          }
           if (component.types.includes("postal_code")) {
             locationData.postalcode = component.long_name;
           }
