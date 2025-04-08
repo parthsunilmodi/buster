@@ -9,13 +9,14 @@ import './TripInformationForm.scss';
 
 interface ITripInformation {
   setSubmitData?: any;
+  setSelectedCard?: any;
+  selectedCard?: any;
 }
 
 const TripInformationForm: React.FC<ITripInformation> = (props) => {
-  const { setSubmitData } = props;
+  const { setSubmitData, selectedCard, setSelectedCard } = props;
   const { tripType, groupType, busTypes } = data
 
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string>('');
   const [comments, setComments] = useState<string>('');
@@ -72,7 +73,10 @@ const TripInformationForm: React.FC<ITripInformation> = (props) => {
               If you have one, upload a trip file or itinerary:
             </div>
             <FileSelector
-              setSelectedFile={setSelectedFile}
+              setSelectedFile={(file: File) => {
+                setSelectedFile(file);
+                updateSubmitData('tripFile', file);
+              }}
               setFileError={setFileError}
             />
           </div>

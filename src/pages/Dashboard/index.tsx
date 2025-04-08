@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import TripInformationForm from '../TripInformationForm';
 import ContactInformationForm from '../ContactInformationForm';
 import './Dashboard.scss';
 
 const Dashboard = () => {
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [submitData, setSubmitData] = useState(
     [{
       travelenddate_c: "5/22/2025",
@@ -15,8 +16,13 @@ const Dashboard = () => {
 
   return (
     <div className="main-dashboard-container">
-      <TripInformationForm setSubmitData={setSubmitData} />
+      <TripInformationForm
+        selectedCard={selectedCard}
+        setSubmitData={setSubmitData}
+        setSelectedCard={setSelectedCard}
+      />
       <ContactInformationForm
+        selectedCard={selectedCard}
         submitData={submitData}
         setSubmitData={setSubmitData}
       />

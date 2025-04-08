@@ -10,9 +10,10 @@ import './ContactInformationForm.scss';
 interface IContactInformationType {
   setSubmitData?: any;
   submitData?: any;
+  selectedCard?: string;
 }
 
-const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitData, submitData }) => {
+const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitData, submitData, selectedCard }) => {
   const preferenceTypes = [{ label: "E-mail", value: "E-mail" }];
 
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -246,7 +247,12 @@ const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitDa
       </div>
 
       {showReviewModal && (
-        <ReviewAndSubmit showModal={showReviewModal} handleHide={handleModalClose} />
+        <ReviewAndSubmit
+          selectedCard={selectedCard}
+          submitData={submitData}
+          showModal={showReviewModal}
+          handleHide={handleModalClose}
+        />
       )}
     </>
   )

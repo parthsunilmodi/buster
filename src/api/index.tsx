@@ -97,31 +97,32 @@ const API_URL = import.meta.env.VITE_APP_BASE_URL;
 
 export const handleSubmitData = async (submitData: any) => {
   try {
-    const normalizedSubmitData = submitData.map((data: any) => ({
+    const firstData = submitData[0]; // Extract first object
+    const normalizedSubmitData = {
       dev_code: "Buster2025",
-      travelstartdate_c: data.travelstartdate_c,
-      travelenddate_c: data.travelenddate_c,
-      origincity_c: data.origincity_c,
-      originstate_c: data.originstate_c,
-      passengers: data.passengers,
-      sms_opt_in: data.sms_opt_in,
-      stops: data.stops?.map((stop: any) => ({
+      travelstartdate_c: firstData.travelstartdate_c,
+      travelenddate_c: firstData.travelenddate_c,
+      origincity_c: firstData.origincity_c,
+      originstate_c: firstData.originstate_c,
+      passengers: firstData.passengers,
+      sms_opt_in: firstData.sms_opt_in,
+      stops: firstData.stops?.map((stop: any) => ({
         location: { ...stop.location },
         arrive_date: stop.arrive_date || "",
         arrive_time: stop.arrive_time || "",
         depart_date: stop.depart_date || "",
         depart_time: stop.depart_time || "",
       })),
-      description: data.description,
-      email: data.email,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      phone: data.phone,
-      submitted: data.submitted,
-      lead_source_description: data.lead_source_description,
-      segment_c: data.segment_c,
-      preferred_coach_type_c: data.preferred_coach_type_c,
-    }));
+      description: firstData.description,
+      email: firstData.email,
+      first_name: firstData.first_name,
+      last_name: firstData.last_name,
+      phone: firstData.phone,
+      submitted: firstData.submitted,
+      lead_source_description: firstData.lead_source_description,
+      segment_c: firstData.segment_c,
+      preferred_coach_type_c: firstData.preferred_coach_type_c,
+    };
 
     const config: any = {
       headers: {
