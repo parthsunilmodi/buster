@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import CustomDropdown from '../../components/CustomDropdown';
 import reviewers from '../../assets/images/reviewers.png';
+import { handleSubmitData } from '../../api/index';
 import InputField from '../../components/Input';
 import ReviewAndSubmit from '../ReviewAndSubmit';
 import './ContactInformationForm.scss';
 
 interface IContactInformationType {
   setSubmitData?: any;
+  submitData?: any;
 }
 
-const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitData }) => {
+const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitData, submitData }) => {
   const preferenceTypes = [{ label: "E-mail", value: "E-mail" }];
 
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -118,7 +120,8 @@ const ContactInformationForm: React.FC<IContactInformationType> = ({ setSubmitDa
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length === 0 && submitData) {
+      handleSubmitData(submitData)
       setShowReviewModal(true);
     }
   };
