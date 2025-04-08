@@ -96,6 +96,7 @@ const DraggableItem = ({ index, moveItem, items, setItems, selectedCard, setLoca
           return {
             ...trip,
             travelstartdate_c: date,
+            travelenddate_c: date,
             stops: updatedStops,
           };
         })

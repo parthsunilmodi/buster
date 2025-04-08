@@ -7,7 +7,6 @@ const Dashboard = () => {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [submitData, setSubmitData] = useState(
     [{
-      travelenddate_c: "5/22/2025",
       stops: [],
       submitted: new Date().toUTCString(),
       lead_source_description: "Static Quote v2",
