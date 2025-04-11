@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   background: $white;
-  padding: 50px;
+  padding: 50px 92px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   height: auto;
@@ -67,8 +67,8 @@
     gap: 20px;
 
     .checkbox-icon {
-      background-color: #FFFFFF;
-      border: 1px solid #AAAAAA;
+      background-color: #ffffff;
+      border: 1px solid #aaaaaa;
       width: 24px;
       height: 24px;
       border-radius: 2px;
@@ -79,8 +79,8 @@
       position: relative;
 
       &.checked {
-        background-color: #1E848D;
-        border-color: #1E848D;
+        background-color: #1e848d;
+        border-color: #1e848d;
         color: #ffffff;
       }
     }
@@ -96,8 +96,8 @@
   }
 
   .review-submit-button {
-    background-color: #1E848D;
-    color: - #FFFFFF;
+    background-color: #1e848d;
+    color: -#ffffff;
     font-family: $avenir-next-font;
     font-weight: 600;
     font-size: 18px;
@@ -126,7 +126,7 @@
   }
 
   .review-submit-button:active {
-    background-color: #1E848D;
+    background-color: #1e848d;
     opacity: 0.5;
   }
 

@@ -35,9 +35,7 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
 
   // ✅ Trigger onChange when all parts are selected
   useEffect(() => {
-    if (selectedHour && selectedMinute && selectedPeriod) {
-      onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
-    }
+    onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
   }, [selectedHour, selectedMinute, selectedPeriod]);
 
   const handleSelect = (type: string, value: string) => {

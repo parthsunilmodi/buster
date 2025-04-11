@@ -18,7 +18,7 @@ interface SortableStopItemProps {
 }
 
 const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsRouteValid }) => {
-  const { selectedCard, formData, setFormData, errors } = useDataContext();
+  const { selectedCard, formData, setFormData, errors, handleSetErrors } = useDataContext();
   const [predictions, setPredictions] = useState<{ value: string; label: string }[]>([]);
 
   const onFetchPredictions = useRef(
@@ -111,6 +111,12 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       updatedStops[lastIndex].location.url = data.url;
     }
     setFormData((prev) => ({ ...prev, stops: updatedStops }));
+    handleSetErrors({
+      [`stops-${formData.stops?.[index]?.id}`]: {
+        ...errors[`stops-${formData.stops?.[index]?.id}`],
+        description: undefined,
+      },
+    });
     verifyValidRoute();
   };
 
@@ -127,6 +133,12 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       updatedStops[index].depart_date = moment(date).format('M/D/YYYY');
       return { ...prev, stops: updatedStops };
     });
+    handleSetErrors({
+      [`stops-${formData.stops?.[index]?.id}`]: {
+        ...errors[`stops-${formData.stops?.[index]?.id}`],
+        depart_date: undefined,
+      },
+    });
   };
 
   const onTimeChange = (time: string) => {
@@ -134,6 +146,12 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       const updatedStops = [...prev.stops];
       updatedStops[index].depart_time = time;
       return { ...prev, stops: updatedStops };
+    });
+    handleSetErrors({
+      [`stops-${formData.stops?.[index]?.id}`]: {
+        ...errors[`stops-${formData.stops?.[index]?.id}`],
+        depart_time: undefined,
+      },
     });
   };
 
@@ -162,8 +180,6 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       return null;
     }
   };
-
-  console.log(formData.stops[0].location);
 
   return (
     <div className="position-relative w-100">

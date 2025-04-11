@@ -42,6 +42,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   // function to set the form data
   const handleSetFormData = (data: Partial<FormDataType>) => {
     setFormData((prev) => ({ ...prev, ...data }));
+    Object.keys(data).forEach((key) => {
+      if (errors[key as keyof ErrorType]) {
+        setErrors((prev) => ({ ...prev, [key]: undefined }));
+      }
+    });
   };
 
   // function to set the selected card

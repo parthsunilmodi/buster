@@ -38,7 +38,9 @@ const ContactInformationForm = () => {
     const { name, value } = e.target;
     if (value.length === 1 && value === ' ') return;
     handleSetFormData({ [name]: value });
-    validateField();
+    if (errors[name]) {
+      handleSetErrors({ ...errors, [name]: undefined });
+    }
   };
 
   const validateField = () => {
@@ -89,6 +91,18 @@ const ContactInformationForm = () => {
                     depart_time: 'Time is required',
                   },
                 };
+                // check whether the depart_time is in the correct format hh:mm AM/PM
+              } else if (stop.depart_time) {
+                const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
+                if (!timeRegex.test(stop.depart_time)) {
+                  errors = {
+                    ...errors,
+                    [`${key}-${stop.id}`]: {
+                      ...errors[`${key}-${stop.id}`],
+                      depart_time: 'Time is not correct',
+                    },
+                  };
+                }
               }
             } else {
               if (!stop.isDataFilledWithAPI) {
@@ -117,6 +131,17 @@ const ContactInformationForm = () => {
                     depart_time: 'Time is required',
                   },
                 };
+              } else if (stop.depart_time) {
+                const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
+                if (!timeRegex.test(stop.depart_time)) {
+                  errors = {
+                    ...errors,
+                    [`${key}-${stop.id}`]: {
+                      ...errors[`${key}-${stop.id}`],
+                      depart_time: 'Time is not correct',
+                    },
+                  };
+                }
               }
             }
           });
@@ -235,7 +260,7 @@ const ContactInformationForm = () => {
             </Col>
           </Row>
 
-          <Row className="mt-4">
+          {/* <Row className="mt-4">
             <Col md={4}>
               <CustomDropdown
                 label="Contact Preference"
@@ -244,7 +269,7 @@ const ContactInformationForm = () => {
                 onSelect={handleSelection}
               />
             </Col>
-          </Row>
+          </Row> */}
         </div>
       </div>
       <div className="bottom-section-main">
