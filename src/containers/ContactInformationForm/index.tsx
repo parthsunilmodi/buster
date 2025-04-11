@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import CustomDropdown from '../../components/CustomDropdown';
 import { useDataContext } from '../../context/dataContext';
 import reviewers from '../../assets/images/reviewers.png';
 import { FormDataType, Stop } from '../../context/types';
@@ -22,13 +21,8 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
-  const preferenceTypes = [{ label: 'E-mail', value: 'E-mail' }];
   const { formData, storeFile, handleSetFormData, errors, handleSetErrors } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
-
-  const handleSelection = (selectedValue: string) => {
-    console.log('Selected Preference Type:', selectedValue);
-  };
 
   const handleCheckboxChange = () => {
     handleSetFormData({ sms_opt_in: !formData.sms_opt_in });
