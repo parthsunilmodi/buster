@@ -1,4 +1,6 @@
-@use 'bootstrap/scss/bootstrap';
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import './styles/variables';
+@import './styles/styles.scss';
 
 html {
   height: 100%;
@@ -9,12 +11,18 @@ body {
   min-height: 100vh;
   min-width: 100%;
   margin: 0;
-  background-color: white;
+  background: $background;
+  font-family: 'Avenir Next', sans-serif;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('./styles/fonts/avenir-next/AvenirNextLTPro-Regular.otf') format('opentype');
+  font-style: normal;
 }
 
 .full-height {
   height: calc(100vh - 100px);
-  overflow: auto;
 }
 
 .cursor-pointer {
@@ -23,6 +31,16 @@ body {
 
 .layout-sub-container {
   width: 100%;
-  background: beige;
-  backdrop-filter: blur(100px);
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+  body {
+    background: $white;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+  .layout-sub-container {
+    padding: 20px;
+  }
 }

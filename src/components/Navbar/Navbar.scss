@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .main-navbar-container {
   display: flex;
   justify-content: center;
@@ -5,4 +7,12 @@
   height: 100px;
   width: 100%;
   position: sticky;
+  background: $white;
+  margin-bottom: 60px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .main-navbar-container {
+    margin-bottom: 0;
+  }
 }

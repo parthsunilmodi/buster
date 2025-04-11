@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .main-loading {
   position: fixed;
   top: 0;
@@ -13,9 +15,9 @@
   .loading {
     width: 60px;
     height: 60px;
-    border: 6px solid gray;
+    border: 6px solid $blue;
     border-radius: 50%;
-    border-top-color: darkgrey;
+    border-top-color: $blue;
     animation: loading 1s linear infinite;
 
     &.loading-small {
