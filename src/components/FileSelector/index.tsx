@@ -12,23 +12,24 @@ const FileSelector = () => {
     const client = filestack.init(API_KEY);
 
     const options = {
-      maxFiles: 20,
+      maxFiles: 1,
       uploadInBackground: false,
       onOpen: () => {
         delete errors.file;
       },
       onUploadDone: (res: any) => {
-        const unsupportedFiles = res.filesUploaded.filter(
-          (file: any) => !['application/pdf', 'image/jpeg', 'text/csv'].includes(file.originalFile?.type)
-        );
+        const uploadedFile = res.filesUploaded[0];
+        const isSupported = ['application/pdf', 'image/jpeg', 'text/csv'].includes(uploadedFile.originalFile?.type);
 
-        if (unsupportedFiles.length > 0) {
+
+        if (!isSupported) {
           handleSetErrors({ ...errors, file: 'Unsupported file type. Please upload a PDF, JPG, or CSV file.' });
+          setStoreFile(null);
         } else {
           const updatedErrors = { ...errors };
           delete updatedErrors.file;
           handleSetErrors(updatedErrors);
-          setStoreFile(res.filesUploaded);
+          setStoreFile(uploadedFile);
         }
       },
     };

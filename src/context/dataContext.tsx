@@ -15,8 +15,8 @@ const DataContext = createContext<{
   handleSetFormData: (data: Partial<FormDataType>) => void;
   handleSetSelectedCard: (card: TripCard | null) => void;
   handleSetErrors: (error: Partial<ErrorType>) => void;
-  storeFile: File | null;
-  setStoreFile: React.Dispatch<React.SetStateAction<File | null>>;
+  storeFile: { filename: string, url: string } | null;
+  setStoreFile: React.Dispatch<React.SetStateAction<{ filename: string, url: string } | null>>;
   setInitialData: () => void;
 }>({
   formData: initialFormData,
@@ -37,7 +37,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [formData, setFormData] = useState<FormDataType>(initialFormData);
   const [selectedCard, setSelectedCard] = useState<TripCard | null>(null);
   const [errors, setErrors] = useState<ErrorType>({});
-  const [storeFile, setStoreFile] = useState<File | null>(null);
+  const [storeFile, setStoreFile] = useState<{ filename: string, url: string } | null>(null);
 
   // function to set the form data
   const handleSetFormData = (data: Partial<FormDataType>) => {
