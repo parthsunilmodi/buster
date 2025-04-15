@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useDataContext } from '../../context/dataContext';
 import reviewers from '../../assets/images/reviewers.png';
 import { FormDataType, Stop } from '../../context/types';
-import InputField from '../../components/Input';
-// import ReviewAndSubmit from '../ReviewAndSubmit';
-import './ContactInformationForm.scss';
 import ReviewAndSubmit from '../ReviewAndSubmit/index';
+import InputField from '../../components/Input';
+import './ContactInformationForm.scss';
 
 const errorMappingObj: any = {
   first_name: 'First name is required',
@@ -141,6 +141,23 @@ const ContactInformationForm = () => {
                       depart_time: 'Time is not correct',
                     },
                   };
+                }
+              }
+              if (stop.depart_date) {
+                const selectedDate = moment(stop.depart_date, 'M/D/YYYY');
+                const prevStop = stops[index - 1];
+                const prevDateStr = prevStop.depart_date;
+                if (prevDateStr) {
+                  const prevDate = moment(prevDateStr, 'M/D/YYYY');
+                  if (selectedDate.isBefore(prevDate, 'day')) {
+                    errors = {
+                      ...errors,
+                      [`${key}-${stop.id}`]: {
+                        ...errors[`${key}-${stop.id}`],
+                        depart_date: 'Invalid date: this stop is before the previous one',
+                      },
+                    };
+                  }
                 }
               }
             }

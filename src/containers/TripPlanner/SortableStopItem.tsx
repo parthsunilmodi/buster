@@ -130,15 +130,32 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   };
 
   const handleCustomDateRange = (date: string) => {
-    setFormData((prev) => {
-      const updatedStops = [...prev.stops];
-      updatedStops[index].depart_date = moment(date).format('M/D/YYYY');
-      return { ...prev, stops: updatedStops };
-    });
+    const selectedDate = moment(date);
+    const updatedStops = [...formData.stops];
+  
+    let dateError;
+    for (let i = 0; i < index; i++) {
+      const prevDateStr = formData.stops[i]?.depart_date;
+      if (prevDateStr) {
+        const prevDate = moment(prevDateStr, 'M/D/YYYY');
+        if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
+          dateError = 'Invalid date: this stop is before the previous one';
+          break;
+        }
+      }
+    }
+  
+    updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
+  
+    setFormData((prev) => ({
+      ...prev,
+      stops: updatedStops,
+    }));
+  
     handleSetErrors({
       [`stops-${formData.stops?.[index]?.id}`]: {
         ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_date: undefined,
+        depart_date: dateError,
       },
     });
   };
