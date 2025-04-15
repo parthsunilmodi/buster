@@ -21,6 +21,8 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   const { selectedCard, formData, setFormData, errors, handleSetErrors } = useDataContext();
   const [predictions, setPredictions] = useState<{ value: string; label: string }[]>([]);
 
+  const [touchedTime, setTouchedTime] = useState<boolean>(false);
+
   const onFetchPredictions = useRef(
     debounce((value: string) => {
       fetchPredictions(value, setPredictions);
@@ -142,15 +144,23 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   };
 
   const onTimeChange = (time: string) => {
+    setTouchedTime(true);
+  
     setFormData((prev) => {
       const updatedStops = [...prev.stops];
       updatedStops[index].depart_time = time;
       return { ...prev, stops: updatedStops };
     });
+  
+    const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
+    const isValid = timeRegex.test(time);
+  
     handleSetErrors({
       [`stops-${formData.stops?.[index]?.id}`]: {
         ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_time: undefined,
+        depart_time: !isValid && touchedTime
+          ? 'Time is not correct'
+          : undefined,
       },
     });
   };
@@ -228,10 +238,10 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
             <div className="on-at">
               <div className="label">At</div>
               <CustomTimePicker value={data.depart_time} onChange={onTimeChange} />
-              {index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
+              {touchedTime && index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
-              {index !== 0 && errors?.[`stops-${data.id}`]?.depart_time && (
+              {touchedTime && index !== 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
             </div>

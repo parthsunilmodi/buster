@@ -5,7 +5,7 @@ interface IInputProps {
   label?: any;
   className?: string;
   inputStyle?: string;
-  type?: 'text' | 'textarea' | 'email' | 'number';
+  type?: 'text' | 'textarea' | 'email' | 'number' | 'tel';
   error?: string | boolean;
   isRequired?: boolean;
   value?: string;
@@ -16,6 +16,8 @@ interface IInputProps {
   placeholder?: string;
   disabled?: boolean;
   labelStyle?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  pattern?: string;
 }
 
 const InputField = forwardRef(
@@ -35,6 +37,8 @@ const InputField = forwardRef(
       labelStyle,
       isRequired = false,
       disabled = false,
+      inputMode,
+      pattern,
       ...rest
     }: IInputProps,
     ref: ForwardedRef<null>
@@ -60,6 +64,8 @@ const InputField = forwardRef(
               <input
                 ref={ref}
                 type={type}
+                inputMode={inputMode}
+                pattern={pattern}
                 value={value as string}
                 name={name}
                 maxLength={maxLength}

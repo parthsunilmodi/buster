@@ -21,7 +21,7 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
-  const { formData, storeFile, handleSetFormData, errors, handleSetErrors } = useDataContext();
+  const { formData, handleSetFormData, errors, handleSetErrors } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -31,7 +31,13 @@ const ContactInformationForm = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value.length === 1 && value === ' ') return;
-    handleSetFormData({ [name]: value });
+
+    let sanitizedValue = value;
+    if (name === 'phone') {
+      sanitizedValue = value.replace(/\D/g, '');
+    }
+    handleSetFormData({ [name]: sanitizedValue });
+
     if (errors[name]) {
       handleSetErrors({ ...errors, [name]: undefined });
     }
@@ -170,10 +176,6 @@ const ContactInformationForm = () => {
 
   const handleFormSubmit = () => {
     const errors = validateField();
-    if (!storeFile) {
-      handleSetErrors({ ...errors, file: 'File upload not completed, please try again.' });
-      return;
-    }
     if (Object.keys(errors).length) {
       return handleSetErrors(errors);
     } else {
@@ -234,7 +236,9 @@ const ContactInformationForm = () => {
             <Col md={4} className="mt-4">
               <InputField
                 label="Phone number"
-                type="text"
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 isRequired={true}
                 error={errors.phone}
                 value={formData.phone}

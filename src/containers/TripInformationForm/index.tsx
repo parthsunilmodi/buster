@@ -45,11 +45,11 @@ const TripInformationForm = () => {
               <p className="dynamic-wrap"></p> <p className="error-message">{errors?.file}</p>
             </>
           )}
-          {storeFile?.name && (
+          {/* {storeFile?.name && (
             <>
               <p className="dynamic-wrap"></p> <p className="selected-file">File selected: {storeFile?.name}</p>
             </>
-          )}
+          )} */}
         </div>
         <div className="d-flex gap-3"></div>
         <div className="trip-form-container  mt-3">
