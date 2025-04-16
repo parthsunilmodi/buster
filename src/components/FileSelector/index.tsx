@@ -8,19 +8,26 @@ const FileSelector = () => {
   const { setStoreFile, handleSetErrors, errors } = useDataContext();
 
   const API_KEY = import.meta.env.VITE_APP_FILE_STACK_API_KEY;
-  const handleOpenPicker = () => {
-    const client = filestack.init(API_KEY);
+  const client = filestack.init(API_KEY);
 
+  const handleOpenPicker = () => {
+    const originalOverflow = document.body.style.overflow;
+    
     const options = {
       maxFiles: 1,
       uploadInBackground: false,
       onOpen: () => {
         delete errors.file;
+        requestAnimationFrame(() => {
+          document.body.style.overflow = originalOverflow || 'auto';
+        });
+      },
+      onClose: () => {
+        document.body.style.overflow = originalOverflow || 'auto';
       },
       onUploadDone: (res: any) => {
         const uploadedFile = res.filesUploaded[0];
         const isSupported = ['application/pdf', 'image/jpeg', 'text/csv'].includes(uploadedFile.originalFile?.type);
-
 
         if (!isSupported) {
           handleSetErrors({ ...errors, file: 'Unsupported file type. Please upload a PDF, JPG, or CSV file.' });

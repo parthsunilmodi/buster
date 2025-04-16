@@ -56,11 +56,14 @@ const ContactInformationForm = () => {
       'segment_c',
       'preferred_coach_type_c',
     ];
+
     Object.keys(formData).forEach((key) => {
+      const hasComments = formData.description?.trim().length > 0;
+      
       if (validateFields.includes(key)) {
         const value = formData[key as keyof FormDataType];
-
         if (key === 'stops') {
+          if (hasComments) return; 
           const stops = value as Array<Stop>;
           stops.forEach((stop, index) => {
             if (index === stops.length - 1) return;
