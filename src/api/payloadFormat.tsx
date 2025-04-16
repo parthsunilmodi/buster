@@ -3,7 +3,7 @@ import { FormDataType } from '../context/types';
 import constants from '../constants/data.constant';
 
 export const generatePayload = (formData: FormDataType, selectedCardKey: string) => {
-  return {
+  const resultArr = {
     dev_code: 'Buster2025',
     current_page: 'ph-get-a-quote',
     data: {
@@ -52,6 +52,8 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string)
         }
         return {
           ...stop,
+          id: undefined,
+          isDataFilledWithAPI: undefined,
           arrive_date: stop.arrive_date || formData.stops[index - 1].depart_date,
           arrive_time: stop.arrive_time || formData.stops[index - 1].depart_time,
           depart_date: stop.depart_date || formData.stops[index].depart_date,
@@ -60,4 +62,23 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string)
       }),
     },
   };
+  // Remove stops if city, lat and lng are empty
+  resultArr.data.stops = resultArr.data.stops.filter(
+    (stop) => stop.location.city || stop.location.lat || stop.location.lng
+  );
+
+  if (resultArr.data.stops.length === 0) {
+    // @ts-ignore
+    delete resultArr.data.stops;
+  }
+
+  if (resultArr.data.travelenddate_c === 'invalid date') {
+    resultArr.data.travelenddate_c = '';
+  }
+
+  if (resultArr.data.travelstartdate_c === 'invalid date') {
+    resultArr.data.travelstartdate_c = '';
+  }
+
+  return resultArr;
 };

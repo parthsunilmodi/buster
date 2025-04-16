@@ -21,7 +21,7 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
-  const { formData, handleSetFormData, errors, handleSetErrors } = useDataContext();
+  const { formData, handleSetFormData, errors, setErrors, handleSetErrors } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -43,7 +43,6 @@ const ContactInformationForm = () => {
     }
   };
 
-  const hasComments = formData.description?.trim().length > 0;
   const validateField = () => {
     let errors: any = {};
     const validateFields = [
@@ -61,20 +60,23 @@ const ContactInformationForm = () => {
     Object.keys(formData).forEach((key) => {
       if (validateFields.includes(key)) {
         const value = formData[key as keyof FormDataType];
-        if (key === 'stops') {
-          if (hasComments) return;
 
+        if (key === 'stops' && formData.description.trim().length === 0) {
           const stops = value as Array<Stop>;
           stops.forEach((stop, index) => {
             if (index === stops.length - 1) return;
 
             const prevStop = stops[index - 1];
 
-            if (index > 0 && prevStop?.depart_date === stop.depart_date &&
-                prevStop?.depart_time?.trim() && stop.depart_time?.trim()) {
+            if (
+              index > 0 &&
+              prevStop?.depart_date === stop.depart_date &&
+              prevStop?.depart_time?.trim() &&
+              stop.depart_time?.trim()
+            ) {
               const currentMoment = moment(stop.depart_time.trim(), 'hh:mm A');
               const prevMoment = moment(prevStop.depart_time.trim(), 'hh:mm A');
-    
+
               if (!currentMoment.isAfter(prevMoment)) {
                 errors = {
                   ...errors,
@@ -208,17 +210,36 @@ const ContactInformationForm = () => {
             }
           }
         }
+
+        if (key === 'stops' && formData.description.trim().length !== 0) {
+          // if description is not empty, clear all the errors for stops
+          const stops = value as Array<Stop>;
+          stops.forEach((stop) => {
+            if (stop.id) {
+              errors = {
+                ...errors,
+                [`${key}-${stop.id}`]: undefined,
+              };
+            }
+          });
+        }
+      }
+    });
+    // remove keys that have undefined values
+    Object.keys(errors).forEach((key) => {
+      if (errors[key] === undefined) {
+        delete errors[key];
       }
     });
     return errors;
   };
 
-  const handleFormSubmit = () => {
-    const errors = validateField();
+  const handleFormSubmit = async () => {
+    const errors = await validateField();
     if (Object.keys(errors).length) {
-      return handleSetErrors(errors);
+      setErrors(errors);
     } else {
-      handleSetErrors(errors);
+      setErrors(errors);
       setShowReviewModal(true);
     }
   };
