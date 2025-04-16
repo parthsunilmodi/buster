@@ -208,6 +208,19 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
     }
   };
 
+  const getMinDate = () => {
+    if (index > 0) {
+      const prevDateStr = formData.stops[index - 1]?.depart_date;
+      if (prevDateStr) {
+        const prevDate = moment(prevDateStr, 'M/D/YYYY');
+        if (prevDate.isValid()) {
+          return prevDate.toDate(); 
+        }
+      }
+    }
+    return null;
+  };
+
   return (
     <div className="position-relative w-100">
       <div className="item-container d-flex position-relative main-wrapper items-center gap-4 w-100">
@@ -244,7 +257,11 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
           <>
             <div className="on-at">
               <div className="label required">On</div>
-              <CustomDateRange startDate={getDate()} handleChange={handleCustomDateRange} />
+              <CustomDateRange 
+              startDate={getDate()} 
+              minDate={getMinDate()} 
+              handleChange={handleCustomDateRange} 
+              />
               {index === 0 && errors?.[`stops-${data.id}`]?.depart_date && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_date}</span>
               )}

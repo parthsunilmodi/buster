@@ -21,6 +21,12 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Termina';
+  src: url('./styles/fonts/Termina/TerminaTest-Bold.otf') format('opentype');
+  font-style: normal;
+}
+
 .full-height {
   height: calc(100vh - 100px);
 }
