@@ -12,20 +12,20 @@
     .details-wrapper {
       padding: 45px 0 24px 55px;
       height: 164px;
-      width: 590px;
+      width: 740px;
+      ._clear {
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 108%;
+        letter-spacing: -1.1%;
+        font-family: "Termina";
+      }
     }
 
     .pricing-img-wrapper {
       display: flex;
       position: relative;
       width: 400px;
-    }
-
-    h1 {
-      font-weight: 600;
-      font-size: 40px;
-      line-height: 108%;
-      letter-spacing: -1.1%;
     }
 
     .sub-heading {
@@ -68,7 +68,7 @@
         padding: 40px 22px;
         max-width: 355px;
 
-        h1 {
+        ._clear {
           font-size: 28px;
         }
 
@@ -98,7 +98,7 @@
 @media screen and (min-width: 1025px) and (max-width: 1199px) {
   .top-banner {
     .clear-pricing {
-      h1 {
+      ._clear {
         font-size: 37px;
       }
     }

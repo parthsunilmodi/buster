@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import moment from 'moment';
 import clockIcon from '../../assets/images/clock-icon.png';
 import downArrow from '../../assets/images/downArrow.png';
 import './CustomTimePicker.scss';
@@ -10,9 +11,10 @@ const periods = ['AM', 'PM'];
 type TimePickerProps = {
   value?: string; // Accepts a pre-set time like "03:15PM"
   onChange?: (time: string) => void;
+  minTime?: string;
 };
 
-const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
+const CustomTimePicker = ({ value, onChange, minTime }: TimePickerProps) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('');
@@ -20,7 +22,6 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Parse initial value on mount
   useEffect(() => {
     if (value) {
       const timeMatch = value.match(/^(\d{2}):(\d{2})(AM|PM)$/);
@@ -33,7 +34,6 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
     }
   }, [value]);
 
-  // ✅ Trigger onChange when all parts are selected
   useEffect(() => {
     onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
   }, [selectedHour, selectedMinute, selectedPeriod]);
@@ -57,6 +57,31 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
     };
   }, []);
 
+  const isDisabled = (hour: string, minute: string, period: string) => {
+    if (!minTime) return false;
+
+    if (!minute || !period) return false;
+
+    const selectedTime = moment(`${hour}:${minute}${period}`, 'hh:mmA');
+    const minTimeMoment = moment(minTime, 'hh:mmA');
+
+    return selectedTime.isBefore(minTimeMoment);
+  };
+
+  const isDisabledMinute = (minute: string) => {
+    if (!minTime || !selectedHour || !selectedPeriod) return false;
+  
+    const selectedTime = moment(`${selectedHour}:${minute}${selectedPeriod}`, 'hh:mmA');
+    const minTimeMoment = moment(minTime, 'hh:mmA');
+  
+    const sameHour = selectedTime.hour() === minTimeMoment.hour();
+    if (sameHour) {
+      return selectedTime.minute() < minTimeMoment.minute();
+    }
+  
+    return selectedTime.isBefore(minTimeMoment);
+  };
+  
   return (
     <div className="custom-time-picker">
       <div className="time-input" onClick={() => setIsOpen(!isOpen)}>
@@ -76,8 +101,14 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
             {hours.map((hour) => (
               <div
                 key={hour}
-                className={`dropdown-item ${selectedHour === hour ? 'selected' : ''}`}
-                onClick={() => handleSelect('hour', hour)}
+                className={`dropdown-item ${selectedHour === hour ? 'selected' : ''} ${
+                  isDisabled(hour, selectedMinute || '00', selectedPeriod || 'AM') ? 'disabled' : ''
+                }`}
+                onClick={() => {
+                  if (!isDisabled(hour, selectedMinute || '00', selectedPeriod || 'AM')) {
+                    handleSelect('hour', hour);
+                  }
+                }}
               >
                 {hour}
               </div>
@@ -86,15 +117,20 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
 
           <div className="timepicker-dropdown-column">
             <span className="label">mm</span>
-            {minutes.map((minute) => (
-              <div
-                key={minute}
-                className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''}`}
-                onClick={() => handleSelect('minute', minute)}
-              >
-                {minute}
-              </div>
-            ))}
+            {minutes.map((minute) => {
+              const disabled = isDisabledMinute(minute);
+              return (
+                <div
+                  key={minute}
+                  className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}
+                  onClick={() => {
+                    if (!disabled) handleSelect('minute', minute);
+                  }}
+                >
+                  {minute}
+                </div>
+              );
+            })}
           </div>
 
           <div className="timepicker-dropdown-column">

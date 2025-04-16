@@ -10,14 +10,15 @@ type IInput = {
   handleChange?: (date: string) => void;
   placeholder?: string;
   dateFormat?: string;
+  minDate?: Date | null;
 };
 
 const CustomDateRange = (props: IInput) => {
-  const { handleChange, placeholder, startDate, dateFormat = 'M/d/yyyy' } = props;
+  const { handleChange, minDate, placeholder, startDate, dateFormat = 'M/d/yyyy' } = props;
 
   const datePickerRef = useRef<any>(null);
 
-  const minDate = moment().add(1, 'day').toDate();
+  const minDateToUse = minDate || moment().add(1, 'day').toDate();
 
   const updateDate = (date: Date | null) => {
     if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
@@ -63,7 +64,7 @@ const CustomDateRange = (props: IInput) => {
           selected={startDate}
           onChange={updateDate}
           dateFormat={dateFormat}
-          minDate={minDate} // ✅ Disable past dates but keep current month active
+          minDate={minDateToUse} 
           calendarContainer={CalenderContainerWrapper}
           icon={<img src={calendarIcon} alt="calendarIcon" />}
           placeholderText={placeholder}

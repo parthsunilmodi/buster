@@ -42,18 +42,23 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
-  const downloadFileDirectly = () => {
-    if (storeFile) {
-      const fileBlob = new Blob([storeFile], { type: storeFile.type });
-      const fileURL = URL.createObjectURL(fileBlob);
-
-      const link = document.createElement('a');
-      link.href = fileURL;
-      link.download = storeFile.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(fileURL);
+  const downloadFileDirectly = async () => {
+    if (storeFile?.url && storeFile?.filename) {
+      try {
+        const response = await fetch(storeFile.url);
+        const blob = await response.blob();
+  
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = storeFile.filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('Failed to download file:', err);
+      }
     }
   };
 
@@ -163,7 +168,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
               <div className="col-md-6 file-wrapper">
                 <p className="type-wrapper">Files</p>
                 <div className="description pointer" onClick={downloadFileDirectly}>
-                  {storeFile?.name}
+                  {storeFile?.filename}
                 </div>
               </div>
             </div>

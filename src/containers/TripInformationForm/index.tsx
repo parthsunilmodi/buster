@@ -45,9 +45,9 @@ const TripInformationForm = () => {
               <p className="dynamic-wrap"></p> <p className="error-message">{errors?.file}</p>
             </>
           )}
-          {storeFile?.name && (
+          {(storeFile?.filename) && (
             <>
-              <p className="dynamic-wrap"></p> <p className="selected-file">File selected: {storeFile?.name}</p>
+              <p className="dynamic-wrap"></p> <p className="selected-file">File selected: {storeFile?.filename}</p>
             </>
           )}
         </div>

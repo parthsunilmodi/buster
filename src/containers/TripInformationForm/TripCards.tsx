@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomCard from '../../components/CustomCard';
 import { data } from '../../constants';
 import './TripInformationForm.scss';
@@ -36,6 +36,12 @@ const TripCards: React.FC = () => {
       }));
     }
   };
+
+  // 👉 Select "Roundtrip" by default on mount
+  useEffect(() => {
+    onCardChange(constants.tripType.roundTrip)();
+  }, []);
+
 
   return (
     <div className="trip-cards">

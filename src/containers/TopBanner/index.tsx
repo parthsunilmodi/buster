@@ -8,7 +8,7 @@ const TopBanner = () => {
     <div className="top-banner container">
       <div className="clear-pricing">
         <div className="details-wrapper">
-          <h1>Clear pricing in 1 day or less</h1>
+          <span className="_clear">Clear pricing in 1 day or less</span>
           <p className="sub-heading">For simple trips, our price quote is <span>instant.</span></p>
         </div>
         <div className="pricing-img-wrapper">
