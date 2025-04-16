@@ -42,6 +42,7 @@ const ContactInformationForm = () => {
       handleSetErrors({ ...errors, [name]: undefined });
     }
   };
+
   const hasComments = formData.description?.trim().length > 0;
   const validateField = () => {
     let errors: any = {};
@@ -58,15 +59,33 @@ const ContactInformationForm = () => {
     ];
 
     Object.keys(formData).forEach((key) => {
-      
       if (validateFields.includes(key)) {
         const value = formData[key as keyof FormDataType];
         if (key === 'stops') {
-          if (hasComments) return; 
+          if (hasComments) return;
 
           const stops = value as Array<Stop>;
           stops.forEach((stop, index) => {
             if (index === stops.length - 1) return;
+
+            const prevStop = stops[index - 1];
+
+            if (index > 0 && prevStop?.depart_date === stop.depart_date &&
+                prevStop?.depart_time?.trim() && stop.depart_time?.trim()) {
+              const currentMoment = moment(stop.depart_time.trim(), 'hh:mm A');
+              const prevMoment = moment(prevStop.depart_time.trim(), 'hh:mm A');
+    
+              if (!currentMoment.isAfter(prevMoment)) {
+                errors = {
+                  ...errors,
+                  [`${key}-${stop.id}`]: {
+                    ...errors[`${key}-${stop.id}`],
+                    depart_time: 'Time must be after the previous stop',
+                  },
+                };
+              }
+            }
+
             if (index === 0) {
               if (!stop.isDataFilledWithAPI) {
                 errors = {

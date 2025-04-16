@@ -132,7 +132,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   const handleCustomDateRange = (date: string) => {
     const selectedDate = moment(date);
     const updatedStops = [...formData.stops];
-  
+
     let dateError;
     for (let i = 0; i < index; i++) {
       const prevDateStr = formData.stops[i]?.depart_date;
@@ -144,14 +144,14 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
         }
       }
     }
-  
+
     updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
-  
+
     setFormData((prev) => ({
       ...prev,
       stops: updatedStops,
     }));
-  
+
     handleSetErrors({
       [`stops-${formData.stops?.[index]?.id}`]: {
         ...errors[`stops-${formData.stops?.[index]?.id}`],
@@ -163,21 +163,34 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   const onTimeChange = (time: string) => {
     setTouchedTime(true);
   
-    setFormData((prev) => {
-      const updatedStops = [...prev.stops];
-      updatedStops[index].depart_time = time;
-      return { ...prev, stops: updatedStops };
-    });
+    const updatedStops = [...formData.stops];
+    updatedStops[index].depart_time = time;
+    setFormData((prev) => ({ ...prev, stops: updatedStops }));
   
     const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
-    const isValid = timeRegex.test(time);
+    const isValidFormat = timeRegex.test(time);
+    let errorMessage: string | undefined;
+  
+    if (!isValidFormat && touchedTime) {
+      errorMessage = 'Time is not correct';
+    }
+  
+    if (index > 0 && isValidFormat) {
+      const prevStop = formData.stops[index - 1];
+      if (prevStop?.depart_date === updatedStops[index].depart_date && prevStop?.depart_time) {
+        const currentMoment = moment(time, 'hh:mmA');
+        const prevMoment = moment(prevStop.depart_time, 'hh:mmA');
+  
+        if (!currentMoment.isAfter(prevMoment)) {
+          errorMessage = 'Time must be after the previous stop';
+        }
+      }
+    }
   
     handleSetErrors({
       [`stops-${formData.stops?.[index]?.id}`]: {
         ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_time: !isValid && touchedTime
-          ? 'Time is not correct'
-          : undefined,
+        depart_time: errorMessage,
       },
     });
   };
@@ -214,11 +227,21 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       if (prevDateStr) {
         const prevDate = moment(prevDateStr, 'M/D/YYYY');
         if (prevDate.isValid()) {
-          return prevDate.toDate(); 
+          return prevDate.toDate();
         }
       }
     }
     return null;
+  };
+
+  const getMinTime = () => {
+    if (index > 0) {
+      const prevStop = formData.stops[index - 1];
+      if (prevStop?.depart_date === data.depart_date && prevStop?.depart_time) {
+        return prevStop.depart_time;
+      }
+    }
+    return undefined;
   };
 
   return (
@@ -257,11 +280,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
           <>
             <div className="on-at">
               <div className="label required">On</div>
-              <CustomDateRange 
-              startDate={getDate()} 
-              minDate={getMinDate()} 
-              handleChange={handleCustomDateRange} 
-              />
+              <CustomDateRange startDate={getDate()} minDate={getMinDate()} handleChange={handleCustomDateRange} />
               {index === 0 && errors?.[`stops-${data.id}`]?.depart_date && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_date}</span>
               )}
@@ -271,7 +290,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
             </div>
             <div className="on-at">
               <div className="label">At</div>
-              <CustomTimePicker value={data.depart_time} onChange={onTimeChange} />
+              <CustomTimePicker value={data.depart_time} onChange={onTimeChange} minTime={getMinTime()} />
               {touchedTime && index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
