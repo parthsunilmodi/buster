@@ -72,11 +72,11 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string)
     delete resultArr.data.stops;
   }
 
-  if (resultArr.data.travelenddate_c === 'invalid date') {
+  if (!resultArr.data.travelenddate_c || resultArr.data.travelenddate_c.toLowerCase() === 'invalid date') {
     resultArr.data.travelenddate_c = '';
   }
 
-  if (resultArr.data.travelstartdate_c === 'invalid date') {
+  if (!resultArr.data.travelstartdate_c || resultArr.data.travelstartdate_c.toLowerCase() === 'invalid date') {
     resultArr.data.travelstartdate_c = '';
   }
 

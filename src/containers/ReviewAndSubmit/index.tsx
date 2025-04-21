@@ -85,17 +85,25 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
+  const isValidStop = (stop: any) => {
+    const hasAddress = stop?.location?.formatted_address?.trim();
+    const hasDateTime = stop?.depart_date?.trim() || stop?.arrive_date?.trim();
+    return hasAddress || hasDateTime || stop?.isDataFilledWithAPI;
+  };
+
   const stopsData = useMemo(() => {
-    if (selectedCard?.key === tripType.roundTrip) {
-      return stops.map((stop, index) => {
-        if (index === stops.length - 1) {
+    const validStops = stops.filter(isValidStop);
+
+    if (selectedCard?.key === tripType.roundTrip && validStops.length > 1) {
+      return validStops?.map((stop, index) => {
+        if (index === validStops.length - 1) {
           return { ...stop, isVirtualEnd: true };
         }
         return stop;
       });
-    } else {
-      return stops;
     }
+
+    return validStops;
   }, [selectedCard, stops]);
 
   return (
