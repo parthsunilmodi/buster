@@ -15,7 +15,7 @@ const ErrorSVG = () => {
         stroke="none"
         strokeWidth="1"
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         transform="translate(-279.000000, -561.000000)"
       >
         <g id="Group-4" transform="translate(258.000000, 544.000000)" fill="#D03602">
