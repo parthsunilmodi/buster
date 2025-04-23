@@ -127,7 +127,10 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
                 const renderLabel = isFirst
                   ? 'Starting From'
-                  : isLast && (selectedCard?.key === tripType.localShuttle || selectedCard?.key === tripType.oneWay)
+                  : isLast &&
+                      (selectedCard?.key === tripType.roundTrip ||
+                        selectedCard?.key === tripType.localShuttle ||
+                        selectedCard?.key === tripType.oneWay)
                     ? 'Ending At'
                     : 'Destination';
                 if (!step?.location?.formatted_address) return null;
