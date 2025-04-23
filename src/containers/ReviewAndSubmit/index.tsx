@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { sendTripData } from '../../api/index';
 import { DestinationSVG, Location } from '../../assets/svg/index';
-import constants, { tripType } from '../../constants/data.constant';
+import { tripType } from '../../constants/data.constant';
 import { useDataContext } from '../../context/dataContext';
 import './ReviewAndSubmit.scss';
 
@@ -125,7 +125,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                   : isLast && (selectedCard?.key === tripType.localShuttle || selectedCard?.key === tripType.oneWay)
                     ? 'Ending At'
                     : 'Destination';
-
+   
                 return (
                   <div key={index} className="d-flex position-relative timeline-stepper-main">
                     {isFirst || isLast ? <Location /> : <DestinationSVG className="add-stop-icon" />}
@@ -136,7 +136,6 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                           {step?.location?.formatted_address ||
                             'Round trip: end point will be the same as the start point'}
                         </p>
-                        {selectedCard?.key !== constants.tripType.roundTrip && (
                           <span className="date-range">
                             {formatDepartureInfo(
                               step?.arrive_time || step.depart_time,
@@ -144,7 +143,6 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                               isFirst
                             )}
                           </span>
-                        )}
                       </div>
                     </div>
                     {!isLast && <hr className="timeline-hr-wrapper position-absolute" />}

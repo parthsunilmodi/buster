@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import moment from 'moment';
 import clockIcon from '../../assets/images/clock-icon.png';
 import downArrow from '../../assets/images/downArrow.png';
 import './CustomTimePicker.scss';
@@ -11,10 +10,10 @@ const periods = ['AM', 'PM'];
 type TimePickerProps = {
   value?: string; // Accepts a pre-set time like "03:15PM"
   onChange?: (time: string) => void;
-  minTime?: string;
+  minTime?: string; // in "hh:mmA" format
 };
 
-const CustomTimePicker = ({ value, onChange, minTime }: TimePickerProps) => {
+const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('');
@@ -35,7 +34,9 @@ const CustomTimePicker = ({ value, onChange, minTime }: TimePickerProps) => {
   }, [value]);
 
   useEffect(() => {
-    onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
+    if (selectedHour && selectedMinute && selectedPeriod) {
+      onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
+    }
   }, [selectedHour, selectedMinute, selectedPeriod]);
 
   const handleSelect = (type: string, value: string) => {
@@ -50,38 +51,12 @@ const CustomTimePicker = ({ value, onChange, minTime }: TimePickerProps) => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
-  const isDisabled = (hour: string, minute: string, period: string) => {
-    if (!minTime) return false;
-
-    if (!minute || !period) return false;
-
-    const selectedTime = moment(`${hour}:${minute}${period}`, 'hh:mmA');
-    const minTimeMoment = moment(minTime, 'hh:mmA');
-
-    return selectedTime.isBefore(minTimeMoment);
-  };
-
-  const isDisabledMinute = (minute: string) => {
-    if (!minTime || !selectedHour || !selectedPeriod) return false;
-  
-    const selectedTime = moment(`${selectedHour}:${minute}${selectedPeriod}`, 'hh:mmA');
-    const minTimeMoment = moment(minTime, 'hh:mmA');
-  
-    const sameHour = selectedTime.hour() === minTimeMoment.hour();
-    if (sameHour) {
-      return selectedTime.minute() < minTimeMoment.minute();
-    }
-  
-    return selectedTime.isBefore(minTimeMoment);
-  };
-  
   return (
     <div className="custom-time-picker">
       <div className="time-input" onClick={() => setIsOpen(!isOpen)}>
@@ -98,33 +73,28 @@ const CustomTimePicker = ({ value, onChange, minTime }: TimePickerProps) => {
         <div className="timepicker-dropdown-container" ref={dropdownRef}>
           <div className="timepicker-dropdown-column">
             <span className="label">hh</span>
-            {hours.map((hour) => (
-              <div
-                key={hour}
-                className={`dropdown-item ${selectedHour === hour ? 'selected' : ''} ${
-                  isDisabled(hour, selectedMinute || '00', selectedPeriod || 'AM') ? 'disabled' : ''
-                }`}
-                onClick={() => {
-                  if (!isDisabled(hour, selectedMinute || '00', selectedPeriod || 'AM')) {
-                    handleSelect('hour', hour);
-                  }
-                }}
-              >
-                {hour}
-              </div>
-            ))}
+            {hours.map((hour) => {
+              return (
+                <div
+                  key={hour}
+                  className={`dropdown-item ${selectedHour === hour ? 'selected' : ''}`}
+                  onClick={() => { handleSelect('hour', hour) }}
+                >
+                  {hour}
+                </div>
+              );
+            })}
           </div>
 
           <div className="timepicker-dropdown-column">
             <span className="label">mm</span>
             {minutes.map((minute) => {
-              const disabled = isDisabledMinute(minute);
               return (
                 <div
                   key={minute}
-                  className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}
+                  className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''}`}
                   onClick={() => {
-                    if (!disabled) handleSelect('minute', minute);
+                   handleSelect('minute', minute);
                   }}
                 >
                   {minute}
