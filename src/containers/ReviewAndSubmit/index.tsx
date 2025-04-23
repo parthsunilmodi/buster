@@ -139,7 +139,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                     {isFirst || isLast ? <Location /> : <DestinationSVG className="add-stop-icon" />}
                     <div className="timeline-content">
                       <h5>{renderLabel}</h5>
-                      <div className="d-flex align-items-center gap-2 address-time-wrapper">
+                      <div className="d-flex align-items-start gap-2 address-time-wrapper">
                         <p>{step?.location?.formatted_address}</p>
                         <span className="date-range">
                           {formatDepartureInfo(
