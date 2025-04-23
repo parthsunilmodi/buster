@@ -203,7 +203,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       errorMessage = 'Time is not correct';
     }
 
-    if (index > 0 && hasDateAndTime) {debugger
+    if (index > 0 && hasDateAndTime) {
       const prevStop = formData.stops[index - 1];
       if (prevStop?.depart_date && prevStop?.depart_time) {
         const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
