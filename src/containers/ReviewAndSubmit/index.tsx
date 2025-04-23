@@ -47,7 +47,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
       try {
         const response = await fetch(storeFile.url);
         const blob = await response.blob();
-  
+
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -70,7 +70,12 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
       ? moment(depart_date, 'M/D/YYYY').format('MMMM D')
       : '';
     if (!formattedTime && !formattedDate) return '';
-    return ` · ${formattedTime} ${isFirst ? 'Departure' : 'Arrival'} · ${formattedDate}`;
+    return (
+      <>
+        · {formattedTime} {isFirst ? 'Departure' : 'Arrival'}
+        <span style={{ paddingLeft: '10px' }}>· {formattedDate}</span>
+      </>
+    );
   };
 
   const handleSubmit = async () => {
@@ -125,27 +130,25 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                   : isLast && (selectedCard?.key === tripType.localShuttle || selectedCard?.key === tripType.oneWay)
                     ? 'Ending At'
                     : 'Destination';
-   
+                if (!step?.location?.formatted_address) return null;
                 return (
                   <div key={index} className="d-flex position-relative timeline-stepper-main">
                     {isFirst || isLast ? <Location /> : <DestinationSVG className="add-stop-icon" />}
                     <div className="timeline-content">
                       <h5>{renderLabel}</h5>
                       <div className="d-flex align-items-center gap-2 address-time-wrapper">
-                        <p>
-                          {step?.location?.formatted_address ||
-                            'Round trip: end point will be the same as the start point'}
-                        </p>
-                          <span className="date-range">
-                            {formatDepartureInfo(
-                              step?.arrive_time || step.depart_time,
-                              step.depart_date || step.arrive_date,
-                              isFirst
-                            )}
-                          </span>
+                        <p>{step?.location?.formatted_address}</p>
+                        <span className="date-range">
+                          {formatDepartureInfo(
+                            step?.arrive_time || step.depart_time,
+                            step.depart_date || step.arrive_date,
+                            isFirst
+                          )}
+                        </span>
                       </div>
                     </div>
-                    {!isLast && <hr className="timeline-hr-wrapper position-absolute" />}
+                    {!step?.location?.formatted_address ||
+                      (!isLast && <hr className="timeline-hr-wrapper position-absolute" />)}
                   </div>
                 );
               })}

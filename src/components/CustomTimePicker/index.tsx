@@ -10,7 +10,6 @@ const periods = ['AM', 'PM'];
 type TimePickerProps = {
   value?: string; // Accepts a pre-set time like "03:15PM"
   onChange?: (time: string) => void;
-  minTime?: string; // in "hh:mmA" format
 };
 
 const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
@@ -21,6 +20,7 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // ✅ Parse initial value on mount
   useEffect(() => {
     if (value) {
       const timeMatch = value.match(/^(\d{2}):(\d{2})(AM|PM)$/);
@@ -33,10 +33,9 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
     }
   }, [value]);
 
+  // ✅ Trigger onChange when all parts are selected
   useEffect(() => {
-    if (selectedHour && selectedMinute && selectedPeriod) {
-      onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
-    }
+    onChange?.(`${selectedHour}:${selectedMinute}${selectedPeriod}`);
   }, [selectedHour, selectedMinute, selectedPeriod]);
 
   const handleSelect = (type: string, value: string) => {
@@ -51,6 +50,7 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
         setIsOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -73,34 +73,28 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
         <div className="timepicker-dropdown-container" ref={dropdownRef}>
           <div className="timepicker-dropdown-column">
             <span className="label">hh</span>
-            {hours.map((hour) => {
-              return (
-                <div
-                  key={hour}
-                  className={`dropdown-item ${selectedHour === hour ? 'selected' : ''}`}
-                  onClick={() => { handleSelect('hour', hour) }}
-                >
-                  {hour}
-                </div>
-              );
-            })}
+            {hours.map((hour) => (
+              <div
+                key={hour}
+                className={`dropdown-item ${selectedHour === hour ? 'selected' : ''}`}
+                onClick={() => handleSelect('hour', hour)}
+              >
+                {hour}
+              </div>
+            ))}
           </div>
 
           <div className="timepicker-dropdown-column">
             <span className="label">mm</span>
-            {minutes.map((minute) => {
-              return (
-                <div
-                  key={minute}
-                  className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''}`}
-                  onClick={() => {
-                   handleSelect('minute', minute);
-                  }}
-                >
-                  {minute}
-                </div>
-              );
-            })}
+            {minutes.map((minute) => (
+              <div
+                key={minute}
+                className={`dropdown-item ${selectedMinute === minute ? 'selected' : ''}`}
+                onClick={() => handleSelect('minute', minute)}
+              >
+                {minute}
+              </div>
+            ))}
           </div>
 
           <div className="timepicker-dropdown-column">

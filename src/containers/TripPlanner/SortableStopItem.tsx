@@ -135,142 +135,120 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
     const currStop = updatedStops[index];
 
     currStop.depart_date = selectedDate.format('M/D/YYYY');
-  
+
     let currentStopError: string | undefined;
     let currentTimeError: string | undefined;
-  
+
     for (let i = 0; i < index; i++) {
       const prevStop = formData.stops[i];
       const prevDateStr = prevStop?.depart_date;
       const prevTimeStr = prevStop?.depart_time;
-  
+
       if (prevDateStr) {
         const prevDate = moment(prevDateStr, 'M/D/YYYY');
-  
+
         if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
           currentStopError = 'Invalid date: this stop is before the previous one';
           break;
         }
-  
-        if (prevDateStr && prevTimeStr && currStop.depart_time) {
+        if (
+          prevDateStr &&
+          prevTimeStr &&
+          currStop.depart_time &&
+          typeof currStop.depart_time === 'string' &&
+          /^[0-1][0-9]:[0-5][0-9](AM|PM)$/.test(currStop.depart_time)
+        ) {
           const prevDateTime = moment(`${prevDateStr} ${prevTimeStr}`, 'MM/DD/YYYY hh:mmA');
-          const currDateTime = moment(`${selectedDate.format('M/D/YYYY')} ${currStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
-  
+          const currDateTime = moment(
+            `${selectedDate.format('M/D/YYYY')} ${currStop.depart_time}`,
+            'MM/DD/YYYY hh:mmA'
+          );
+
           if (!currDateTime.isAfter(prevDateTime)) {
             currentTimeError = 'Time must be after the previous stop';
           }
         }
       }
     }
-  
-    let nextTimeError: string | undefined;
-    if (index < updatedStops.length - 1) {
-      const nextStop = formData.stops[index + 1];
-  
-      if (nextStop?.depart_date && nextStop?.depart_time && currStop.depart_time) {
-        const currDateTime = moment(`${selectedDate.format('M/D/YYYY')} ${currStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
-        const nextDateTime = moment(`${nextStop.depart_date} ${nextStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
-  
-        if (!nextDateTime.isAfter(currDateTime)) {
-          nextTimeError = 'Time must be after the previous stop';
-        }
-      }
-    }
-  
+
     setFormData((prev) => ({
       ...prev,
       stops: updatedStops,
     }));
-  
+
     handleSetErrors({
       [`stops-${formData.stops?.[index]?.id}`]: {
         ...errors[`stops-${formData.stops?.[index]?.id}`],
         depart_date: currentStopError,
         depart_time: currentTimeError,
       },
-      ...(index < updatedStops.length - 1
-        ? {
-            [`stops-${formData.stops?.[index + 1]?.id}`]: {
-              ...errors[`stops-${formData.stops?.[index + 1]?.id}`],
-              depart_time: nextTimeError,
-            },
-          }
-        : {}),
     });
   };
- 
-const onTimeChange = (time: string) => {
-  setTouchedTime(true);
 
-  const updatedStops = [...formData.stops];
-  updatedStops[index].depart_time = time;
-  setFormData((prev) => ({ ...prev, stops: updatedStops }));
+  const onTimeChange = (time: string) => {
+    setTouchedTime(true);
 
-  const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
-  const isValidFormat = timeRegex.test(time);
-  let errorMessage: string | undefined;
+    const updatedStops = [...formData.stops];
+    updatedStops[index].depart_time = time;
+    setFormData((prev) => ({ ...prev, stops: updatedStops }));
 
-  const currStop = updatedStops[index];
-  const hasDateAndTime = currStop?.depart_date && isValidFormat;
+    const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
+    const isValidFormat = timeRegex.test(time);
+    let errorMessage: string | undefined;
 
-  if (!isValidFormat && touchedTime) {
-    errorMessage = 'Time is not correct';
-  }
+    const currStop = updatedStops[index];
+    const hasDateAndTime = currStop?.depart_date && isValidFormat;
 
-  if (index > 0 && hasDateAndTime) {
-    const prevStop = formData.stops[index - 1];
-    if (prevStop?.depart_date && prevStop?.depart_time) {
-      const prevDateTime = moment(
-        `${prevStop.depart_date} ${prevStop.depart_time}`,
-        'MM/DD/YYYY hh:mmA'
-      );
-      const currentDateTime = moment(
-        `${currStop.depart_date} ${time}`,
-        'MM/DD/YYYY hh:mmA'
-      );
-
-      if (!currentDateTime.isAfter(prevDateTime)) {
-        errorMessage = 'Time must be after the previous stop';
-      }
+    if (!isValidFormat && touchedTime) {
+      errorMessage = 'Time is not correct';
     }
-  }
 
-  handleSetErrors({
-    [`stops-${formData.stops?.[index]?.id}`]: {
-      ...errors[`stops-${formData.stops?.[index]?.id}`],
-      depart_time: errorMessage,
-    },
-  });
+    if (index > 0 && hasDateAndTime) {debugger
+      const prevStop = formData.stops[index - 1];
+      if (prevStop?.depart_date && prevStop?.depart_time) {
+        const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
+        const currentDateTime = moment(`${currStop.depart_date} ${time}`, 'MM/DD/YYYY hh:mmA');
 
-  const nextIndex = index + 1;
-  const nextStop = formData.stops[nextIndex];
-  if (
-    nextStop?.depart_date &&
-    nextStop?.depart_time &&
-    hasDateAndTime
-  ) {
-    const currentDateTime = moment(
-      `${currStop.depart_date} ${time}`,
-      'MM/DD/YYYY hh:mmA'
-    );
-    const nextDateTime = moment(
-      `${nextStop.depart_date} ${nextStop.depart_time}`,
-      'MM/DD/YYYY hh:mmA'
-    );
-
-    let nextError: string | undefined;
-    if (!nextDateTime.isAfter(currentDateTime)) {
-      nextError = 'Time must be after the previous stop';
+        if (!currentDateTime.isAfter(prevDateTime)) {
+          errorMessage = 'Time must be after the previous stop';
+        }
+      }
     }
 
     handleSetErrors({
-      [`stops-${formData.stops?.[nextIndex]?.id}`]: {
-        ...errors[`stops-${formData.stops?.[nextIndex]?.id}`],
-        depart_time: nextError,
+      [`stops-${formData.stops?.[index]?.id}`]: {
+        ...errors[`stops-${formData.stops?.[index]?.id}`],
+        depart_time: errorMessage,
       },
     });
-  }
-}
+
+    const nextIndex = index + 1;
+    const nextStop = formData.stops[nextIndex];
+
+    if (
+      nextStop?.depart_date &&
+      nextStop?.depart_time &&
+      typeof nextStop?.depart_time === 'string' &&
+      /^[0-1][0-9]:[0-5][0-9](AM|PM)$/.test(nextStop?.depart_time) &&
+      hasDateAndTime
+    ) {
+      const currentDateTime = moment(`${currStop.depart_date} ${time}`, 'MM/DD/YYYY hh:mmA');
+      const nextDateTime = moment(`${nextStop.depart_date} ${nextStop.depart_time}`, 'MM/DD/YYYY hh:mmA');
+
+      let nextError: string | undefined;
+      if (!nextDateTime.isAfter(currentDateTime)) {
+        nextError = 'Time must be after the previous stop';
+      }
+
+      handleSetErrors({
+        [`stops-${formData.stops?.[nextIndex]?.id}`]: {
+          ...errors[`stops-${formData.stops?.[nextIndex]?.id}`],
+          depart_time: nextError,
+        },
+      });
+    }
+  };
+
   const onClose = () => {
     const updatedStops = [...formData.stops];
     updatedStops.splice(index, 1);

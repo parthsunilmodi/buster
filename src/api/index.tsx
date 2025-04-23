@@ -28,7 +28,6 @@ export const sendTripData = async (data: FormDataType, selectedCardKey: string) 
   try {
     const config: any = {
       headers: {
-        Referer: 'https://buster.com',
         'Content-Type': 'application/json',
       },
     };
