@@ -18,7 +18,7 @@ const CustomDateRange = (props: IInput) => {
 
   const datePickerRef = useRef<any>(null);
 
-  const minDateToUse = minDate || moment().add(1, 'day').toDate();
+  const minDateToUse = minDate || moment().toDate();
 
   const updateDate = (date: Date | null) => {
     if (!date || !(date instanceof Date) || isNaN(date.getTime())) {

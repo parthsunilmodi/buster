@@ -1,5 +1,5 @@
 @import '../../styles/variables';
-@import "react-datepicker/dist/react-datepicker.css";
+@import 'react-datepicker/dist/react-datepicker.css';
 
 .cancel-btn-wrapper {
   min-width: 50px;
@@ -9,7 +9,9 @@
   color: var(--table-text);
   font-family: $avenir-next-font;
 }
-
+.react-datepicker__day--today {
+  font-weight: 400;
+}
 .calender-bottom-wrapper {
   background: $white;
   opacity: 1;
@@ -114,7 +116,7 @@
 
               &:before {
                 color: var(--table-text);
-                content: "Select Start Date";
+                content: 'Select Start Date';
               }
 
               .react-datepicker__current-month {
@@ -197,8 +199,7 @@
 
     svg {
       right: 16px;
-      fill: var(--table-text)
-
+      fill: var(--table-text);
     }
   }
 }
@@ -323,4 +324,3 @@
     }
   }
 }
-
