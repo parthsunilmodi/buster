@@ -1,4 +1,3 @@
-import React from 'react';
 import { RoundTripSVG, OneWayTripSVG, LocalShuttleSVG, LargeTripSVG } from '../assets/svg';
 import { TripCard } from '../context/types';
 
