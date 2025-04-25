@@ -6,4 +6,5 @@ export type ISVGType = {
   innerColor?: string;
   className?: string;
   active?: boolean;
-}
+  circleFill?: string;
+};

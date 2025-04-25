@@ -1,3 +1,4 @@
+import { ISVGType } from '../assets/svg/SVGType';
 import { tripType } from '../constants/data.constant';
 
 export interface Location {
@@ -53,8 +54,8 @@ export interface TripCard {
   key: TripType;
   title: string;
   description: string;
-  icon: string;
-  selectedIcon: string;
+  icon: (props: ISVGType) => React.JSX.Element;
+  // selectedIcon: string;
 }
 
 // error object type based on the form data

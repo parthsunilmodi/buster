@@ -42,7 +42,6 @@ const TripCards: React.FC = () => {
     onCardChange(constants.tripType.roundTrip)();
   }, []);
 
-
   return (
     <div className="trip-cards">
       {data.TRIP_CARD_DATA.map((trip, index) => (
@@ -50,7 +49,7 @@ const TripCards: React.FC = () => {
           key={index}
           title={trip.title}
           description={trip.description}
-          icon={trip.key === selectedCard?.key ? trip.selectedIcon : trip.icon}
+          icon={trip.icon}
           selected={trip.key === selectedCard?.key}
           onClick={onCardChange(trip.key)}
         />
