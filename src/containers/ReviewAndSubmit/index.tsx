@@ -62,7 +62,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
-  const formatDepartureInfo = (arrive_time: string, depart_date: string, isFirst: boolean) => {
+  const formatDepartureInfo = (arrive_time: string, depart_date: string) => {
     const formattedTime = moment(arrive_time, 'hh:mmA', true).isValid()
       ? moment(arrive_time, 'hh:mmA').format('h:mm a')
       : '';
@@ -144,8 +144,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                         <span className="date-range">
                           {formatDepartureInfo(
                             step?.arrive_time || step.depart_time,
-                            step.depart_date || step.arrive_date,
-                            isFirst
+                            step.depart_date || step.arrive_date
                           )}
                         </span>
                       </div>
