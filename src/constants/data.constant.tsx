@@ -17,18 +17,18 @@ const TRIP_CARD_DATA: TripCard[] = [
     // selectedIcon: selectedImg1,
   },
   {
-    key: tripType.localShuttle,
-    title: 'Continuous local shuttle',
-    description: 'Move people in between locations in 2 or more trips.',
-    icon: LocalShuttleSVG,
-    // selectedIcon: selectedImg2,
-  },
-  {
     key: tripType.oneWay,
     title: 'One way',
     description: 'A simple one-way trip, with optional stops in-between.',
     icon: OneWayTripSVG,
     // selectedIcon: selectedImg3,
+  },
+  {
+    key: tripType.localShuttle,
+    title: 'Continuous local shuttle',
+    description: 'For businesses and large events to move people in between location in two or more trips.',
+    icon: LocalShuttleSVG,
+    // selectedIcon: selectedImg2,
   },
   {
     key: tripType.other,

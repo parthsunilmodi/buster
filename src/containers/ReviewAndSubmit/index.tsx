@@ -72,7 +72,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     if (!formattedTime && !formattedDate) return '';
     return (
       <>
-        · {formattedTime} {isFirst ? 'Departure' : 'Arrival'}
+        · {formattedTime} Departure
         <span style={{ paddingLeft: '10px' }}>· {formattedDate}</span>
       </>
     );
