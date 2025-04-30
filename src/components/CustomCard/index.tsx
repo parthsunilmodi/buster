@@ -4,7 +4,7 @@ import './CustomCard.scss';
 
 interface CardProps {
   title: string;
-  description: string;
+  description: string | React.JSX.Element;
   icon: (props: ISVGType) => React.JSX.Element;
   selected: boolean;
   onClick: () => void;
