@@ -54,6 +54,11 @@
     letter-spacing: -1.1%;
     color: $card-text;
     margin-top: 10px;
+
+    span {
+      font-family: 'Avenir Next Bold';
+      font-style: italic;
+    }
   }
 }
 

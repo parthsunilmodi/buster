@@ -1,3 +1,4 @@
+import React from 'react';
 import { RoundTripSVG, OneWayTripSVG, LocalShuttleSVG, LargeTripSVG } from '../assets/svg';
 import { TripCard } from '../context/types';
 
@@ -26,7 +27,11 @@ const TRIP_CARD_DATA: TripCard[] = [
   {
     key: tripType.localShuttle,
     title: 'Continuous local shuttle',
-    description: 'For businesses and large events to move people in between location in two or more trips.',
+    description: (
+      <div>
+        <span>For businesses and large events</span> to move people in between location in two or more trips.
+      </div>
+    ),
     icon: LocalShuttleSVG,
     // selectedIcon: selectedImg2,
   },

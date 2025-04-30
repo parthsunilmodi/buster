@@ -22,6 +22,12 @@ body {
 }
 
 @font-face {
+  font-family: 'Avenir Next Bold';
+  src: url('./styles/fonts/avenir-next/AvenirNextLTPro-Bold.otf') format('opentype');
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Termina';
   src: url('./styles/fonts/Termina/TerminaTest-Bold.otf') format('opentype');
   font-style: normal;

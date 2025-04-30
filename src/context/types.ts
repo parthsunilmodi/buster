@@ -53,7 +53,7 @@ export type TripType = (typeof tripType)[keyof typeof tripType];
 export interface TripCard {
   key: TripType;
   title: string;
-  description: string;
+  description: string | React.JSX.Element;
   icon: (props: ISVGType) => React.JSX.Element;
   // selectedIcon: string;
 }
