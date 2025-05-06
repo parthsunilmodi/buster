@@ -1,8 +1,7 @@
-import React, { useRef, forwardRef } from 'react';
-import moment from 'moment';
-import DatePicker, { CalendarContainer } from 'react-datepicker';
-import downArrow from '../../assets/images/downArrow.png';
-import calendarIcon from '../../assets/images/calendar-icon.png';
+import React from 'react';
+import { DatePicker } from 'antd';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import './DateRangePicker.scss';
 
 type IInput = {
@@ -13,62 +12,49 @@ type IInput = {
   minDate?: Date | null;
 };
 
+// Convert the input dateFormat (if provided) from JavaScript format to dayjs format
+const getDayjsFormat = (format: string): string => {
+  // Convert from JavaScript date format to dayjs format
+  return format
+    .replace('yyyy', 'YYYY')
+    .replace('yy', 'YY')
+    .replace('MM', 'MM')
+    .replace('dd', 'DD')
+    .replace('d', 'D')
+    .replace('m', 'M');
+};
+
 const CustomDateRange = (props: IInput) => {
-  const { handleChange, minDate, placeholder, startDate, dateFormat = 'M/d/yyyy' } = props;
+  const { handleChange, minDate, placeholder, dateFormat = 'M/d/yyyy' } = props;
 
-  const datePickerRef = useRef<any>(null);
+  const dayjsFormat = getDayjsFormat(dateFormat);
 
-  const minDateToUse = minDate || moment().toDate();
-
-  const updateDate = (date: Date | null) => {
-    if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+  const updateDate = (date: Dayjs | null) => {
+    // Check if date is valid
+    if (!date || !date.isValid()) {
       return;
     }
-    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
+    // Format the date using dayjs
+    const formattedDate = date.format(dayjsFormat);
+
     if (handleChange) {
       handleChange(formattedDate);
     }
-    if (datePickerRef.current) {
-      datePickerRef.current.setOpen(false);
-    }
   };
 
-  const CalenderContainerWrapper = ({
-    className,
-    children,
-  }: {
-    className: string;
-    children: React.ReactNode | React.ReactNode[] | undefined;
-  }) => {
-    return (
-      <div className="pb-3 calender-bottom-wrapper shadow rounded justify-content-end d-flex flex-column align-items-end">
-        <CalendarContainer className={`${className} border-0`}>{children}</CalendarContainer>
-      </div>
-    );
-  };
-
-  const CustomInput = forwardRef(({ value, onClick }: any, ref: any) => (
-    <div className="custom-date-input" onClick={onClick} ref={ref}>
-      {value || 'Select Date'}
-      <img src={downArrow} alt="dropdownIcon" />
-    </div>
-  ));
+  const minDateDayjs = minDate ? dayjs(minDate) : undefined;
 
   return (
     <div className="date-range-main">
       <div className="date-range-contain">
         <DatePicker
-          showIcon
-          toggleCalendarOnIconClick
-          ref={datePickerRef}
-          selected={startDate}
           onChange={updateDate}
-          dateFormat={dateFormat}
-          minDate={minDateToUse} 
-          calendarContainer={CalenderContainerWrapper}
-          icon={<img src={calendarIcon} alt="calendarIcon" />}
-          placeholderText={placeholder}
-          customInput={<CustomInput />}
+          format={dayjsFormat}
+          minDate={minDateDayjs || dayjs()}
+          placeholder={placeholder}
+          className="antd-custom-date-range-picker"
+          popupClassName="antd-custom-date-range-popup"
         />
       </div>
     </div>

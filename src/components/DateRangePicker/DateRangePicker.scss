@@ -44,163 +44,20 @@
     border-radius: 10px;
     height: 48px;
 
-    .react-datepicker-wrapper {
+    .antd-custom-date-range-picker {
       width: 100%;
-      display: flex;
-      align-items: center;
-      height: 48px;
-      border-radius: 4px;
-      background-color: $flash-white;
-
-      .react-datepicker__input-container {
-        display: flex;
-        align-items: center;
-
-        .react-datepicker__calendar-icon {
-          position: absolute;
-          left: 10px;
-        }
-
-        .custom-date-input {
-          border: none;
-          font-size: 14px;
-          font-family: $avenir-next-font;
-          background: unset;
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          line-height: 0;
-          padding: 15px 10px;
-          margin-left: 30px;
-
-          &::placeholder {
-            font-size: 14px;
-            font-family: $avenir-next-font;
-            color: var(--table-text);
-          }
-
-          &:focus-visible {
-            outline: none;
-          }
-        }
-      }
+      height: 100%;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      background: $grey-3;
     }
+  }
+}
 
-    .react-datepicker__tab-loop {
-      .react-datepicker-popper {
-        position: absolute !important;
-        left: 0;
-        z-index: 4;
-        will-change: unset;
-
-        .react-datepicker {
-          border-color: $border;
-          background: var(--card-bg-2);
-          border-radius: 10px;
-          padding: 20px;
-          height: 350px;
-
-          .react-datepicker__navigation {
-            margin: 50px 10px;
-          }
-
-          .react-datepicker__month-container {
-            .react-datepicker__header {
-              background: unset;
-              border-bottom: unset;
-              display: flex;
-              flex-direction: column;
-              gap: 20px;
-              min-width: 325px;
-
-              &:before {
-                color: var(--table-text);
-                content: 'Select Start Date';
-              }
-
-              .react-datepicker__current-month {
-                color: var(--table-text);
-              }
-
-              .react-datepicker__header__dropdown {
-                display: none;
-              }
-
-              .react-datepicker__day-names {
-                display: flex;
-                justify-content: space-between;
-
-                .react-datepicker__day-name {
-                  color: var(--table-text);
-                }
-              }
-            }
-
-            .react-datepicker__month {
-              position: relative;
-
-              .react-datepicker__week {
-                display: flex;
-                justify-content: space-between;
-
-                .react-datepicker__day--disabled {
-                  color: #ccc !important;
-                  background: transparent !important;
-
-                  & :hover {
-                    background-color: transparent !important;
-                  }
-                }
-
-                .react-datepicker__day--keyboard-selected {
-                  background-color: $border;
-                  border-radius: 50%;
-                  color: $white;
-
-                  &:focus-visible {
-                    outline: none !important;
-                  }
-                }
-
-                .react-datepicker__day--in-range {
-                  background-color: $border;
-                  border-radius: 50%;
-                  color: $white;
-                }
-
-                .react-datepicker__day:hover {
-                  background-color: $border;
-                  border-radius: 50%;
-                  color: $white;
-                }
-
-                .react-datepicker__day--in-selecting-range {
-                  background-color: $border;
-                  border-radius: 50%;
-                  color: $white;
-                }
-
-                .react-datepicker__day--selected {
-                  background-color: $border;
-                  border-radius: 50%;
-                  color: $white;
-                }
-              }
-            }
-          }
-        }
-
-        svg {
-          display: none;
-        }
-      }
-    }
-
-    svg {
-      right: 16px;
-      fill: var(--table-text);
-    }
+.antd-custom-date-range-popup {
+  .ant-picker-now-btn {
+    color: $border;
   }
 }
 

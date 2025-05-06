@@ -6,67 +6,15 @@
   font-family: $avenir-next-font;
   width: 100%;
 
-  .time-input {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 3px;
+  .custom-time-picker-input {
     height: 48px;
     width: 100%;
-    border-radius: 4px;
-    background: $flash-white;
-    color: $grey-1;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 15px 20px;
-
-    span {
-      line-height: 19px;
-    }
+    background: $grey-3;
   }
+}
 
-  .timepicker-dropdown-container {
-    position: absolute;
-    top: 40px;
-    display: flex;
-    background: white;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    z-index: 1000;
-  }
-
-  .timepicker-dropdown-column {
-    padding: 5px;
-    max-height: 180px;
-    overflow-y: auto;
-
-    .label {
-      display: block;
-      font-weight: bold;
-      font-size: 12px;
-      text-align: center;
-      margin-bottom: 4px;
-      color: #a5a5a5;
-    }
-
-    .dropdown-item {
-      padding: 5px;
-      cursor: pointer;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .dropdown-item:hover {
-      background: #e2e8f0;
-    }
-
-    .selected {
-      background: #00798a;
-      color: white;
-      font-weight: bold;
-    }
-    .disabled {
-      color: #ccc;
-    }
+.custom-time-picker-popup {
+  .ant-picker-now-btn {
+    color: $border;
   }
 }

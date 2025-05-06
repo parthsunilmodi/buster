@@ -1,12 +1,11 @@
 import React from 'react';
-import { DatePicker, TimePicker } from 'antd';
-import type { DatePickerProps, TimePickerProps } from 'antd';
+import { TimePicker } from 'antd';
+import type { TimePickerProps } from 'antd';
+import dayjs from 'dayjs';
 import moment from 'moment';
-
-type PickerType = 'time' | 'date';
+// import './TimePicker.scss';
 
 interface CustomDateTimePickerProps {
-  type: PickerType;
   onChange: (value: moment.Moment | null, dateString: string) => void;
   value?: moment.Moment | null;
   disabled?: boolean;
@@ -14,38 +13,33 @@ interface CustomDateTimePickerProps {
 }
 
 const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
-  type,
   onChange,
   value,
   disabled = false,
   placeholder,
 }) => {
-  if (type === 'time') {
-    return (
-      <TimePicker
-        onChange={onChange as TimePickerProps['onChange']}
-        value={value as any}
-        format="hh:mm A"
-        use12Hours
-        disabled={disabled}
-        placeholder={placeholder || 'Select time'}
-      />
-    );
-  }
+  const onLocalTimeChange: TimePickerProps['onChange'] = (time, timeString) => {
+    if (time && time.isValid()) {
+      const localTime = time.clone().locale();
+      onChange(moment(localTime), typeof timeString === 'string' ? timeString : '');
+    }
+  };
 
-  if (type === 'date') {
-    return (
-      <DatePicker
-        onChange={onChange as DatePickerProps['onChange']}
-        value={value as any}
-        format="MM/DD/YYYY"
-        disabled={disabled}
-        placeholder={placeholder || 'Select date'}
-      />
-    );
-  }
+  // convert the value from moment to dayjs
+  const convertedValue = value ? dayjs(value.toDate()) : null;
 
-  return null;
+  return (
+    <TimePicker
+      use12Hours
+      className="custom-time-picker"
+      popupClassName="custom-time-picker-popup"
+      value={convertedValue}
+      placeholder={placeholder}
+      disabled={disabled}
+      format="h:mm A"
+      onChange={onLocalTimeChange}
+    />
+  );
 };
 
 export default CustomDateTimePicker;

@@ -8,8 +8,8 @@ import type { Stop } from '../../context/types';
 import { fetchPlaceDetails, fetchPredictions } from '../../api';
 import { CloseDeleteIconSVG } from '../../assets/svg';
 import CustomDateRange from '../../components/DateRangePicker';
-import CustomDateTimePicker from '../../components/CustomDateTimePicker';
 import { getInitialStop } from '../../context/data';
+import CustomTimePicker from '../../components/CustomTimePicker';
 
 interface SortableStopItemProps {
   data: Stop;
@@ -70,6 +70,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
           if (response?.routes.length) {
             const legs = response?.routes[0]?.legs;
             const durations = legs?.map((leg) => leg?.duration?.value);
+            console.info('legs : ', legs);
             setTimeDuration(durations as number[]);
             setIsRouteValid(true);
           } else {
@@ -190,7 +191,8 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
         const currentMoment = moment(formattedTime, 'hh:mmA');
 
         if (!currentMoment.isSameOrAfter(arrivalMoment)) {
-          errorMessage = "Departure time can't be before estimated arrival time.";
+          const minimumTime = arrivalMoment.format('hh:mm A');
+          errorMessage = `Departure time can't be before estimated arrival time. ${minimumTime} is the earliest time.`;
         }
       }
     }
@@ -288,15 +290,14 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
             </div>
             <div className="on-at">
               <div className="label">At</div>
-              <CustomDateTimePicker
-                type="time"
+              <CustomTimePicker
                 value={data.depart_time ? moment(data.depart_time, 'hh:mmA') : null}
-                onChange={(value) => onTimeChange(value)}
+                onChange={onTimeChange}
               />
-              {touchedTime && index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
+              {index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
-              {touchedTime && index !== 0 && errors?.[`stops-${data.id}`]?.depart_time && (
+              {index !== 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
             </div>

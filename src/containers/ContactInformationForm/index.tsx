@@ -77,16 +77,17 @@ const ContactInformationForm = () => {
               const currentMoment = moment(stop.depart_time.trim(), 'hh:mm A');
               const prevMoment = moment(prevStop.depart_time.trim(), 'hh:mm A');
               const travelDurationInSeconds = timeDuration?.[index - 1];
-            
+
               if (travelDurationInSeconds) {
                 const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
-            
+
                 if (!currentMoment.isSameOrAfter(arrivalMoment)) {
+                  const minimumTime = arrivalMoment.format('hh:mm A');
                   errors = {
                     ...errors,
                     [`${key}-${stop.id}`]: {
                       ...errors[`${key}-${stop.id}`],
-                      depart_time: `Departure time can't be before estimated arrival time.`,
+                      depart_time: `Departure time can't be before estimated arrival time. ${minimumTime} is the earliest time.`,
                     },
                   };
                 }

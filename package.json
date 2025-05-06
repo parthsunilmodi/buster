@@ -19,6 +19,7 @@
     "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "dayjs": "^1.11.13",
     "filestack-js": "^3.39.5",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
