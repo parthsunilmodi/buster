@@ -8,7 +8,7 @@ import type { Stop } from '../../context/types';
 import { fetchPlaceDetails, fetchPredictions } from '../../api';
 import { CloseDeleteIconSVG } from '../../assets/svg';
 import CustomDateRange from '../../components/DateRangePicker';
-import CustomTimePicker from '../../components/CustomTimePicker';
+import CustomDateTimePicker from '../../components/CustomDateTimePicker';
 import { getInitialStop } from '../../context/data';
 
 interface SortableStopItemProps {
@@ -18,7 +18,8 @@ interface SortableStopItemProps {
 }
 
 const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsRouteValid }) => {
-  const { selectedCard, formData, setFormData, errors, handleSetErrors, setTimeDuration, timeDuration } = useDataContext();
+  const { selectedCard, formData, setFormData, errors, handleSetErrors, setTimeDuration, timeDuration } =
+    useDataContext();
   const [predictions, setPredictions] = useState<{ value: string; label: string }[]>([]);
   const [touchedTime, setTouchedTime] = useState<boolean>(false);
 
@@ -161,22 +162,21 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
     });
   };
 
-  const onTimeChange = (time: string) => {
+  const onTimeChange = (value: moment.Moment | null) => {
     setTouchedTime(true);
-
+    let formattedTime = value ? value.format('hh:mmA') : '';
     const updatedStops = [...formData.stops];
-    updatedStops[index].depart_time = time;
+    updatedStops[index].depart_time = formattedTime;
     setFormData((prev) => ({ ...prev, stops: updatedStops }));
 
     const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
-    const isValidFormat = timeRegex.test(time);
+    const isValidFormat = timeRegex.test(formattedTime);
     let errorMessage: string | undefined;
 
     if (!isValidFormat && touchedTime) {
       errorMessage = 'Time is not correct';
     }
 
-    // 🧠 Arrival time validation
     if (index > 0 && isValidFormat && timeDuration?.[index - 1]) {
       const prevStop = formData.stops[index - 1];
       const currentDate = updatedStops[index].depart_date;
@@ -186,9 +186,8 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
         const prevMoment = moment(prevStop.depart_time, 'hh:mmA');
         const travelDurationInSeconds = timeDuration[index - 1];
 
-        // Add duration to previous stop time
         const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
-        const currentMoment = moment(time, 'hh:mmA');
+        const currentMoment = moment(formattedTime, 'hh:mmA');
 
         if (!currentMoment.isSameOrAfter(arrivalMoment)) {
           errorMessage = "Departure time can't be before estimated arrival time.";
@@ -289,7 +288,11 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
             </div>
             <div className="on-at">
               <div className="label">At</div>
-              <CustomTimePicker value={data.depart_time} onChange={onTimeChange} />
+              <CustomDateTimePicker
+                type="time"
+                value={data.depart_time ? moment(data.depart_time, 'hh:mmA') : null}
+                onChange={(value) => onTimeChange(value)}
+              />
               {touchedTime && index === 0 && errors?.[`stops-${data.id}`]?.depart_time && (
                 <span className="error-message">{errors?.[`stops-${data.id}`]?.depart_time}</span>
               )}
