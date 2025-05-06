@@ -55,7 +55,7 @@ export function SortableItem({
   return (
     <SortableItemContext.Provider value={context}>
       <li className="SortableItem" ref={setNodeRef} style={style}>
-        <DragHandle />
+        {/* <DragHandle /> */}
         <SortableStopItem data={data} index={index} setIsRouteValid={setIsRouteValid} />
       </li>
     </SortableItemContext.Provider>

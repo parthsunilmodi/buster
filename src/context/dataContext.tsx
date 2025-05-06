@@ -18,6 +18,8 @@ const DataContext = createContext<{
   storeFile: { filename: string, url: string } | null;
   setStoreFile: React.Dispatch<React.SetStateAction<{ filename: string, url: string } | null>>;
   setInitialData: () => void;
+  timeDuration: number[] | undefined;
+  setTimeDuration: React.Dispatch<React.SetStateAction<number[] | undefined>>;
 }>({
   formData: initialFormData,
   setFormData: () => {},
@@ -31,6 +33,8 @@ const DataContext = createContext<{
   storeFile: null,
   setStoreFile: () => {},
   setInitialData: () => {},
+  timeDuration: undefined,
+  setTimeDuration: () => {},
 });
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
@@ -38,6 +42,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedCard, setSelectedCard] = useState<TripCard | null>(null);
   const [errors, setErrors] = useState<ErrorType>({});
   const [storeFile, setStoreFile] = useState<{ filename: string, url: string } | null>(null);
+  const [timeDuration, setTimeDuration] = useState<number[] | undefined>();
 
   // function to set the form data
   const handleSetFormData = (data: Partial<FormDataType>) => {
@@ -78,6 +83,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         storeFile,
         setStoreFile,
         setInitialData,
+        timeDuration,
+        setTimeDuration,
       }}
     >
       {children}

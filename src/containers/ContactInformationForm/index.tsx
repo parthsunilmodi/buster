@@ -21,7 +21,7 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
-  const { formData, handleSetFormData, errors, setErrors, handleSetErrors } = useDataContext();
+  const { formData, handleSetFormData, errors, setErrors, handleSetErrors, timeDuration } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -76,15 +76,30 @@ const ContactInformationForm = () => {
             ) {
               const currentMoment = moment(stop.depart_time.trim(), 'hh:mm A');
               const prevMoment = moment(prevStop.depart_time.trim(), 'hh:mm A');
-
-              if (!currentMoment.isAfter(prevMoment)) {
-                errors = {
-                  ...errors,
-                  [`${key}-${stop.id}`]: {
-                    ...errors[`${key}-${stop.id}`],
-                    depart_time: 'Time must be after the previous stop',
-                  },
-                };
+              const travelDurationInSeconds = timeDuration?.[index - 1];
+            
+              if (travelDurationInSeconds) {
+                const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
+            
+                if (!currentMoment.isSameOrAfter(arrivalMoment)) {
+                  errors = {
+                    ...errors,
+                    [`${key}-${stop.id}`]: {
+                      ...errors[`${key}-${stop.id}`],
+                      depart_time: `Departure time can't be before estimated arrival time.`,
+                    },
+                  };
+                }
+              } else {
+                if (!currentMoment.isAfter(prevMoment)) {
+                  errors = {
+                    ...errors,
+                    [`${key}-${stop.id}`]: {
+                      ...errors[`${key}-${stop.id}`],
+                      depart_time: `Departure time must be after the previous stop.`,
+                    },
+                  };
+                }
               }
             }
 

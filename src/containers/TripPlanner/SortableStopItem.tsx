@@ -18,9 +18,8 @@ interface SortableStopItemProps {
 }
 
 const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsRouteValid }) => {
-  const { selectedCard, formData, setFormData, errors, handleSetErrors } = useDataContext();
+  const { selectedCard, formData, setFormData, errors, handleSetErrors, setTimeDuration, timeDuration } = useDataContext();
   const [predictions, setPredictions] = useState<{ value: string; label: string }[]>([]);
-
   const [touchedTime, setTouchedTime] = useState<boolean>(false);
 
   const onFetchPredictions = useRef(
@@ -68,7 +67,9 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
         const directionsService = new window.google.maps.DirectionsService();
         directionsService.route(waypoints.length ? { ...payload, waypoints } : { ...payload }, (response, status) => {
           if (response?.routes.length) {
-            console.log('Route is valid:', response);
+            const legs = response?.routes[0]?.legs;
+            const durations = legs?.map((leg) => leg?.duration?.value);
+            setTimeDuration(durations as number[]);
             setIsRouteValid(true);
           } else {
             console.error('Error fetching route:', status);
@@ -175,14 +176,22 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       errorMessage = 'Time is not correct';
     }
 
-    if (index > 0 && isValidFormat) {
+    // 🧠 Arrival time validation
+    if (index > 0 && isValidFormat && timeDuration?.[index - 1]) {
       const prevStop = formData.stops[index - 1];
-      if (prevStop?.depart_date === updatedStops[index].depart_date && prevStop?.depart_time) {
-        const currentMoment = moment(time, 'hh:mmA');
-        const prevMoment = moment(prevStop.depart_time, 'hh:mmA');
+      const currentDate = updatedStops[index].depart_date;
+      const prevDate = prevStop.depart_date;
 
-        if (!currentMoment.isAfter(prevMoment)) {
-          errorMessage = 'Time must be after the previous stop';
+      if (prevStop.depart_time && prevDate && currentDate === prevDate) {
+        const prevMoment = moment(prevStop.depart_time, 'hh:mmA');
+        const travelDurationInSeconds = timeDuration[index - 1];
+
+        // Add duration to previous stop time
+        const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
+        const currentMoment = moment(time, 'hh:mmA');
+
+        if (!currentMoment.isSameOrAfter(arrivalMoment)) {
+          errorMessage = "Departure time can't be before estimated arrival time.";
         }
       }
     }
