@@ -68,31 +68,27 @@ const ContactInformationForm = () => {
 
             const prevStop = stops[index - 1];
 
-            if (
-              index > 0 &&
-              prevStop?.depart_date === stop.depart_date &&
-              prevStop?.depart_time?.trim() &&
-              stop.depart_time?.trim()
-            ) {
-              const currentMoment = moment(stop.depart_time.trim(), 'hh:mm A');
-              const prevMoment = moment(prevStop.depart_time.trim(), 'hh:mm A');
-              const travelDurationInSeconds = timeDuration?.[index - 1];
-
+            const travelDurationInSeconds = timeDuration?.[index - 1];
+       
+            if (prevStop && stop.depart_date && stop.depart_time && prevStop.depart_time && prevStop.depart_date) {
+              const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
+              const currentDateTime = moment(`${stop.depart_date} ${stop.depart_time}`, 'M/D/YYYY hh:mmA');
+            
               if (travelDurationInSeconds) {
-                const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
-
-                if (!currentMoment.isSameOrAfter(arrivalMoment)) {
-                  const minimumTime = arrivalMoment.format('hh:mm A');
+                const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
+                            
+                if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
+                  const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
                   errors = {
                     ...errors,
                     [`${key}-${stop.id}`]: {
                       ...errors[`${key}-${stop.id}`],
-                      depart_time: `Departure time can't be before estimated arrival time. ${minimumTime} is the earliest time.`,
+                      depart_time: `Departure time can't be before estimated arrival time (${minimumTime})`,
                     },
                   };
                 }
               } else {
-                if (!currentMoment.isAfter(prevMoment)) {
+                if (!currentDateTime.isAfter(prevDateTime)) {
                   errors = {
                     ...errors,
                     [`${key}-${stop.id}`]: {

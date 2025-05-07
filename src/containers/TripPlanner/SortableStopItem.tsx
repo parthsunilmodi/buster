@@ -182,16 +182,16 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       const currentDate = updatedStops[index].depart_date;
       const prevDate = prevStop.depart_date;
 
-      if (prevStop.depart_time && prevDate && currentDate === prevDate) {
-        const prevMoment = moment(prevStop.depart_time, 'hh:mmA');
+      if (prevStop.depart_time && prevDate && currentDate) {
+        const prevDateTime = moment(`${prevDate} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
+        const currentDateTime = moment(`${currentDate} ${formattedTime}`, 'M/D/YYYY hh:mmA');
+      
         const travelDurationInSeconds = timeDuration[index - 1];
-
-        const arrivalMoment = moment(prevMoment).add(travelDurationInSeconds, 'seconds');
-        const currentMoment = moment(formattedTime, 'hh:mmA');
-
-        if (!currentMoment.isSameOrAfter(arrivalMoment)) {
-          const minimumTime = arrivalMoment.format('hh:mm A');
-          errorMessage = `Departure time can't be before estimated arrival time. ${minimumTime} is the earliest time.`;
+        const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
+      
+        if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
+          const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
+          errorMessage = `Departure time can't be before estimated arrival time (${minimumTime})`;
         }
       }
     }
@@ -316,7 +316,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       </div>
       {index !== formData.stops.length - 1 && (
         <button
-          className={`common-btn add-stop-btn ${errors?.[`stops-${data.id}`] ? 'has-error' : ''}`}
+          className={`common-btn add-stop-btn ${Object.values(errors?.[`stops-${data.id}`] || {}).some((v) => v !== undefined) ? 'has-error' : ''}`}
           onClick={() => handleAddItem(index)}
         >
           <span className="plus-icon">+</span> Add a Stop
