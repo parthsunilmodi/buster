@@ -70,7 +70,6 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
           if (response?.routes.length) {
             const legs = response?.routes[0]?.legs;
             const durations = legs?.map((leg) => leg?.duration?.value);
-            console.info('legs : ', legs);
             setTimeDuration(durations as number[]);
             setIsRouteValid(true);
           } else {
@@ -306,10 +305,10 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
 
         {index !== 0 && formData.stops.length - 1 !== index && (
           <>
-            <div className="delete-icon" onClick={onClose}>
+            <div className="delete-icon cursor-pointer" onClick={onClose}>
               <CloseDeleteIconSVG />
             </div>
-            <div className="remove-stop" onClick={onClose}>
+            <div className="remove-stop cursor-pointer" onClick={onClose}>
               Remove stop
             </div>
           </>

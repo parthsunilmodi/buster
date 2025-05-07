@@ -23,6 +23,11 @@
         color: var(--bs-secondary-color);
       }
     }
+    .ant-picker-input-placeholder {
+      input { 
+        color: var(--bs-body-color);;
+      }
+    }
   }
 }
 

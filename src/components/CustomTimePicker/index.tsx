@@ -24,7 +24,7 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
         }}
         format="h:mm A"
         allowClear={false}
-        placeholder="Select Time"
+        placeholder="Select time"
       />
     </div>
   );
