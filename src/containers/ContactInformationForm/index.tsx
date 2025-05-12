@@ -51,11 +51,17 @@ const ContactInformationForm = () => {
       'email',
       'phone',
       // 'account_name',
-      'passengers',
+      // 'passengers',
       'stops',
-      'segment_c',
-      'preferred_coach_type_c',
+      // 'segment_c',
+      // 'preferred_coach_type_c',
     ];
+
+    if (formData.description.trim().length === 0) {
+      validateFields.push('passengers');
+      validateFields.push('segment_c');
+      validateFields.push('preferred_coach_type_c');
+    }
 
     Object.keys(formData).forEach((key) => {
       if (validateFields.includes(key)) {

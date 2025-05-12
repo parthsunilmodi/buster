@@ -9,7 +9,22 @@ import TripCards from './TripCards';
 import './TripInformationForm.scss';
 
 const TripInformationForm = () => {
-  const { storeFile, formData, errors, selectedCard, handleSetFormData } = useDataContext();
+  const { storeFile, formData, errors, selectedCard, handleSetFormData, handleSetErrors } = useDataContext();
+
+  const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    handleSetFormData({ description: value });
+
+    if (value.trim().length && errors.passengers) {
+      handleSetErrors({ ...errors, passengers: undefined });
+    }
+    if (value.trim().length && errors.segment_c) {
+      handleSetErrors({ ...errors, segment_c: undefined });
+    }
+    if (value.trim().length && errors.preferred_coach_type_c) {
+      handleSetErrors({ ...errors, preferred_coach_type_c: undefined });
+    }
+  };
 
   return (
     <div className="main-trip-information">
@@ -29,9 +44,7 @@ const TripInformationForm = () => {
               placeholder="The more details , the better. We'll take it from there."
               type="textarea"
               value={formData.description}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-                handleSetFormData({ description: e.target.value })
-              }
+              onChange={onDescriptionChange}
             />
           </div>
           <div className="w-100">
@@ -55,7 +68,7 @@ const TripInformationForm = () => {
         <div className="trip-form-container  mt-3">
           <div className="trip-form-sub-container">
             <InputField
-              isRequired={true}
+              isRequired={formData.description.trim().length === 0}
               inputStyle="number-input"
               label="Est. number of passengers"
               placeholder="0"
@@ -72,7 +85,7 @@ const TripInformationForm = () => {
 
           <div className="trip-form-sub-container">
             <CustomDropdown
-              isRequired={true}
+              isRequired={formData.description.trim().length === 0}
               label="Group type"
               options={constants.groupType}
               defaultOption="Please choose your group type"
@@ -86,7 +99,7 @@ const TripInformationForm = () => {
           </div>
           <div className="trip-form-sub-container">
             <CustomDropdown
-              isRequired={true}
+              isRequired={formData.description.trim().length === 0}
               label="Preferred Bus Type"
               options={constants.busTypes}
               selectedValue={formData.preferred_coach_type_c}
