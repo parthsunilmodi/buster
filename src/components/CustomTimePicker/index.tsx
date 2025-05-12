@@ -14,6 +14,7 @@ const CustomTimePicker = ({ value, onChange }: TimePickerProps) => {
     <div className="custom-time-picker">
       <TimePicker
         use12Hours
+        minuteStep={15}
         className="custom-time-picker-input"
         popupClassName="custom-time-picker-popup"
         value={value ? dayjs(value.toDate()) : null}
