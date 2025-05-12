@@ -10,6 +10,7 @@ interface OptionType {
 
 interface DropdownProps {
   label: string;
+  isRequired?: boolean;
   options: OptionType[];
   placeholder?: string;
   selectedValue?: string;
@@ -21,15 +22,16 @@ interface DropdownProps {
 
 const CustomDropdown: React.FC<DropdownProps> = ({
   label,
+  isRequired = false,
   options,
   defaultOption,
   error,
-  placeholder = "Select an option",
+  placeholder = 'Select an option',
   onSelect,
   onBlur,
 }) => {
   const [selected, setSelected] = useState<string>(defaultOption ?? placeholder);
-  
+
   const handleSelect = (eventKey: string | null) => {
     const selectedOption = options.find((option) => option.value === eventKey);
     if (selectedOption) {
@@ -40,7 +42,9 @@ const CustomDropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="dropdown-container">
-      <label className="label">{label}</label>
+      <label className="label">
+        {label && <label className={`label  ${isRequired ? 'required' : ''}`}>{label}</label>}
+      </label>
       <Dropdown onSelect={handleSelect} onBlur={onBlur}>
         <Dropdown.Toggle variant="light" className={`dropdown-toggle ${error ? 'dropdown-error' : ''}`}>
           {selected}

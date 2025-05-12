@@ -58,6 +58,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         <Dropdown.Toggle className="search-input" disabled={disabled}>
           <Form.Control
             type="text"
+            autoComplete="off"
             name={name}
             value={searchValue}
             placeholder={placeholder}

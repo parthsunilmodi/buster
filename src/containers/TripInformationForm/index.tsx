@@ -45,7 +45,7 @@ const TripInformationForm = () => {
               <p className="dynamic-wrap"></p> <p className="error-message">{errors?.file}</p>
             </>
           )}
-          {(storeFile?.filename) && (
+          {storeFile?.filename && (
             <>
               <p className="dynamic-wrap"></p> <p className="selected-file">File selected: {storeFile?.filename}</p>
             </>
@@ -55,8 +55,10 @@ const TripInformationForm = () => {
         <div className="trip-form-container  mt-3">
           <div className="trip-form-sub-container">
             <InputField
+              isRequired={true}
               inputStyle="number-input"
-              label="Est. number of passengers:"
+              label="Est. number of passengers"
+              placeholder="0"
               type="number"
               value={formData.passengers.toString()}
               error={errors.passengers}
@@ -70,9 +72,10 @@ const TripInformationForm = () => {
 
           <div className="trip-form-sub-container">
             <CustomDropdown
-              label="Group type:"
+              isRequired={true}
+              label="Group type"
               options={constants.groupType}
-              defaultOption="Please choose your group type."
+              defaultOption="Please choose your group type"
               selectedValue={formData.segment_c}
               error={errors.segment_c}
               onSelect={(value: string) => {
@@ -83,7 +86,8 @@ const TripInformationForm = () => {
           </div>
           <div className="trip-form-sub-container">
             <CustomDropdown
-              label="Preferred Bus Type:"
+              isRequired={true}
+              label="Preferred Bus Type"
               options={constants.busTypes}
               selectedValue={formData.preferred_coach_type_c}
               error={errors.preferred_coach_type_c}

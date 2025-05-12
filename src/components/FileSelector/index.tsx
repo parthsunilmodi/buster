@@ -12,7 +12,7 @@ const FileSelector = () => {
 
   const handleOpenPicker = () => {
     const originalOverflow = document.body.style.overflow;
-    
+
     const options = {
       maxFiles: 1,
       uploadInBackground: false,
@@ -27,17 +27,17 @@ const FileSelector = () => {
       },
       onUploadDone: (res: any) => {
         const uploadedFile = res.filesUploaded[0];
-        const isSupported = ['application/pdf', 'image/jpeg', 'text/csv'].includes(uploadedFile.originalFile?.type);
+        // const isSupported = ['application/pdf', 'image/jpeg', 'text/csv'].includes(uploadedFile.originalFile?.type);
 
-        if (!isSupported) {
-          handleSetErrors({ ...errors, file: 'Unsupported file type. Please upload a PDF, JPG, or CSV file.' });
-          setStoreFile(null);
-        } else {
-          const updatedErrors = { ...errors };
-          delete updatedErrors.file;
-          handleSetErrors(updatedErrors);
-          setStoreFile(uploadedFile);
-        }
+        // if (!isSupported) {
+        //   handleSetErrors({ ...errors, file: 'Unsupported file type. Please upload a PDF, JPG, or CSV file.' });
+        //   setStoreFile(null);
+        // } else {
+        const updatedErrors = { ...errors };
+        delete updatedErrors.file;
+        handleSetErrors(updatedErrors);
+        setStoreFile(uploadedFile);
+        // }
       },
     };
 
@@ -54,7 +54,7 @@ const FileSelector = () => {
           </div>{' '}
           drag one here.
         </label>
-        <p>Supported types: PDF, JPG, CSV</p>
+        <p>Example file types: PDF, JPG, CSV</p>
       </div>
     </div>
   );

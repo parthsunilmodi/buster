@@ -185,10 +185,10 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
       if (prevStop.depart_time && prevDate && currentDate) {
         const prevDateTime = moment(`${prevDate} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
         const currentDateTime = moment(`${currentDate} ${formattedTime}`, 'M/D/YYYY hh:mmA');
-      
+
         const travelDurationInSeconds = timeDuration[index - 1];
         const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
-      
+
         if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
           const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
           errorMessage = `Departure time can't be before estimated arrival time (${minimumTime})`;
@@ -266,7 +266,7 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
                   onSelect={onLocationSelect}
                   placeholder="Search location"
                   label={renderLabel()}
-                  name="location"
+                  name={`searchable-${Math.random().toString(36).substring(2, 15)}`}
                 />
                 {errors?.[`stops-${data.id}`]?.description && (
                   <span className="error-message">{errors?.[`stops-${data.id}`]?.description}</span>

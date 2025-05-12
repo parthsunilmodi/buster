@@ -11,6 +11,12 @@
     font-weight: 600;
     font-size: 18px;
     color: #000000;
+
+    .required::after {
+      content: '*';
+      color: $danger;
+      font-size: 14px;
+    }
   }
 
   .dropdown-toggle {
@@ -51,7 +57,7 @@
     background-color: #f0f0f0;
   }
   .dropdown-error {
-    border: 1px solid $danger !important;;
+    border: 1px solid $danger !important;
   }
 }
 

@@ -50,7 +50,7 @@ const ContactInformationForm = () => {
       'last_name',
       'email',
       'phone',
-      'account_name',
+      // 'account_name',
       'passengers',
       'stops',
       'segment_c',
@@ -69,14 +69,14 @@ const ContactInformationForm = () => {
             const prevStop = stops[index - 1];
 
             const travelDurationInSeconds = timeDuration?.[index - 1];
-       
+
             if (prevStop && stop.depart_date && stop.depart_time && prevStop.depart_time && prevStop.depart_date) {
               const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
               const currentDateTime = moment(`${stop.depart_date} ${stop.depart_time}`, 'M/D/YYYY hh:mmA');
-            
+
               if (travelDurationInSeconds) {
                 const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
-                            
+
                 if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
                   const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
                   errors = {
