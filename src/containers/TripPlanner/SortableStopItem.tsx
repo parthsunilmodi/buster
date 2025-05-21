@@ -207,39 +207,58 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
     updatedStops[index].depart_time = formattedTime;
     setFormData((prev) => ({ ...prev, stops: updatedStops }));
 
+    const updatedErrors = { ...errors };
     const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
     const isValidFormat = timeRegex.test(formattedTime);
     let errorMessage: string | undefined;
 
-    if (!isValidFormat && touchedTime) {
-      errorMessage = 'Time is not correct';
-    }
+    const validateStopTime = (i: number) => {
+      const currentStop = updatedStops[i];
+      const prevStop = updatedStops[i - 1];
 
-    if (index > 0 && isValidFormat && timeDuration?.[index - 1]) {
-      const prevStop = formData.stops[index - 1];
-      const currentDate = updatedStops[index].depart_date;
-      const prevDate = prevStop.depart_date;
-
-      if (prevStop.depart_time && prevDate && currentDate) {
-        const prevDateTime = moment(`${prevDate} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
-        const currentDateTime = moment(`${currentDate} ${formattedTime}`, 'M/D/YYYY hh:mmA');
-
-        const travelDurationInSeconds = timeDuration[index - 1];
-        const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
+      if (
+        i > 0 &&
+        timeDuration?.[i - 1] &&
+        prevStop?.depart_time &&
+        prevStop?.depart_date &&
+        currentStop?.depart_date
+      ) {
+        const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
+        const currentDateTime = moment(`${currentStop.depart_date} ${currentStop.depart_time}`, 'M/D/YYYY hh:mmA');
+        const arrivalMoment = moment(prevDateTime).add(timeDuration[i - 1], 'seconds');
 
         if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
           const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
-          errorMessage = `Departure time can't be before estimated arrival time (${minimumTime})`;
+          return `Departure time can't be before estimated arrival time (${minimumTime})`;
         }
+      }
+      return undefined;
+    };
+
+    // Validate current stop
+    if (!isValidFormat && touchedTime) {
+      errorMessage = 'Time is not correct';
+    } else if (isValidFormat) {
+      errorMessage = validateStopTime(index);
+    }
+
+    updatedErrors[`stops-${updatedStops[index]?.id}`] = {
+      ...updatedErrors[`stops-${updatedStops[index]?.id}`],
+      depart_time: errorMessage,
+    };
+
+    // Revalidate downstream stops
+    for (let i = index + 1; i < updatedStops.length; i++) {
+      if (updatedStops[i]?.depart_time) {
+        const downstreamError = validateStopTime(i);
+        updatedErrors[`stops-${updatedStops[i].id}`] = {
+          ...updatedErrors[`stops-${updatedStops[i].id}`],
+          depart_time: downstreamError,
+        };
       }
     }
 
-    handleSetErrors({
-      [`stops-${formData.stops?.[index]?.id}`]: {
-        ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_time: errorMessage,
-      },
-    });
+    handleSetErrors(updatedErrors);
   };
 
   const onClose = () => {
