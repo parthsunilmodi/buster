@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { useDataContext } from '../../context/dataContext';
@@ -132,35 +132,73 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   };
 
   const handleCustomDateRange = (date: string) => {
-    const selectedDate = moment(date);
+    const selectedDate = moment(date, 'M/D/YYYY');
     const updatedStops = [...formData.stops];
+    const updatedErrors = { ...errors };
+    const currentStopId = formData.stops[index]?.id;
 
-    let dateError;
-    for (let i = 0; i < index; i++) {
-      const prevDateStr = formData.stops[i]?.depart_date;
-      if (prevDateStr) {
-        const prevDate = moment(prevDateStr, 'M/D/YYYY');
-        if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
-          dateError = 'Invalid date: this stop is before the previous one';
-          break;
-        }
+    // Update date first
+    updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
+
+    // Validate previous stop
+    let prevDateError;
+    if (index > 0) {
+      const prevStop = updatedStops[index - 1];
+      const prevDate = moment(prevStop?.depart_date, 'M/D/YYYY');
+      if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
+        prevDateError = 'Invalid date: this stop is before the previous one';
       }
     }
 
-    updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
+    updatedErrors[`stops-${currentStopId}`] = {
+      ...updatedErrors[`stops-${currentStopId}`],
+      depart_date: prevDateError,
+    };
+
+    // Validate next stop (if it now becomes earlier than the updated one)
+    if (index < updatedStops.length - 1) {
+      const nextStop = updatedStops[index + 1];
+      const nextStopId = nextStop?.id;
+      const nextDate = moment(nextStop?.depart_date, 'M/D/YYYY');
+
+      let nextDateError;
+      if (nextDate.isValid() && nextDate.isBefore(selectedDate, 'day')) {
+        nextDateError = 'Invalid date: this stop is before the previous one';
+      }
+
+      updatedErrors[`stops-${nextStopId}`] = {
+        ...updatedErrors[`stops-${nextStopId}`],
+        depart_date: nextDateError,
+      };
+    }
 
     setFormData((prev) => ({
       ...prev,
       stops: updatedStops,
     }));
 
-    handleSetErrors({
-      [`stops-${formData.stops?.[index]?.id}`]: {
-        ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_date: dateError,
-      },
-    });
+    handleSetErrors(updatedErrors);
+
+    // 🔁 Trigger time validation with new date
+    const currentTime = updatedStops[index]?.depart_time;
+    if (currentTime && moment(currentTime, 'hh:mmA', true).isValid()) {
+      const parsedMoment = moment(currentTime, 'hh:mmA');
+      onTimeChange(parsedMoment);
+    }
   };
+
+  useEffect(() => {
+    if (!timeDuration || timeDuration.length === 0) return;
+
+    const currentStop = formData.stops[index];
+    const currentTime = currentStop?.depart_time;
+
+    // Only run validation if current time exists and is valid
+    if (currentTime && moment(currentTime, 'hh:mmA', true).isValid()) {
+      const parsedMoment = moment(currentTime, 'hh:mmA');
+      onTimeChange(parsedMoment);
+    }
+  }, [timeDuration]);
 
   const onTimeChange = (value: moment.Moment | null) => {
     setTouchedTime(true);

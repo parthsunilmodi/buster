@@ -5,14 +5,15 @@
   display: inline-block;
   font-family: $avenir-next-font;
   width: 100%;
+  height: 48px;
 
   .custom-time-picker-input {
-    height: 48px;
     width: 100%;
-    background: $grey-3;
-    outline: none;
+    height: 100%;
     border: none;
+    outline: none;
     box-shadow: none;
+    background: $grey-3;
 
     input {
       font-family: $avenir-next-font;
