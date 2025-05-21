@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { useDataContext } from '../../context/dataContext';
@@ -132,35 +132,73 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
   };
 
   const handleCustomDateRange = (date: string) => {
-    const selectedDate = moment(date);
+    const selectedDate = moment(date, 'M/D/YYYY');
     const updatedStops = [...formData.stops];
+    const updatedErrors = { ...errors };
+    const currentStopId = formData.stops[index]?.id;
 
-    let dateError;
-    for (let i = 0; i < index; i++) {
-      const prevDateStr = formData.stops[i]?.depart_date;
-      if (prevDateStr) {
-        const prevDate = moment(prevDateStr, 'M/D/YYYY');
-        if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
-          dateError = 'Invalid date: this stop is before the previous one';
-          break;
-        }
+    // Update date first
+    updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
+
+    // Validate previous stop
+    let prevDateError;
+    if (index > 0) {
+      const prevStop = updatedStops[index - 1];
+      const prevDate = moment(prevStop?.depart_date, 'M/D/YYYY');
+      if (prevDate.isValid() && selectedDate.isBefore(prevDate, 'day')) {
+        prevDateError = 'Invalid date: this stop is before the previous one';
       }
     }
 
-    updatedStops[index].depart_date = selectedDate.format('M/D/YYYY');
+    updatedErrors[`stops-${currentStopId}`] = {
+      ...updatedErrors[`stops-${currentStopId}`],
+      depart_date: prevDateError,
+    };
+
+    // Validate next stop (if it now becomes earlier than the updated one)
+    if (index < updatedStops.length - 1) {
+      const nextStop = updatedStops[index + 1];
+      const nextStopId = nextStop?.id;
+      const nextDate = moment(nextStop?.depart_date, 'M/D/YYYY');
+
+      let nextDateError;
+      if (nextDate.isValid() && nextDate.isBefore(selectedDate, 'day')) {
+        nextDateError = 'Invalid date: this stop is before the previous one';
+      }
+
+      updatedErrors[`stops-${nextStopId}`] = {
+        ...updatedErrors[`stops-${nextStopId}`],
+        depart_date: nextDateError,
+      };
+    }
 
     setFormData((prev) => ({
       ...prev,
       stops: updatedStops,
     }));
 
-    handleSetErrors({
-      [`stops-${formData.stops?.[index]?.id}`]: {
-        ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_date: dateError,
-      },
-    });
+    handleSetErrors(updatedErrors);
+
+    // 🔁 Trigger time validation with new date
+    const currentTime = updatedStops[index]?.depart_time;
+    if (currentTime && moment(currentTime, 'hh:mmA', true).isValid()) {
+      const parsedMoment = moment(currentTime, 'hh:mmA');
+      onTimeChange(parsedMoment);
+    }
   };
+
+  useEffect(() => {
+    if (!timeDuration || timeDuration.length === 0) return;
+
+    const currentStop = formData.stops[index];
+    const currentTime = currentStop?.depart_time;
+
+    // Only run validation if current time exists and is valid
+    if (currentTime && moment(currentTime, 'hh:mmA', true).isValid()) {
+      const parsedMoment = moment(currentTime, 'hh:mmA');
+      onTimeChange(parsedMoment);
+    }
+  }, [timeDuration]);
 
   const onTimeChange = (value: moment.Moment | null) => {
     setTouchedTime(true);
@@ -169,39 +207,58 @@ const SortableStopItem: React.FC<SortableStopItemProps> = ({ data, index, setIsR
     updatedStops[index].depart_time = formattedTime;
     setFormData((prev) => ({ ...prev, stops: updatedStops }));
 
+    const updatedErrors = { ...errors };
     const timeRegex = /^(0[1-9]|1[0-2]):([0-5][0-9])(AM|PM)$/;
     const isValidFormat = timeRegex.test(formattedTime);
     let errorMessage: string | undefined;
 
-    if (!isValidFormat && touchedTime) {
-      errorMessage = 'Time is not correct';
-    }
+    const validateStopTime = (i: number) => {
+      const currentStop = updatedStops[i];
+      const prevStop = updatedStops[i - 1];
 
-    if (index > 0 && isValidFormat && timeDuration?.[index - 1]) {
-      const prevStop = formData.stops[index - 1];
-      const currentDate = updatedStops[index].depart_date;
-      const prevDate = prevStop.depart_date;
-
-      if (prevStop.depart_time && prevDate && currentDate) {
-        const prevDateTime = moment(`${prevDate} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
-        const currentDateTime = moment(`${currentDate} ${formattedTime}`, 'M/D/YYYY hh:mmA');
-
-        const travelDurationInSeconds = timeDuration[index - 1];
-        const arrivalMoment = moment(prevDateTime).add(travelDurationInSeconds, 'seconds');
+      if (
+        i > 0 &&
+        timeDuration?.[i - 1] &&
+        prevStop?.depart_time &&
+        prevStop?.depart_date &&
+        currentStop?.depart_date
+      ) {
+        const prevDateTime = moment(`${prevStop.depart_date} ${prevStop.depart_time}`, 'M/D/YYYY hh:mmA');
+        const currentDateTime = moment(`${currentStop.depart_date} ${currentStop.depart_time}`, 'M/D/YYYY hh:mmA');
+        const arrivalMoment = moment(prevDateTime).add(timeDuration[i - 1], 'seconds');
 
         if (!currentDateTime.isSameOrAfter(arrivalMoment)) {
           const minimumTime = arrivalMoment.format('MMM D, YYYY [at] h:mm A');
-          errorMessage = `Departure time can't be before estimated arrival time (${minimumTime})`;
+          return `Departure time can't be before estimated arrival time (${minimumTime})`;
         }
+      }
+      return undefined;
+    };
+
+    // Validate current stop
+    if (!isValidFormat && touchedTime) {
+      errorMessage = 'Time is not correct';
+    } else if (isValidFormat) {
+      errorMessage = validateStopTime(index);
+    }
+
+    updatedErrors[`stops-${updatedStops[index]?.id}`] = {
+      ...updatedErrors[`stops-${updatedStops[index]?.id}`],
+      depart_time: errorMessage,
+    };
+
+    // Revalidate downstream stops
+    for (let i = index + 1; i < updatedStops.length; i++) {
+      if (updatedStops[i]?.depart_time) {
+        const downstreamError = validateStopTime(i);
+        updatedErrors[`stops-${updatedStops[i].id}`] = {
+          ...updatedErrors[`stops-${updatedStops[i].id}`],
+          depart_time: downstreamError,
+        };
       }
     }
 
-    handleSetErrors({
-      [`stops-${formData.stops?.[index]?.id}`]: {
-        ...errors[`stops-${formData.stops?.[index]?.id}`],
-        depart_time: errorMessage,
-      },
-    });
+    handleSetErrors(updatedErrors);
   };
 
   const onClose = () => {
