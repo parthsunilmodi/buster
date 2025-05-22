@@ -24,7 +24,7 @@ export const fetchPostalCodeFromCoords = (lat: number, lng: number, locationData
 // submit api call here
 const API_URL = import.meta.env.VITE_APP_BASE_URL;
 
-export const sendTripData = async (data: FormDataType, selectedCardKey: string) => {
+export const sendTripData = async (data: FormDataType, selectedCardKey: string, fileUrl: string | undefined) => {
   try {
     const config: any = {
       headers: {
@@ -32,7 +32,7 @@ export const sendTripData = async (data: FormDataType, selectedCardKey: string) 
       },
     };
 
-    const response = await axios.post(API_URL, generatePayload(data, selectedCardKey), config);
+    const response = await axios.post(API_URL, generatePayload(data, selectedCardKey, fileUrl), config);
     if (response.data) {
       window.location.href = `${window.location.origin}${response.data.redirect_path}`;
     }
