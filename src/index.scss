@@ -1,6 +1,5 @@
-@import '../node_modules/bootstrap/scss/bootstrap';
-@import './styles/variables';
-@import './styles/styles.scss';
+@use './styles/variables';
+@use './styles/styles.scss';
 
 html {
   height: 100%;
@@ -11,7 +10,7 @@ body {
   min-height: 100vh;
   min-width: 100%;
   margin: 0;
-  background: $background;
+  background: variables.$background;
   font-family: 'Avenir Next', sans-serif;
 }
 
@@ -47,7 +46,7 @@ body {
 
 @media only screen and (min-width: 320px) and (max-width: 1024px) {
   body {
-    background: $white;
+    background: variables.$white;
   }
 }
 

@@ -1,7 +1,7 @@
-@import "../../styles/variables";
+@use '../../styles/variables';
 
 .file-selector-container {
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
 
   h2 {
     font-size: 14px;
@@ -11,7 +11,7 @@
   }
 
   .file-drop-zone {
-    background: #F6F1F1; // Light pinkish background
+    background: #f6f1f1; // Light pinkish background
     border-radius: 4px; // Softer rounded edges
     padding: 24px;
     height: 163px;
@@ -24,7 +24,7 @@
       border-color: #008489; // Darker teal on hover
     }
 
-    input[type="file"] {
+    input[type='file'] {
       display: none;
     }
 
@@ -43,7 +43,7 @@
         text-decoration: none;
         text-decoration: underline;
       }
-      
+
       span {
         font-size: 16px;
         color: #00798a; // Teal color for file link

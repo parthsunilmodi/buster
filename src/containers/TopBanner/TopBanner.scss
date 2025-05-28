@@ -1,11 +1,11 @@
-@import "../../styles/variables";
+@use '../../styles/variables';
 
 .top-banner {
   margin-bottom: 8px;
 
   .clear-pricing {
-    background: #1D457E;
-    color: $white;
+    background: #1d457e;
+    color: variables.$white;
     width: 100%;
     display: flex;
 
@@ -18,7 +18,7 @@
         font-size: 40px;
         line-height: 108%;
         letter-spacing: -1.1%;
-        font-family: "Termina";
+        font-family: 'Termina';
       }
     }
 
@@ -29,7 +29,7 @@
     }
 
     .sub-heading {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 500;
       font-size: 24px;
       letter-spacing: -1.1%;
@@ -40,8 +40,8 @@
     }
 
     .header-card {
-      background: $black-1;
-      font-family: $avenir-next-font;
+      background: variables.$black-1;
+      font-family: variables.$avenir-next-font;
       font-weight: 500;
       font-size: 14px;
       letter-spacing: -1.1%;
@@ -83,7 +83,6 @@
     }
   }
 }
-
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .top-banner {

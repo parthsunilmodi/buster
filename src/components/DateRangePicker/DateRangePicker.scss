@@ -1,4 +1,5 @@
-@import '../../styles/variables';
+@use '../../styles/variables';
+@use 'react-datepicker/dist/react-datepicker.css';
 
 .cancel-btn-wrapper {
   min-width: 50px;
@@ -6,13 +7,13 @@
   background: unset;
   font-size: 16px;
   color: var(--table-text);
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
 }
 .react-datepicker__day--today {
   font-weight: 400;
 }
 .calender-bottom-wrapper {
-  background: $white;
+  background: variables.$white;
   opacity: 1;
 }
 
@@ -24,9 +25,9 @@
   min-width: 50px;
   max-width: 50px;
   font-size: 16px;
-  background: $black;
-  color: $white;
-  font-family: $avenir-next-font;
+  background: variables.$black;
+  color: variables.$white;
+  font-family: variables.$avenir-next-font;
 }
 
 .date-range-main {
@@ -49,22 +50,22 @@
       border: none;
       outline: none;
       box-shadow: none;
-      background: $grey-3;
+      background: variables.$grey-3;
 
       input {
-        font-family: $avenir-next-font;
+        font-family: variables.$avenir-next-font;
         font-size: 1rem;
         font-weight: 400;
         line-height: 1rem;
-        color: var(--bs-body-color);;
+        color: var(--bs-body-color);
         &::placeholder {
           color: var(--bs-secondary-color);
         }
       }
 
       .ant-picker-input-placeholder {
-        input { 
-          color: var(--bs-body-color);;
+        input {
+          color: var(--bs-body-color);
         }
       }
     }
@@ -73,7 +74,7 @@
 
 .antd-custom-date-range-popup {
   .ant-picker-now-btn {
-    color: $border;
+    color: variables.$border;
   }
 }
 

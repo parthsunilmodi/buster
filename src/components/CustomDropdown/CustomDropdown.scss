@@ -1,4 +1,4 @@
-@import '../../../src/styles/variables';
+@use '../../../src/styles/variables';
 
 .dropdown-container {
   display: flex;
@@ -7,14 +7,14 @@
   width: 100%;
 
   .label {
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     color: #000000;
 
     .required::after {
       content: '*';
-      color: $danger;
+      color: variables.$danger;
       font-size: 14px;
     }
   }
@@ -26,11 +26,11 @@
     padding: 10px;
     font-size: 14px;
     border-radius: 4px;
-    background: $flash-white;
+    background: variables.$flash-white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
 
     &::after {
       display: none; // Hide default Bootstrap arrow
@@ -50,14 +50,14 @@
     align-items: center;
     font-size: 14px;
     padding: 2px 8px;
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
   }
 
   .dropdown-item:hover {
     background-color: #f0f0f0;
   }
   .dropdown-error {
-    border: 1px solid $danger !important;
+    border: 1px solid variables.$danger !important;
   }
 }
 

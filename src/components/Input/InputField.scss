@@ -1,15 +1,15 @@
-@import '../../../src/styles/variables';
+@use '../../../src/styles/variables';
 
 .form-input {
   position: relative;
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
 }
 .form-input label {
   display: flex;
   gap: 2px;
   font-size: 18px;
   font-weight: 600;
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
   margin-bottom: 4px;
   white-space: nowrap;
 }
@@ -21,7 +21,7 @@
   height: 48px;
   width: 100%;
   border-radius: 4px;
-  background: $flash-white;
+  background: variables.$flash-white;
   font-size: 16px;
   font-weight: 400;
   padding: 15px 20px;
@@ -32,20 +32,20 @@
   }
 
   &::placeholder {
-    color: $black;
+    color: variables.$black;
   }
 }
 
 .disabled-input {
-  color: $grey-3;
-  background: $grey-border;
+  color: variables.$grey-3;
+  background: variables.$grey-border;
 }
 
-.simple-input-wrapper>input {
+.simple-input-wrapper > input {
   width: 100%;
   height: 48px;
   border-radius: 4px;
-  background: #F6F1F1;
+  background: #f6f1f1;
   border: 0;
 
   &:disabled {
@@ -58,7 +58,7 @@
   }
 
   &::placeholder {
-    color: $black;
+    color: variables.$black;
   }
 }
 
@@ -69,12 +69,12 @@
   border-radius: 4px;
   padding: 13px 20px;
   font-size: 14px;
-  background: #F6F1F1;
+  background: #f6f1f1;
   border: none;
 
   &::placeholder {
     font-size: 16px;
-    color: $black;
+    color: variables.$black;
   }
 
   &:focus-visible {
@@ -83,24 +83,24 @@
 }
 
 .form-input input {
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
 }
 
 .error-wrapper {
   margin: 0;
   display: flex;
-  color: $danger;
+  color: variables.$danger;
   font-size: 14px;
-  font-family: $avenir-next-font;
+  font-family: variables.$avenir-next-font;
 }
 
 .error-input {
-  border: 1px solid $danger !important;;
+  border: 1px solid variables.$danger !important;
 }
 
 .required::after {
-  content: "*";
-  color: $danger;
+  content: '*';
+  color: variables.$danger;
   font-size: 14px;
 }
 

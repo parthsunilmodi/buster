@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables';
 
 .main-loading {
   position: fixed;
@@ -15,9 +15,9 @@
   .loading {
     width: 60px;
     height: 60px;
-    border: 6px solid $blue;
+    border: 6px solid variables.$blue;
     border-radius: 50%;
-    border-top-color: $blue;
+    border-top-color: variables.$blue;
     animation: loading 1s linear infinite;
 
     &.loading-small {

@@ -1,10 +1,10 @@
-@import '../../../src/styles/variables';
+@use '../../../src/styles/variables';
 
 .contact-information-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: $white;
+  background: variables.$white;
   padding: 50px 92px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -18,17 +18,17 @@
     width: 100%;
 
     .contact-header {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 600;
       font-size: 24px;
-      color: $black;
+      color: variables.$black;
     }
 
     .step-text {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 600;
       font-size: 18px;
-      color: $grey;
+      color: variables.$grey;
     }
   }
 
@@ -55,7 +55,7 @@
     .form-title p {
       font-size: 16px;
       font-style: normal;
-      color: $grey-1;
+      color: variables.$grey-1;
     }
   }
 }
@@ -86,7 +86,7 @@
     }
 
     .checkbox-text {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 400;
       font-size: 14px;
       line-height: 120%;
@@ -98,7 +98,7 @@
   .review-submit-button {
     background-color: #1e848d;
     color: -#ffffff;
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
     font-weight: 600;
     font-size: 18px;
     line-height: 120%;
@@ -113,12 +113,12 @@
       opacity: 0.5;
     }
     &:hover {
-      color: $white;
-      background: $border;
+      color: variables.$white;
+      background: variables.$border;
     }
     &:active {
-      color: $white !important;
-      background-color: $border !important;
+      color: variables.$white !important;
+      background-color: variables.$border !important;
     }
     &:focus-visible {
       box-shadow: none !important;

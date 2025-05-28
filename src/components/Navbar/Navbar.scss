@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables';
 
 .main-navbar-container {
   display: flex;
@@ -7,7 +7,7 @@
   height: 100px;
   width: 100%;
   position: sticky;
-  background: $white;
+  background: variables.$white;
   margin-bottom: 60px;
 }
 

@@ -1,18 +1,18 @@
-@import "../../styles/variables";
+@use '../../styles/variables';
 
 .review-modal-container {
   .modal-content {
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    background-color: $light-blue;
+    background-color: variables.$light-blue;
     padding: 15px;
 
     .modal-header {
-      border-bottom: 1px solid #BCBCBC;
+      border-bottom: 1px solid #bcbcbc;
     }
 
     .modal-title {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 600;
       font-size: 32px;
       line-height: 120%;
@@ -35,20 +35,20 @@
 
     .btn-wrapper {
       width: 100%;
-      background-color: $border;
+      background-color: variables.$border;
       border-radius: 4px;
       border: none;
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 600;
       font-size: 18px;
       padding: 10px;
       &:hover {
-        color: $white;
-        background: $border;
+        color: variables.$white;
+        background: variables.$border;
       }
       &:active {
-        color: $white !important;
-        background-color: $border !important;
+        color: variables.$white !important;
+        background-color: variables.$border !important;
       }
       &:focus-visible {
         box-shadow: none !important;
@@ -58,8 +58,8 @@
 
   .btn-link-wrapper {
     background: none;
-    font-family: $avenir-next-font;
-    color: $border;
+    font-family: variables.$avenir-next-font;
+    color: variables.$border;
     border: none;
     font-weight: 600;
     text-decoration: underline;
@@ -67,11 +67,11 @@
     text-decoration-style: solid;
 
     &:hover {
-      color: $border;
+      color: variables.$border;
       background: none;
     }
     &:active {
-      color: $border !important;
+      color: variables.$border !important;
       background: none !important;
     }
     &:focus-visible {
@@ -82,7 +82,7 @@
 
 .review-modal-content {
   .heading {
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
     font-weight: 600;
     font-size: 24px;
   }
@@ -95,7 +95,7 @@
     margin-top: 15px;
 
     .contact {
-      font-family: $avenir-next-font;
+      font-family: variables.$avenir-next-font;
       font-weight: 400;
       font-size: 18px;
       line-height: 152%;
@@ -104,18 +104,18 @@
   }
 
   .horizontal {
-    border-top: 1px solid #BCBCBC;
+    border-top: 1px solid #bcbcbc;
   }
 
   .type-wrapper {
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
     font-weight: 600;
     margin: 0;
     font-size: 18px;
   }
 
   .description {
-    font-family: $avenir-next-font;
+    font-family: variables.$avenir-next-font;
     font-weight: 400;
     font-size: 18px;
     word-break: break-word;
@@ -160,7 +160,7 @@
       }
 
       h5 {
-        font-family: $avenir-next-font;
+        font-family: variables.$avenir-next-font;
         font-weight: 600;
         font-size: 18px;
         line-height: 120%;
@@ -169,7 +169,7 @@
       }
 
       p {
-        font-family: $avenir-next-font;
+        font-family: variables.$avenir-next-font;
         font-weight: 400;
         font-size: 18px;
         line-height: 120%;
@@ -189,7 +189,7 @@
     .timeline-hr-wrapper {
       top: 35px;
       border: none;
-      border-left: 2px solid $border;
+      border-left: 2px solid variables.$border;
       height: 105px;
       opacity: 1;
       left: 12px;
