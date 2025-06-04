@@ -14,6 +14,11 @@ body {
   font-family: 'Avenir Next', sans-serif;
 }
 
+// This is used to set the root element for the application
+.root {
+  width: 1280px;
+}
+
 @font-face {
   font-family: 'Avenir Next';
   src: url('./styles/fonts/avenir-next/AvenirNextLTPro-Regular.otf') format('opentype');
