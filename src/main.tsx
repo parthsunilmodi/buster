@@ -8,7 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('react-root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ConfigProvider theme={{ token: { colorPrimary: '#1e848d' } }}>
