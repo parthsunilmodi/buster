@@ -58,9 +58,18 @@ const TripInformationForm = () => {
               <p className="dynamic-wrap"></p> <p className="error-message">{errors?.file}</p>
             </>
           )}
-          {storeFile?.filename && (
+          {Array.isArray(storeFile) && storeFile?.length > 0 && (
             <>
-              <p className="dynamic-wrap"></p> <p className="selected-file">File selected: {storeFile?.filename}</p>
+              <p className="dynamic-wrap"></p>
+              <p className="selected-file">
+                Files selected:&nbsp;
+                {storeFile?.map((file, index) => (
+                  <span key={index}>
+                    {file.filename}
+                    {index < storeFile?.length - 1 && ', '}
+                  </span>
+                ))}
+              </p>
             </>
           )}
         </div>

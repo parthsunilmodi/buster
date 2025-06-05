@@ -42,22 +42,22 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
-  const downloadFileDirectly = async () => {
-    if (storeFile?.url && storeFile?.filename) {
+ const downloadFile = async (file: { filename: string, url: string }) => {
+    if (file?.url && file?.filename) {
       try {
-        const response = await fetch(storeFile.url);
+        const response = await fetch(file.url);
         const blob = await response.blob();
 
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = storeFile.filename;
+        link.download = file.filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
       } catch (err) {
-        console.error('Failed to download file:', err);
+        console.error(`Failed to download file ${file.filename}:`, err);
       }
     }
   };
@@ -80,7 +80,8 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
   const handleSubmit = async () => {
     try {
-      const response = await sendTripData(formData, selectedCard?.key || '', storeFile?.url);
+       const fileUrls = (Array.isArray(storeFile) ? storeFile : [storeFile]).map(file => file.url);
+       const response = await sendTripData(formData, selectedCard?.key || '', fileUrls);
       if (response.success) {
         handleHide();
         setInitialData();
@@ -178,8 +179,13 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
               </div>
               <div className="col-md-6 file-wrapper">
                 <p className="type-wrapper">Files</p>
-                <div className="description pointer" onClick={downloadFileDirectly}>
-                  {storeFile?.filename}
+                <div className="description pointer">
+                  {Array.isArray(storeFile) &&
+                    storeFile?.map((file, index) => (
+                      <div key={index} className="description pointer" onClick={() => downloadFile(file)}>
+                        {file.filename}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

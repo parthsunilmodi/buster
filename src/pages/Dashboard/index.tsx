@@ -7,7 +7,7 @@ import './Dashboard.scss';
 const Dashboard = () => {
   return (
     <DataProvider>
-      <div className="main-dashboard-container">
+      <div className="main-dashboard-container container">
         <TripInformationForm />
         <ContactInformationForm />
       </div>

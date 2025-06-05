@@ -2,7 +2,7 @@ import moment from 'moment';
 import { FormDataType } from '../context/types';
 import constants from '../constants/data.constant';
 
-export const generatePayload = (formData: FormDataType, selectedCardKey: string, fileUrl?: string) => {
+export const generatePayload = (formData: FormDataType, selectedCardKey: string, fileUrl?: string[]) => {
   const resultArr = {
     dev_code: 'Buster2025',
     current_page: 'ph-get-a-quote',
@@ -29,7 +29,7 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string,
       lead_source_description: 'Static Quote v2',
       segment_c: formData.segment_c,
       preferred_coach_type_c: formData.preferred_coach_type_c,
-      uploadUrls: [fileUrl],
+      uploadUrls: fileUrl,
       stops: formData?.stops?.map((stop, index) => {
         if (index === 0) {
           return {

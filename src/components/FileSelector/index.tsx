@@ -14,7 +14,7 @@ const FileSelector = () => {
     const originalOverflow = document.body.style.overflow;
 
     const options = {
-      maxFiles: 1,
+      maxFiles: 10,
       uploadInBackground: false,
       onOpen: () => {
         delete errors.file;
@@ -26,7 +26,7 @@ const FileSelector = () => {
         document.body.style.overflow = originalOverflow || 'auto';
       },
       onUploadDone: (res: any) => {
-        const uploadedFile = res.filesUploaded[0];
+        const uploadedFile = res.filesUploaded;
         // const isSupported = ['application/pdf', 'image/jpeg', 'text/csv'].includes(uploadedFile.originalFile?.type);
 
         // if (!isSupported) {

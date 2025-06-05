@@ -24,7 +24,7 @@ export const fetchPostalCodeFromCoords = (lat: number, lng: number, locationData
 // submit api call here
 const API_URL = import.meta.env.VITE_APP_BASE_URL;
 
-export const sendTripData = async (data: FormDataType, selectedCardKey: string, fileUrl: string | undefined) => {
+export const sendTripData = async (data: FormDataType, selectedCardKey: string, fileUrl: string[]) => {
   try {
     const config: any = {
       headers: {
