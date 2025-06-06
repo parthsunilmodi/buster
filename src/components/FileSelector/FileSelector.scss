@@ -28,6 +28,12 @@
       display: none;
     }
 
+    .upload-icon {
+      margin: 0 auto !important;
+      max-width: none !important;
+      height: unset !important;
+    }
+
     label {
       display: flex;
       align-items: center;
