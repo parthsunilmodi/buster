@@ -42,7 +42,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
- const downloadFile = async (file: { filename: string, url: string }) => {
+  const downloadFile = async (file: { filename: string; url: string }) => {
     if (file?.url && file?.filename) {
       try {
         const response = await fetch(file.url);
@@ -62,20 +62,22 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
     }
   };
 
-  const formatDepartureInfo = (arrive_time: string, depart_date: string) => {
-    const formattedTime = moment(arrive_time, 'hh:mmA', true).isValid()
-      ? moment(arrive_time, 'hh:mmA').format('h:mm a')
-      : '';
+  const formattedDate = (depart_date: string) => {
     const formattedDate = moment(depart_date, 'M/D/YYYY', true).isValid()
       ? moment(depart_date, 'M/D/YYYY').format('MMMM D')
       : '';
-    if (!formattedTime && !formattedDate) return '';
-    return (
-      <>
-        · {formattedTime} Departure
-        <span style={{ paddingLeft: '10px' }}>· {formattedDate}</span>
-      </>
-    );
+
+    if (!formattedDate) return null;
+    return <span style={{ paddingLeft: '10px' }}>· {formattedDate}</span>;
+  };
+
+  const formattedTime = (arrive_time: string) => {
+    const formattedTime = moment(arrive_time, 'hh:mmA', true).isValid()
+      ? moment(arrive_time, 'hh:mmA').format('h:mm a')
+      : '';
+
+    if (!formattedTime) return null;
+    return <span style={{ paddingLeft: '10px' }}>· {formattedTime} Departure</span>;
   };
 
   const handleSubmit = async () => {
@@ -140,14 +142,10 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
                     {isFirst || isLast ? <Location /> : <DestinationSVG className="add-stop-icon" />}
                     <div className="timeline-content">
                       <h5>{renderLabel}</h5>
-                      <div className="d-flex align-items-start gap-2 address-time-wrapper">
+                      <div className="gap-2 address-time-wrapper">
                         <p>{step?.location?.formatted_address}</p>
-                        <span className="date-range">
-                          {formatDepartureInfo(
-                            step?.arrive_time || step.depart_time,
-                            step.depart_date || step.arrive_date
-                          )}
-                        </span>
+                        <span className="date-range">{formattedTime(step?.arrive_time || step.depart_time)}</span>
+                        <span className="date-range">{formattedDate(step.depart_date || step.arrive_date)}</span>
                       </div>
                     </div>
                     {!step?.location?.formatted_address ||

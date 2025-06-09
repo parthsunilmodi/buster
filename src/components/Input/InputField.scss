@@ -31,6 +31,12 @@
     outline: none;
   }
 
+  &:focus {
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
+  }
+
   &::placeholder {
     color: variables.$black;
   }
@@ -60,6 +66,12 @@
   &::placeholder {
     color: variables.$black;
   }
+
+  &:focus {
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
+  }
 }
 
 .form-input textarea.main-textarea {
@@ -79,6 +91,12 @@
 
   &:focus-visible {
     outline: none;
+  }
+
+  &:focus {
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
   }
 }
 

@@ -106,6 +106,7 @@
       color: #333;
       width: 50%;
       font-family: variables.$avenir-next-font;
+      margin: 0 0 16px 0 !important;
     }
 
     .dynamic-wrap {
@@ -164,6 +165,7 @@
 
     .selected-file {
       width: 100% !important;
+       margin: 0;
     }
   }
 }

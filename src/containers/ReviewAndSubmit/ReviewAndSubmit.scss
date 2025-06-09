@@ -159,6 +159,12 @@
         display: flex;
       }
 
+      .address-time-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
       h5 {
         font-family: variables.$avenir-next-font;
         font-weight: 600;
@@ -178,7 +184,7 @@
       }
 
       .date-range {
-        font-weight: 400;
+        font-weight: 600;
         white-space: nowrap;
         font-size: 18px;
         line-height: 120%;
@@ -227,7 +233,7 @@
   .timeline {
     .timeline-stepper-main {
       .timeline-hr-wrapper {
-        height: 150px;
+        height: 167px !important;
       }
     }
   }
@@ -249,6 +255,16 @@
 
       ._bottom {
         width: 100%;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 991px) {
+  .timeline {
+    .timeline-stepper-main {
+      .timeline-hr-wrapper {
+        height: 131px;
       }
     }
   }
@@ -276,6 +292,11 @@
 
             .timeline {
               padding-bottom: 0;
+              .timeline-stepper-main {
+                .timeline-hr-wrapper {
+                  height: 164px;
+                }
+              }
             }
 
             .timeline-content {
