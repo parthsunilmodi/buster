@@ -80,8 +80,8 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
   const handleSubmit = async () => {
     try {
-       const fileUrls = (Array.isArray(storeFile) ? storeFile : [storeFile]).map(file => file.url);
-       const response = await sendTripData(formData, selectedCard?.key || '', fileUrls);
+      const fileUrls: string[] = Array.isArray(storeFile) ? storeFile?.map((file) => file.url) : [];
+      const response = await sendTripData(formData, selectedCard?.key || '', fileUrls);
       if (response.success) {
         handleHide();
         setInitialData();
