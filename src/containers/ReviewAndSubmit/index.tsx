@@ -64,7 +64,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
   const formattedDate = (depart_date: string) => {
     const formattedDate = moment(depart_date, 'M/D/YYYY', true).isValid()
-      ? moment(depart_date, 'M/D/YYYY').format('MMMM D')
+      ? moment(depart_date, 'M/D/YYYY').format('D MMMM YYYY')
       : '';
 
     if (!formattedDate) return null;
