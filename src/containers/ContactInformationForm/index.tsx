@@ -350,9 +350,10 @@ const ContactInformationForm = () => {
       </div>
       <div className="bottom-section-main">
         <div className="check-box">
-          <div className={`checkbox-icon ${formData.sms_opt_in ? 'checked' : ''}`} onClick={handleCheckboxChange}>
-            {formData.sms_opt_in && <i className="bi bi-check-lg"></i>}
-          </div>
+          <label className="checkbox-container">
+            <input type="checkbox" checked={formData.sms_opt_in} onChange={handleCheckboxChange} />
+            <span className="checkmark"></span>
+          </label>
           <div className="checkbox-text">
             <p>
               [Optional] I agree to receive SMS notifications from Busbank, a Global Charter Services Company, regarding

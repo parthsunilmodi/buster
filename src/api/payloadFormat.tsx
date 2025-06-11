@@ -2,6 +2,13 @@ import moment from 'moment';
 import { FormDataType } from '../context/types';
 import constants from '../constants/data.constant';
 
+const TRIP_TYPE_LABEL: Record<string, string> = {
+  [constants.tripType.oneWay]:       'One Way',
+  [constants.tripType.roundTrip]:    'Round Trip',
+  [constants.tripType.localShuttle]: 'Shuttle',
+  [constants.tripType.other]:        'Other',
+};
+
 export const generatePayload = (formData: FormDataType, selectedCardKey: string, fileUrl?: string[]) => {
   const resultArr = {
     dev_code: 'Buster2025',
@@ -30,6 +37,7 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string,
       segment_c: formData.segment_c,
       preferred_coach_type_c: formData.preferred_coach_type_c,
       uploadUrls: fileUrl,
+      tripType: TRIP_TYPE_LABEL[selectedCardKey] ?? '',
       stops: formData?.stops?.map((stop, index) => {
         if (index === 0) {
           return {
