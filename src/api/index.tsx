@@ -34,7 +34,12 @@ export const sendTripData = async (data: FormDataType, selectedCardKey: string, 
 
     const response = await axios.post(API_URL, generatePayload(data, selectedCardKey, fileUrl), config);
     if (response.data) {
-      window.location.href = `${window.location.origin}${response.data.redirect_path}`;
+      // if the redirect_path contains https, then redirect or else append to the origin
+      if (response.data.redirect_path.includes('http')) {
+        window.location.href = response.data.redirect_path;
+      } else {
+        window.location.href = `${window.location.origin}${response.data.redirect_path}`;
+      }
     }
     console.log('Response:', response.data);
     return {

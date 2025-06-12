@@ -12,7 +12,7 @@ const TRIP_TYPE_LABEL: Record<string, string> = {
 export const generatePayload = (formData: FormDataType, selectedCardKey: string, fileUrl?: string[]) => {
   const resultArr = {
     dev_code: 'Buster2025',
-    current_page: 'ph-get-a-quote',
+    current_page: window.location.pathname.replace('/', '') || '',
     data: {
       travelstartdate_c: formData?.stops?.[0]?.depart_date
         ? moment(formData.stops[0].depart_date).format('M/D/YYYY')
