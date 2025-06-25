@@ -20,6 +20,10 @@ body {
   margin: 0 auto;
 }
 
+#react-root {
+  margin-inline: 0 !important;
+}
+
 @font-face {
   font-family: 'Avenir Next';
   src: url('./styles/fonts/avenir-next/AvenirNextLTPro-Regular.otf') format('opentype');
