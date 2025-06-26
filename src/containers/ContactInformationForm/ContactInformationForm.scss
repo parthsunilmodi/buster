@@ -94,7 +94,7 @@
     .checkbox-container input:checked ~ .checkmark {
       background-color: #1e848d;
       border-radius: 2px;
-      border: 1px solid #1e848d;;
+      border: 1px solid #1e848d;
     }
 
     .checkmark:after {
@@ -160,6 +160,9 @@
     }
     &:focus-visible {
       box-shadow: none !important;
+      transform: unset !important;
+      color: variables.$white !important;
+      background-color: variables.$border !important;
     }
   }
 

@@ -76,6 +76,29 @@
   .ant-picker-now-btn {
     color: variables.$border;
   }
+  .ant-picker-header {
+    .ant-picker-header-view {
+      button {
+        font-family: 'Avenir Next Bold';
+      }
+    }
+  }
+  table {
+    thead {
+      tr {
+        th {
+          border: none !important;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border: none !important;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {

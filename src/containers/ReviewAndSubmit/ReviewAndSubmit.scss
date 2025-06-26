@@ -53,6 +53,12 @@
       &:focus-visible {
         box-shadow: none !important;
       }
+      &:focus {
+        transform: unset !important;
+        box-shadow: none;
+        background-color: variables.$border !important;
+        color: variables.$white !important;
+      }
     }
   }
 
@@ -75,6 +81,12 @@
       background: none !important;
     }
     &:focus-visible {
+      box-shadow: none !important;
+    }
+    &:focus {
+      transform: unset !important;
+      background: none !important;
+      color: variables.$border !important;
       box-shadow: none !important;
     }
   }

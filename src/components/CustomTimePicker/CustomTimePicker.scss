@@ -37,5 +37,41 @@
 .custom-time-picker-popup {
   .ant-picker-now-btn {
     color: variables.$border;
+    text-decoration: underline !important;
+    font-family: variables.$avenir-next-font;
+  }
+
+  .ant-picker-ranges {
+    .ant-picker-ok {
+      padding-block: unset;
+
+      button {
+        padding: 0px 7px;
+        border-radius: 4px;
+        box-shadow: unset;
+
+        span {
+          height: 24px;
+          display: flex;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &:focus-visible {
+          outline: none;
+          color: white;
+          border: unset;
+        }
+        &:focus {
+          background-color: variables.$border;
+        }
+      }
+
+      .ant-btn-variant-solid:disabled {
+        color: rgba(0, 0, 0, 0.25) !important;
+        background: rgba(0, 0, 0, 0.04) !important;
+      }
+    }
   }
 }

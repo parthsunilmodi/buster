@@ -110,10 +110,14 @@
   &.has-error {
     margin-top: 10px;
   }
+  &:focus {
+    color: #ffffff;
+    background: variables.$border;
+  }
 }
 
 .plus-icon {
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 400;
   margin-top: 2px;
 }

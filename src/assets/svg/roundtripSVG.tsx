@@ -8,23 +8,23 @@ const RoundTripSVG = (props: ISVGType) => {
       <path
         d="M26.9651 1.88928L31.0002 5.92444L26.9651 9.95959"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M12.8236 5.7041L30.1719 5.7041" stroke={color} stroke-width="2" />
+      <path d="M12.8236 5.7041L30.1719 5.7041" stroke={color} strokeWidth="2" />
       <path
         d="M16.8586 12.42L12.8235 16.4552L16.8586 20.4904"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M30.5599 16.2349L13.2116 16.2349" stroke={color} stroke-width="2" />
-      <line x1="39.4802" y1="7.88184" x2="39.4802" y2="21.157" stroke={color} stroke-width="2" />
-      <circle cx="39.6982" cy="5.56778" r="3.01907" fill={circleFill} stroke={color} stroke-width="2" />
-      <line x1="4.55835" y1="7.88184" x2="4.55835" y2="21.157" stroke={color} stroke-width="2" />
-      <circle cx="4.77628" cy="5.56778" r="3.01907" fill={circleFill} stroke={color} stroke-width="2" />
+      <path d="M30.5599 16.2349L13.2116 16.2349" stroke={color} strokeWidth="2" />
+      <line x1="39.4802" y1="7.88184" x2="39.4802" y2="21.157" stroke={color} strokeWidth="2" />
+      <circle cx="39.6982" cy="5.56778" r="3.01907" fill={circleFill} stroke={color} strokeWidth="2" />
+      <line x1="4.55835" y1="7.88184" x2="4.55835" y2="21.157" stroke={color} strokeWidth="2" />
+      <circle cx="4.77628" cy="5.56778" r="3.01907" fill={circleFill} stroke={color} strokeWidth="2" />
     </svg>
   );
 };
