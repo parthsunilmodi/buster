@@ -164,6 +164,12 @@
       color: variables.$white !important;
       background-color: variables.$border !important;
     }
+    &:focus {
+      box-shadow: none !important;
+      transform: unset !important;
+      color: variables.$white !important;
+      background-color: variables.$border !important;
+    }
   }
 
   .review-submit-button:active {

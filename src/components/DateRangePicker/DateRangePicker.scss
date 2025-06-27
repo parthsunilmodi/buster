@@ -74,7 +74,9 @@
 
 .antd-custom-date-range-popup {
   .ant-picker-now-btn {
-    color: variables.$border;
+    color: variables.$border !important;
+    text-decoration: underline !important;
+    font-family: variables.$avenir-next-font;
   }
   .ant-picker-header {
     .ant-picker-header-view {

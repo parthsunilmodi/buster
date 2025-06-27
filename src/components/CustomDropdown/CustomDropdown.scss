@@ -43,6 +43,7 @@
       background: variables.$flash-white;
       color: #000000 !important;
       transform: unset;
+      box-shadow: none;
     }
   }
 
@@ -51,6 +52,7 @@
       transform: unset !important;
       background-color: variables.$flash-white !important;
       color: #000000 !important;
+      box-shadow: none;
     }
   }
   // Style the dropdown menu
