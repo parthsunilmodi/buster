@@ -105,6 +105,7 @@
   }
 
   .dropdown-item {
+    font-family: variables.$avenir-next-font !important;
     &:hover {
       color: variables.$white;
       background: variables.$border;

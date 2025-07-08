@@ -68,7 +68,7 @@
     align-items: center;
     font-size: 14px;
     padding: 2px 8px;
-    font-family: variables.$avenir-next-font;
+    font-family: variables.$avenir-next-font !important;
   }
 
   .dropdown-item:hover {
