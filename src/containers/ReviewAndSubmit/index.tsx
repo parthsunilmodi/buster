@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { sendTripData } from '../../api/index';
 import { DestinationSVG, Location } from '../../assets/svg/index';
@@ -14,6 +14,8 @@ interface IReviewAndSubmit {
 
 const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) => {
   const { formData, selectedCard, storeFile, setInitialData } = useDataContext();
+
+  const [loading, toggleLoading] = useState(false);
 
   const {
     stops = [],
@@ -82,6 +84,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
   const handleSubmit = async () => {
     try {
+      toggleLoading(true);
       const fileUrls: string[] = Array.isArray(storeFile) ? storeFile?.map((file) => file.url) : [];
       const response = await sendTripData(formData, selectedCard?.key || '', fileUrls);
       if (response.success) {
@@ -90,6 +93,8 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
       }
     } catch (e) {
       console.log(e);
+    } finally {
+      toggleLoading(false);
     }
   };
 
@@ -116,7 +121,14 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
 
   return (
     <div className="mt-3">
-      <Modal size="lg" show={showModal} onHide={handleHide} centered className="review-modal-container">
+      <Modal
+        size="lg"
+        show={showModal}
+        onHide={handleHide}
+        centered
+        className="review-modal-container"
+        backdrop="static"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Review & Submit</Modal.Title>
         </Modal.Header>
@@ -198,7 +210,7 @@ const ReviewAndSubmit: React.FC<IReviewAndSubmit> = ({ showModal, handleHide }) 
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn-wrapper" onClick={handleSubmit}>
+          <Button disabled={loading} className="btn-wrapper" onClick={handleSubmit}>
             Looks good! Submit my quote
           </Button>
           <Button className="btn-link-wrapper" onClick={handleHide}>
