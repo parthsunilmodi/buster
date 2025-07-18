@@ -8,9 +8,7 @@ const FileSelector = () => {
   const { setStoreFile, handleSetErrors, errors } = useDataContext();
 
   const API_KEY = import.meta.env.VITE_APP_FILE_STACK_API_KEY;
-  const client = filestack.init(API_KEY, {
-    pickerUrl: 'https://api.filepicker.io/v1/filepicker.js',
-  });
+  const client = filestack.init(API_KEY);
 
   const handleOpenPicker = () => {
     const originalOverflow = document.body.style.overflow;
