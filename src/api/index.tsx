@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { FormDataType, Location } from '../context/types';
+import {
+  FormDataType,
+  Location,
+  PhoneValidateResponse
+} from '../context/types';
 import { generatePayload } from './payloadFormat';
 
 // 🔹 Reverse Geocoding to Fetch Missing Postal Code
@@ -155,5 +159,28 @@ export const fetchPlaceDetails = (value: string): Promise<any> => {
   } catch (error) {
     console.error('Error fetching place details:', error);
     return Promise.resolve(false);
+  }
+};
+
+//phone validation api call here
+const PHONE_VALIDATE_API_URL = import.meta.env.VITE_APP_PHONE_VALIDATE_URL;
+const PHONE_API_KEY = import.meta.env.VITE_APP_PHONE_API_KEY;
+
+export const ValidatePhoneNumber = async (phone: string): Promise<PhoneValidateResponse> => {
+  try {
+    const url = `${PHONE_VALIDATE_API_URL}?api_key=${PHONE_API_KEY}&phone=${encodeURIComponent(phone)}`;
+    const response = await axios.get(url);
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (e: any) {
+    return {
+      success: false,
+      message:
+        e.response?.data?.message ||
+        e.message ||
+        "Something went wrong while validating phone number.",
+    };
   }
 };

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import moment from 'moment';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useDataContext } from '../../context/dataContext';
 import reviewers from '../../assets/images/reviewers.png';
 import { FormDataType, Stop } from '../../context/types';
+import { ValidatePhoneNumber } from '../../api';
 import ReviewAndSubmit from '../ReviewAndSubmit/index';
 import InputField from '../../components/Input';
 import './ContactInformationForm.scss';
@@ -21,14 +22,16 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
+  const phoneValidationTimeout = useRef<any>(null);
   const { formData, handleSetFormData, errors, setErrors, handleSetErrors, timeDuration } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
+  console.log("errors", errors)
 
   const handleCheckboxChange = () => {
     handleSetFormData({ sms_opt_in: !formData.sms_opt_in });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value.length === 1 && value === ' ') return;
 
@@ -36,10 +39,45 @@ const ContactInformationForm = () => {
     if (name === 'phone') {
       sanitizedValue = value.replace(/\D/g, '');
     }
+
     handleSetFormData({ [name]: sanitizedValue });
 
     if (errors[name]) {
       handleSetErrors({ ...errors, [name]: undefined });
+    }
+
+    if (name === "phone") {
+      // clear any previous timeout
+      if (phoneValidationTimeout.current) {
+        clearTimeout(phoneValidationTimeout.current);
+      }
+
+      const len = sanitizedValue.length;
+
+      if (len < 8) {
+        // too short, clear error but don't call API
+        handleSetErrors((prev: any) => ({ ...prev, phone: undefined }));
+        return;
+      }
+
+      if (len > 15) {
+        // too long → show error immediately
+        handleSetErrors((prev: any) => ({
+          ...prev,
+          phone: "Phone number too long",
+        }));
+        return;
+      }
+
+      // wait before calling API
+      phoneValidationTimeout.current = setTimeout(async () => {
+        const response = await ValidatePhoneNumber(sanitizedValue);
+        if (response.success && response.data && response.data?.valid === true) {
+          setErrors((prev: any) => ({ ...prev, phone: undefined }));
+        } else {
+          setErrors((prev: any) => ({ ...prev, phone: "Invalid phone number" }));
+        }
+      }, 1600);
     }
   };
 
@@ -218,12 +256,14 @@ const ContactInformationForm = () => {
             }
 
             if (key === 'phone') {
-              const phoneRegex = /^\d+$/;
-              const digitsOnly = valueAsString.replace(/\D/g, ''); // remove non-digits
-              if (!phoneRegex.test(digitsOnly)) {
-                errors[key] = 'The phone field may only contain numeric characters.';
-              } else if (valueAsString.length < 10) {
-                errors[key] = 'The phone field must be at least 10 characters.';
+              // allow + and digits only
+              const phoneRegex = /^\+?\d+$/;
+              const digitsOnly = valueAsString.replace(/\D/g, '');
+
+              if (!phoneRegex.test(valueAsString)) {
+                errors[key] = 'The phone field may only contain numbers.';
+              } else if (digitsOnly.length < 8 || digitsOnly.length > 15) {
+                errors[key] = 'The phone number length must be between 8 and 15 digits.';
               }
             }
           }
