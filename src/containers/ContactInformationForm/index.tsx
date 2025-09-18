@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useDataContext } from '../../context/dataContext';
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import reviewers from '../../assets/images/reviewers.png';
 import { FormDataType, Stop } from '../../context/types';
 import { ValidatePhoneNumber } from '../../api';
@@ -22,10 +23,31 @@ const errorMappingObj: any = {
 };
 
 const ContactInformationForm = () => {
-  const phoneValidationTimeout = useRef<any>(null);
   const { formData, handleSetFormData, errors, setErrors, handleSetErrors, timeDuration } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
-  console.log("errors", errors)
+  const [country, setCountry] = useState<{ countryCode: CountryCode | "", countryCallingCode: string }>({
+    countryCode: "",
+    countryCallingCode: ""
+  });
+
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.country_code && data?.country_calling_code) {
+          setCountry({
+            countryCode: data.country_code as CountryCode,
+            countryCallingCode: data.country_calling_code,
+          });
+        }
+      }).catch((err) => {
+        console.error("Failed to detect country:", err);
+        setCountry({
+          countryCode: "",
+          countryCallingCode: "",
+        });
+      });
+  }, []);
 
   const handleCheckboxChange = () => {
     handleSetFormData({ sms_opt_in: !formData.sms_opt_in });
@@ -47,37 +69,22 @@ const ContactInformationForm = () => {
     }
 
     if (name === "phone") {
-      // clear any previous timeout
-      if (phoneValidationTimeout.current) {
-        clearTimeout(phoneValidationTimeout.current);
-      }
+      if (country.countryCode) {
+        try {
+          let normalized = sanitizedValue;
+          const phoneNumber = parsePhoneNumberFromString(normalized, country.countryCode);
 
-      const len = sanitizedValue.length;
-
-      if (len < 8) {
-        // too short, clear error but don't call API
-        handleSetErrors((prev: any) => ({ ...prev, phone: undefined }));
-        return;
-      }
-
-      if (len > 15) {
-        // too long → show error immediately
-        handleSetErrors((prev: any) => ({
-          ...prev,
-          phone: "Phone number too long",
-        }));
-        return;
-      }
-
-      // wait before calling API
-      phoneValidationTimeout.current = setTimeout(async () => {
-        const response = await ValidatePhoneNumber(sanitizedValue);
-        if (response.success && response.data && response.data?.valid === true) {
-          setErrors((prev: any) => ({ ...prev, phone: undefined }));
-        } else {
+          if (phoneNumber && phoneNumber.isValid()) {
+            handleSetFormData({ phone: phoneNumber.number });
+            setErrors((prev: any) => ({ ...prev, phone: undefined }));
+          } else {
+            setErrors((prev: any) => ({ ...prev, phone: "Invalid phone number" }));
+          }
+        } catch (err) {
+          console.error("Phone parse error:", err);
           setErrors((prev: any) => ({ ...prev, phone: "Invalid phone number" }));
         }
-      }, 1600);
+      }
     }
   };
 
@@ -294,12 +301,34 @@ const ContactInformationForm = () => {
 
   const handleFormSubmit = async () => {
     const errors = await validateField();
+
     if (Object.keys(errors).length) {
       setErrors(errors);
-    } else {
-      setErrors(errors);
-      setShowReviewModal(true);
+      return;
     }
+
+    if (formData.phone) {
+      try {
+        const response = await ValidatePhoneNumber(formData.phone);
+
+        if (!(response.success && response.data?.valid)) {
+          setErrors((prev: any) => ({
+            ...prev,
+            phone: "Invalid phone number",
+          }));
+          return;
+        }
+      } catch (err) {
+        setErrors((prev: any) => ({
+          ...prev,
+          phone: "Phone number validation failed",
+        }));
+        return;
+      }
+    }
+
+    setErrors({});
+    setShowReviewModal(true);
   };
 
   const handleModalClose = () => {
