@@ -32,12 +32,12 @@ export interface PhoneValidateData {
   format: {
     international: string;
     local: string;
-  },
+  };
   country: {
     code: string;
     name: string;
     prefix: string;
-  },
+  };
   location: string;
   type: string;
   carrier: string;
@@ -61,6 +61,7 @@ export interface FormDataType {
   first_name: string;
   last_name: string;
   phone: string;
+  phoneWithCode: string;
   submitted: string;
   account_name: string;
   lead_source_description: string;
@@ -83,13 +84,13 @@ export interface TripCard {
 // error object type based on the form data
 export interface ErrorType {
   stops?:
-  | {
-    description?: string;
-    arrive_date?: string;
-    arrive_time?: string;
-    depart_date?: string;
-    depart_time?: string;
-  }[]
-  | string; // This allows 'stops' to either be an array of objects or a string
+    | {
+        description?: string;
+        arrive_date?: string;
+        arrive_time?: string;
+        depart_date?: string;
+        depart_time?: string;
+      }[]
+    | string; // This allows 'stops' to either be an array of objects or a string
   [key: string]: any; // Other keys can be string, boolean, or undefined, excluding 'stops'
 }

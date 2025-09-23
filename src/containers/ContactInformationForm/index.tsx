@@ -60,7 +60,8 @@ const ContactInformationForm = () => {
 
     let sanitizedValue = value;
     if (name === 'phone') {
-      sanitizedValue = value.replace(/\D/g, '');
+      // Allow only numbers and + sign
+      sanitizedValue = value.replace(/[^0-9+]/g, '');
     }
 
     handleSetFormData({ [name]: sanitizedValue });
@@ -76,7 +77,7 @@ const ContactInformationForm = () => {
           const phoneNumber = parsePhoneNumberFromString(normalized, country.countryCode);
 
           if (phoneNumber && phoneNumber.isValid()) {
-            handleSetFormData({ phone: phoneNumber.number });
+            handleSetFormData({ phoneWithCode: phoneNumber.number });
             setErrors((prev: any) => ({ ...prev, phone: undefined }));
           } else {
             setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
@@ -265,11 +266,11 @@ const ContactInformationForm = () => {
 
             if (key === 'phone') {
               // allow + and digits only
-              const phoneRegex = /^\+?\d+$/;
-              const digitsOnly = valueAsString.replace(/\D/g, '');
+              const phoneRegex = /^\+?[0-9]+$/;
+              const digitsOnly = valueAsString.replace(/[^0-9]/g, '');
 
               if (!phoneRegex.test(valueAsString)) {
-                errors[key] = 'The phone field may only contain numbers.';
+                errors[key] = 'The phone field may only contain numbers and + sign.';
               } else if (digitsOnly.length < 8 || digitsOnly.length > 15) {
                 errors[key] = 'The phone number length must be between 8 and 15 digits.';
               }
@@ -316,7 +317,7 @@ const ContactInformationForm = () => {
 
     if (formData.phone) {
       try {
-        const response = await ValidatePhoneNumber(formData.phone);
+        const response = await ValidatePhoneNumber(formData.phoneWithCode);
 
         if (!(response.success && response.data?.valid)) {
           setErrors((prev: any) => ({
@@ -392,7 +393,7 @@ const ContactInformationForm = () => {
                 label="Phone number"
                 type="tel"
                 inputMode="numeric"
-                pattern="[0-9]*"
+                pattern="[0-9+]*"
                 isRequired={true}
                 error={errors.phone}
                 value={formData.phone}

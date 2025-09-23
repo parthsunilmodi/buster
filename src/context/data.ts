@@ -38,6 +38,7 @@ export const initialFormData = {
   first_name: '',
   last_name: '',
   phone: '',
+  phoneWithCode: '',
   submitted: '',
   account_name: '',
   lead_source_description: 'Static Quote v2',
