@@ -73,6 +73,7 @@ const InputField = forwardRef(
                 onChange={onChange}
                 disabled={disabled}
                 onBlur={onBlur}
+                min={0}
                 className={`simple-input-wrapper ${disabled && 'disabled-input'} ${inputStyle || ''} ${error && 'error-input'}`}
                 {...rest}
               />

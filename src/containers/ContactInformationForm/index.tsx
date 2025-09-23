@@ -25,13 +25,13 @@ const errorMappingObj: any = {
 const ContactInformationForm = () => {
   const { formData, handleSetFormData, errors, setErrors, handleSetErrors, timeDuration } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const [country, setCountry] = useState<{ countryCode: CountryCode | "", countryCallingCode: string }>({
-    countryCode: "",
-    countryCallingCode: ""
+  const [country, setCountry] = useState<{ countryCode: CountryCode | ''; countryCallingCode: string }>({
+    countryCode: '',
+    countryCallingCode: '',
   });
 
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
+    fetch('https://ipapi.co/json/')
       .then((res) => res.json())
       .then((data) => {
         if (data?.country_code && data?.country_calling_code) {
@@ -40,11 +40,12 @@ const ContactInformationForm = () => {
             countryCallingCode: data.country_calling_code,
           });
         }
-      }).catch((err) => {
-        console.error("Failed to detect country:", err);
+      })
+      .catch((err) => {
+        console.error('Failed to detect country:', err);
         setCountry({
-          countryCode: "",
-          countryCallingCode: "",
+          countryCode: '',
+          countryCallingCode: '',
         });
       });
   }, []);
@@ -68,7 +69,7 @@ const ContactInformationForm = () => {
       handleSetErrors({ ...errors, [name]: undefined });
     }
 
-    if (name === "phone") {
+    if (name === 'phone') {
       if (country.countryCode) {
         try {
           let normalized = sanitizedValue;
@@ -78,11 +79,11 @@ const ContactInformationForm = () => {
             handleSetFormData({ phone: phoneNumber.number });
             setErrors((prev: any) => ({ ...prev, phone: undefined }));
           } else {
-            setErrors((prev: any) => ({ ...prev, phone: "Invalid phone number" }));
+            setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
           }
         } catch (err) {
-          console.error("Phone parse error:", err);
-          setErrors((prev: any) => ({ ...prev, phone: "Invalid phone number" }));
+          console.error('Phone parse error:', err);
+          setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
         }
       }
     }
@@ -96,7 +97,7 @@ const ContactInformationForm = () => {
       'email',
       'phone',
       // 'account_name',
-      // 'passengers',
+      'passengers',
       'stops',
       // 'segment_c',
       // 'preferred_coach_type_c',
@@ -273,6 +274,12 @@ const ContactInformationForm = () => {
                 errors[key] = 'The phone number length must be between 8 and 15 digits.';
               }
             }
+
+            if (key === 'passengers') {
+              if (Number(valueAsString) < 0) {
+                errors[key] = 'The passengers field must be greater than 0';
+              }
+            }
           }
         }
 
@@ -314,14 +321,14 @@ const ContactInformationForm = () => {
         if (!(response.success && response.data?.valid)) {
           setErrors((prev: any) => ({
             ...prev,
-            phone: "Invalid phone number",
+            phone: 'Invalid phone number',
           }));
           return;
         }
       } catch (err) {
         setErrors((prev: any) => ({
           ...prev,
-          phone: "Phone number validation failed",
+          phone: 'Phone number validation failed',
         }));
         return;
       }
