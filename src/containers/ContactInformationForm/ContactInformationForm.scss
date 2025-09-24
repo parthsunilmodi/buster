@@ -61,7 +61,7 @@
     .phone-input-container {
       .phone-input-row {
         display: flex;
-        gap: 0;
+        gap: 2px;
         align-items: flex-start;
 
         .country-code-dropdown {
@@ -83,6 +83,8 @@
               overflow: hidden;
               text-overflow: ellipsis;
               font-family: variables.$avenir-next-font;
+              display: flex;
+              justify-content: center;
 
               &:hover {
                 border: 1px solid transparent;
@@ -291,18 +293,18 @@
       .phone-input-container {
         .phone-input-row {
           .country-code-dropdown {
-            width: 55px;
+            width: 80px;
 
             .dropdown-container {
               gap: 0;
               .dropdown-toggle {
-                min-width: 55px;
-                font-size: 11px;
+                min-width: 80px;
+                font-size: 14px;
                 padding: 6px 2px;
 
                 .customArrow {
-                  width: 7px;
-                  height: 7px;
+                  width: 12px;
+                  height: 8px;
                 }
               }
             }

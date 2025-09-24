@@ -3,10 +3,10 @@ import { FormDataType } from '../context/types';
 import constants from '../constants/data.constant';
 
 const TRIP_TYPE_LABEL: Record<string, string> = {
-  [constants.tripType.oneWay]:       'One Way',
-  [constants.tripType.roundTrip]:    'Round Trip',
+  [constants.tripType.oneWay]: 'One Way',
+  [constants.tripType.roundTrip]: 'Round Trip',
   [constants.tripType.localShuttle]: 'Shuttle',
-  [constants.tripType.other]:        'Other',
+  [constants.tripType.other]: 'Other',
 };
 
 export const generatePayload = (formData: FormDataType, selectedCardKey: string, fileUrl?: string[]) => {
@@ -30,7 +30,7 @@ export const generatePayload = (formData: FormDataType, selectedCardKey: string,
       email: formData.email,
       first_name: formData.first_name,
       last_name: formData.last_name,
-      phone: formData.phone,
+      phone: formData.phoneWithCode,
       submitted: moment().utc().format('ddd, DD MMM YYYY HH:mm:ss [GMT]'),
       account_name: formData.account_name,
       lead_source_description: 'Static Quote v2',
