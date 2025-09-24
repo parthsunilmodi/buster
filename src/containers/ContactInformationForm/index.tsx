@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Dropdown } from 'react-bootstrap';
 import { useDataContext } from '../../context/dataContext';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import reviewers from '../../assets/images/reviewers.png';
@@ -8,6 +8,8 @@ import { FormDataType, Stop } from '../../context/types';
 import { ValidatePhoneNumber } from '../../api';
 import ReviewAndSubmit from '../ReviewAndSubmit/index';
 import InputField from '../../components/Input';
+import { countryCodes } from '../../constants/data.constant';
+import DownArrow from '../../assets/images/downArrow.png';
 import './ContactInformationForm.scss';
 
 const errorMappingObj: any = {
@@ -22,6 +24,39 @@ const errorMappingObj: any = {
   preferred_coach_type_c: 'Bus type is required',
 };
 
+interface CountryCodeDropdownProps {
+  options: { label: string; value: string; code: string }[];
+  selectedValue: string;
+  selectedDisplay: string;
+  onSelect: (value: string) => void;
+}
+
+const CountryCodeDropdown: React.FC<CountryCodeDropdownProps> = ({ options, selectedDisplay, onSelect }) => {
+  const handleSelect = (eventKey: string | null) => {
+    if (eventKey) {
+      onSelect(eventKey);
+    }
+  };
+
+  return (
+    <div className="dropdown-container">
+      <Dropdown onSelect={handleSelect}>
+        <Dropdown.Toggle variant="light" className="dropdown-toggle">
+          {selectedDisplay}
+          <img src={DownArrow} alt="Dropdown Arrow" className="customArrow" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {options.map((option, index) => (
+            <Dropdown.Item key={index} eventKey={option.value}>
+              {option.label}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    </div>
+  );
+};
+
 const ContactInformationForm = () => {
   const { formData, handleSetFormData, errors, setErrors, handleSetErrors, timeDuration } = useDataContext();
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -29,6 +64,8 @@ const ContactInformationForm = () => {
     countryCode: '',
     countryCallingCode: '',
   });
+  const [selectedCountryCode, setSelectedCountryCode] = useState('+1'); // Default to US
+  const [selectedCountryDisplay, setSelectedCountryDisplay] = useState('🇺🇸 +1'); // Default display
 
   useEffect(() => {
     fetch('https://ipapi.co/json/')
@@ -54,14 +91,27 @@ const ContactInformationForm = () => {
     handleSetFormData({ sms_opt_in: !formData.sms_opt_in });
   };
 
+  const handleCountryCodeChange = (countryCode: string) => {
+    setSelectedCountryCode(countryCode);
+    // Find the country code object to get the country code for libphonenumber-js
+    const countryData = countryCodes.find((cc) => cc.value === countryCode);
+    if (countryData) {
+      setSelectedCountryDisplay(`${countryData.label.split(' ')[0]} ${countryCode}`); // Show flag + code only
+      setCountry({
+        countryCode: countryData.code as CountryCode,
+        countryCallingCode: countryCode,
+      });
+    }
+  };
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (value.length === 1 && value === ' ') return;
 
     let sanitizedValue = value;
     if (name === 'phone') {
-      // Allow only numbers and + sign
-      sanitizedValue = value.replace(/[^0-9+]/g, '');
+      // Allow only numbers (no + sign since it's handled by dropdown)
+      sanitizedValue = value.replace(/[^0-9]/g, '');
     }
 
     handleSetFormData({ [name]: sanitizedValue });
@@ -71,10 +121,13 @@ const ContactInformationForm = () => {
     }
 
     if (name === 'phone') {
-      if (country.countryCode) {
+      if (country.countryCode && sanitizedValue) {
         try {
-          let normalized = sanitizedValue;
-          const phoneNumber = parsePhoneNumberFromString(normalized, country.countryCode);
+          // Combine country code with phone number for validation
+          const fullPhoneNumber = selectedCountryCode + sanitizedValue;
+          const phoneNumber = parsePhoneNumberFromString(fullPhoneNumber, country.countryCode);
+
+          console.info('phoneNumber', phoneNumber);
 
           if (phoneNumber && phoneNumber.isValid()) {
             handleSetFormData({ phoneWithCode: phoneNumber.number });
@@ -265,14 +318,14 @@ const ContactInformationForm = () => {
             }
 
             if (key === 'phone') {
-              // allow + and digits only
-              const phoneRegex = /^\+?[0-9]+$/;
+              // allow only digits (country code is handled by dropdown)
+              const phoneRegex = /^[0-9]+$/;
               const digitsOnly = valueAsString.replace(/[^0-9]/g, '');
 
               if (!phoneRegex.test(valueAsString)) {
-                errors[key] = 'The phone field may only contain numbers and + sign.';
-              } else if (digitsOnly.length < 8 || digitsOnly.length > 15) {
-                errors[key] = 'The phone number length must be between 8 and 15 digits.';
+                errors[key] = 'The phone field may only contain numbers.';
+              } else if (digitsOnly.length < 7 || digitsOnly.length > 15) {
+                errors[key] = 'The phone number length must be between 7 and 15 digits.';
               }
             }
 
@@ -389,17 +442,32 @@ const ContactInformationForm = () => {
               />
             </Col>
             <Col md={4} className="mt-4">
-              <InputField
-                label="Phone number"
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9+]*"
-                isRequired={true}
-                error={errors.phone}
-                value={formData.phone}
-                onChange={handleInputChange}
-                name="phone"
-              />
+              <div className="phone-input-container">
+                <label className="label required">Phone number</label>
+                <div className="phone-input-row">
+                  <div className="country-code-dropdown">
+                    <CountryCodeDropdown
+                      options={countryCodes}
+                      selectedValue={selectedCountryCode}
+                      selectedDisplay={selectedCountryDisplay}
+                      onSelect={handleCountryCodeChange}
+                    />
+                  </div>
+                  <div className="phone-number-input">
+                    <InputField
+                      type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      isRequired={true}
+                      error={errors.phone}
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      name="phone"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+                </div>
+              </div>
             </Col>
             <Col md={4} className="mt-4">
               <InputField

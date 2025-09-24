@@ -57,6 +57,66 @@
       font-style: normal;
       color: variables.$grey-1;
     }
+
+    .phone-input-container {
+      .phone-input-row {
+        display: flex;
+        gap: 0;
+        align-items: flex-start;
+
+        .country-code-dropdown {
+          width: 90px;
+          flex-shrink: 0;
+
+          .dropdown-container {
+            margin-bottom: 0;
+            gap: 0;
+
+            .dropdown-toggle {
+              width: 100%;
+              min-width: 90px;
+              padding: 8px 4px;
+              font-size: 16px;
+              font-weight: 400;
+              text-align: center;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              font-family: variables.$avenir-next-font;
+
+              &:hover {
+                border: 1px solid transparent;
+              }
+
+              .customArrow {
+                width: 12px;
+                height: 8px;
+                margin-left: 4px;
+              }
+            }
+
+            .dropdown-menu {
+              min-width: 200px;
+              max-height: 200px;
+              overflow-y: auto;
+            }
+          }
+        }
+
+        .phone-number-input {
+          flex: 1;
+          min-width: 0;
+
+          .form-input {
+            margin-bottom: 0;
+
+            .label {
+              display: none; // Hide the label since we have it at the container level
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -224,6 +284,30 @@
 
       .step-text {
         font-size: 16px;
+      }
+    }
+
+    .main-form-container {
+      .phone-input-container {
+        .phone-input-row {
+          .country-code-dropdown {
+            width: 55px;
+
+            .dropdown-container {
+              gap: 0;
+              .dropdown-toggle {
+                min-width: 55px;
+                font-size: 11px;
+                padding: 6px 2px;
+
+                .customArrow {
+                  width: 7px;
+                  height: 7px;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
