@@ -27,25 +27,40 @@ export interface Stop {
 }
 
 export interface PhoneValidateData {
-  phone: string;
+  phone_number: string;
   valid: boolean;
-  format: {
+  phone_format: {
     international: string;
-    local: string;
+    national: string;
   };
-  country: {
-    code: string;
-    name: string;
-    prefix: string;
+  phone_location: {
+    country_code: string;
+    country_name: string;
+    country_prefix: string;
   };
-  location: string;
-  type: string;
-  carrier: string;
+  phone_validation: {
+    is_valid: boolean;
+  }
 }
 
 export interface PhoneValidateResponse {
   success: boolean;
   data?: PhoneValidateData;
+  message?: string;
+}
+
+export interface EmailValidateData {
+  email_address: string;
+  valid: boolean;
+  email_deliverability: {
+    status: string;
+    is_format_valid: boolean;
+  };
+}
+
+export interface EmailValidateResponse {
+  success: boolean;
+  data?: EmailValidateData;
   message?: string;
 }
 export interface FormDataType {
@@ -84,13 +99,13 @@ export interface TripCard {
 // error object type based on the form data
 export interface ErrorType {
   stops?:
-    | {
-        description?: string;
-        arrive_date?: string;
-        arrive_time?: string;
-        depart_date?: string;
-        depart_time?: string;
-      }[]
-    | string; // This allows 'stops' to either be an array of objects or a string
+  | {
+    description?: string;
+    arrive_date?: string;
+    arrive_time?: string;
+    depart_date?: string;
+    depart_time?: string;
+  }[]
+  | string; // This allows 'stops' to either be an array of objects or a string
   [key: string]: any; // Other keys can be string, boolean, or undefined, excluding 'stops'
 }

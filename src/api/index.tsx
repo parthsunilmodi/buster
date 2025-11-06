@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  EmailValidateResponse,
   FormDataType,
   Location,
   PhoneValidateResponse
@@ -169,6 +170,29 @@ const PHONE_API_KEY = import.meta.env.VITE_APP_PHONE_API_KEY;
 export const ValidatePhoneNumber = async (phone: string): Promise<PhoneValidateResponse> => {
   try {
     const url = `${PHONE_VALIDATE_API_URL}?api_key=${PHONE_API_KEY}&phone=${encodeURIComponent(phone)}`;
+    const response = await axios.get(url);
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (e: any) {
+    return {
+      success: false,
+      message:
+        e.response?.data?.message ||
+        e.message ||
+        "Something went wrong while validating phone number.",
+    };
+  }
+};
+
+//email validation api call here
+const EMAIL_VALIDATE_API_URL = import.meta.env.VITE_APP_EMAIL_VALIDATE_URL;
+const EMAIL_API_KEY = import.meta.env.VITE_APP_EMAIL_API_KEY;
+
+export const ValidateEmail = async (email: string): Promise<EmailValidateResponse> => {
+  try {
+    const url = `${EMAIL_VALIDATE_API_URL}?api_key=${EMAIL_API_KEY}&email=${encodeURIComponent(email)}`;
     const response = await axios.get(url);
     return {
       success: true,

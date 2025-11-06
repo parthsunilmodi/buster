@@ -5,7 +5,7 @@ import { useDataContext } from '../../context/dataContext';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import reviewers from '../../assets/images/reviewers.png';
 import { FormDataType, Stop } from '../../context/types';
-import { ValidatePhoneNumber } from '../../api';
+import { ValidateEmail, ValidatePhoneNumber } from '../../api';
 import ReviewAndSubmit from '../ReviewAndSubmit/index';
 import InputField from '../../components/Input';
 import { countryCodes } from '../../constants/data.constant';
@@ -30,6 +30,8 @@ interface CountryCodeDropdownProps {
   selectedDisplay: string;
   onSelect: (value: string) => void;
 }
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const CountryCodeDropdown: React.FC<CountryCodeDropdownProps> = ({ options, selectedDisplay, onSelect }) => {
   const handleSelect = (eventKey: string | null) => {
@@ -64,8 +66,8 @@ const ContactInformationForm = () => {
     countryCode: '',
     countryCallingCode: '',
   });
-  const [selectedCountryCode, setSelectedCountryCode] = useState('+1'); // Default to US
-  const [selectedCountryDisplay, setSelectedCountryDisplay] = useState('🇺🇸 +1'); // Default display
+  const [selectedCountryCode, setSelectedCountryCode] = useState('+1');
+  const [selectedCountryDisplay, setSelectedCountryDisplay] = useState('🇺🇸 +1');
 
   useEffect(() => {
     fetch('https://ipapi.co/json/')
@@ -91,6 +93,24 @@ const ContactInformationForm = () => {
     handleSetFormData({ sms_opt_in: !formData.sms_opt_in });
   };
 
+  const validatePhone = (countryCode: string, number: string) => {
+    if (countryCode && number) {
+      try {
+        const fullPhoneNumber = countryCode + number;
+        const phoneNumber = parsePhoneNumberFromString(fullPhoneNumber);
+        if (phoneNumber && phoneNumber.isValid()) {
+          handleSetFormData({ phoneWithCode: phoneNumber.number });
+          setErrors((prev: any) => ({ ...prev, phone: undefined }));
+        } else {
+          setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
+        }
+      } catch (err) {
+        console.error('Phone parse error:', err);
+        setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
+      }
+    }
+  };
+
   const handleCountryCodeChange = (countryCode: string) => {
     setSelectedCountryCode(countryCode);
     // Find the country code object to get the country code for libphonenumber-js
@@ -101,6 +121,10 @@ const ContactInformationForm = () => {
         countryCode: countryData.code as CountryCode,
         countryCallingCode: countryCode,
       });
+    }
+
+    if (formData.phone) {
+      validatePhone(countryCode, formData.phone);
     }
   };
 
@@ -122,23 +146,18 @@ const ContactInformationForm = () => {
 
     if (name === 'phone') {
       if (country.countryCode && sanitizedValue) {
-        try {
-          // Combine country code with phone number for validation
-          const fullPhoneNumber = selectedCountryCode + sanitizedValue;
-          const phoneNumber = parsePhoneNumberFromString(fullPhoneNumber, country.countryCode);
+        validatePhone(selectedCountryCode, sanitizedValue);
+      }
+    }
 
-          console.info('phoneNumber', phoneNumber);
-
-          if (phoneNumber && phoneNumber.isValid()) {
-            handleSetFormData({ phoneWithCode: phoneNumber.number });
-            setErrors((prev: any) => ({ ...prev, phone: undefined }));
-          } else {
-            setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
-          }
-        } catch (err) {
-          console.error('Phone parse error:', err);
-          setErrors((prev: any) => ({ ...prev, phone: 'Invalid phone number' }));
-        }
+    if (name === 'email') {
+      if (sanitizedValue && !emailRegex.test(sanitizedValue)) {
+        setErrors((prev: any) => ({
+          ...prev,
+          email: 'Invalid email format',
+        }));
+      } else {
+        setErrors((prev: any) => ({ ...prev, email: undefined }));
       }
     }
   };
@@ -372,7 +391,7 @@ const ContactInformationForm = () => {
       try {
         const response = await ValidatePhoneNumber(formData.phoneWithCode);
 
-        if (!(response.success && response.data?.valid)) {
+        if (!(response.success && response.data?.phone_validation?.is_valid)) {
           setErrors((prev: any) => ({
             ...prev,
             phone: 'Invalid phone number',
@@ -383,6 +402,27 @@ const ContactInformationForm = () => {
         setErrors((prev: any) => ({
           ...prev,
           phone: 'Phone number validation failed',
+        }));
+        return;
+      }
+    }
+
+    if (formData.email) {
+      try {
+        const response = await ValidateEmail(formData.email);
+
+        if (!(response.success && response.data?.email_deliverability?.status === "deliverable")) {
+          setErrors((prev: any) => ({
+            ...prev,
+            email: 'Invalid email address',
+          }));
+          return;
+        }
+      } catch (err) {
+        console.error('Email validation error:', err);
+        setErrors((prev: any) => ({
+          ...prev,
+          email: 'Email validation failed',
         }));
         return;
       }
